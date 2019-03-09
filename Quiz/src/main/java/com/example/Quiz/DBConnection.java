@@ -68,7 +68,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-	public String readDB() throws ClassNotFoundException, JSchException, SQLException {
+	public String readDB(String sql) throws ClassNotFoundException, JSchException, SQLException {
 		
 		String output = "Failed to SQL";
 		int lport=5656;
@@ -80,6 +80,7 @@ public class DBConnection {
 		String uPass = "s1268698";
 		Connection con = null;
 		Session session =null;
+		ResultSet rs;
 		
 		try {
 			
@@ -99,13 +100,12 @@ public class DBConnection {
 			System.out.println ("Database connection established");
 			Statement statement = con.createStatement();
 
-			String sql = "SELECT * FROM User";
-		    ResultSet rs = statement.executeQuery(sql);
-			
+		    rs = statement.executeQuery(sql);
+		
 		    while (rs.next()) {
 		    	output =rs.getString("username");
             }
-			
+		
 
 		} catch (SQLException err) {
 			output = err.getMessage();

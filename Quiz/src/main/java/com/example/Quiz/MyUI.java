@@ -7,6 +7,10 @@ import javax.servlet.annotation.WebServlet;
 import com.jcraft.jsch.JSchException;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
+import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
@@ -25,47 +29,84 @@ import com.vaadin.ui.themes.ValoTheme;
 
 
 @Theme("mytheme")
-public class MyUI extends UI {
+public class MyUI extends UI implements View {
+	
+	//initialising components
 	final VerticalLayout layout = new VerticalLayout();
 	final TextField userName = new TextField("Username : ");
 	final PasswordField password = new PasswordField("Password : ", "");
-
-
+	HorizontalLayout hl=new HorizontalLayout();
 	Button logIn = new Button("Log in");
-	
 	Button create = new Button("Sign Up");
 	Button forgot = new Button("Forgot Password");
+	Label label = new Label(null);
 
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
-
-		try {
-			DBConnection dbc = new DBConnection();
-			Notification.show(dbc.readDB());
-		} catch (ClassNotFoundException | JSchException | SQLException e1) {
-		}
-		logIn.setStyleName(ValoTheme.BUTTON_BORDERLESS);
-		setContent(layout);  
+	    
+		//add elements to display and style them
+		logIn.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		create.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		forgot.setStyleName(ValoTheme.BUTTON_LINK);
 		userName.setRequiredIndicatorVisible(isVisible());
 		password.setRequiredIndicatorVisible(isVisible());
-		final Panel panel = new Panel ();
+		
+		setContent(layout);  	
 		layout.setSizeFull();
-		layout.addComponent(panel);
+		
+		final Panel panel = new Panel ();
 		panel.setWidth(null);
+		layout.addComponent(panel);
 		layout.setComponentAlignment(panel,Alignment.MIDDLE_CENTER );		
 		final FormLayout formlayout = new FormLayout();
 		formlayout.setMargin(true);
 		formlayout.setStyleName("loginForm");
-		formlayout.addComponent(userName);
-		formlayout.addComponent(password);
-		formlayout.addComponent(logIn);
-		formlayout.addComponent(create);
-		formlayout.addComponent(forgot);
-		logIn.addClickListener(log -> {
-			formlayout.addComponent(new Label("Thanks " + userName.getValue() + password.getValue()
-			+ ", it works!"));
-		});
+		hl.addComponents(logIn,create);
+		formlayout.addComponents(userName, password, label, hl, forgot);
 		panel.setContent(formlayout);
+		
+		logIn.addClickListener(log -> {
+			try {
+				DBConnection dbc = new DBConnection();
+				String s=dbc.readDB("SELECT * FROM User WHERE username='"+userName.getValue()+"' AND password='"+password.getValue()+"'");
+				if (s.equals("Failed to SQL"))
+				{
+					label.setValue("Invalid Login");
+					userName.clear();
+					password.clear();
+				}
+				else {
+					Notification.show("Login Successful");
+				}
+			} catch (ClassNotFoundException | JSchException | SQLException e1) {
+			}
+		});
+		
+		userName.addFocusListener(new FocusListener(){
+
+			@Override
+			public void focus(FocusEvent event) {
+				label.setValue(null);
+			}
+			
+		});
+		password.addFocusListener(new FocusListener(){
+
+			@Override
+			public void focus(FocusEvent event) {
+				label.setValue(null);
+			}
+			
+		});
+		
+		create.addClickListener(e -> {
+			Notification.show("Sign up Clicked");
+		});
+		
+		forgot.addClickListener(e -> {
+			Notification.show("Forgot Password clicked");
+		});
+	
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
