@@ -2,4 +2,5 @@ before_install: "cd Quiz"
 jdk: oraclejdk8
 language: java
 
-
+after_success:
+    - mvn jacoco:report coveralls:report
