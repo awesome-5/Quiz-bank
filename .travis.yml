@@ -1,0 +1,4 @@
+before_install: "cd Quiz"
+jdk: oraclejdk8
+language: java
+mvn clean verify
