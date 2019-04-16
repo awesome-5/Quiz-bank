@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example</groupId>
-	<artifactId>Quiz</artifactId>
+	<artifactId>app</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Quiz</name>
+	<name>app</name>
 
 	<prerequisites>
 		<maven>3</maven>
@@ -81,18 +80,22 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-testbench -->
+
+
+		<!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-testbench -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-testbench</artifactId>
+			<version>13.0.3</version>
+			<scope>test</scope>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
-    <groupId>org.eluder.coveralls</groupId>
-    <artifactId>coveralls-maven-plugin</artifactId>
-    <version>4.3.0</version>
-    <configuration>
-        <repoToken>yourcoverallsprojectrepositorytoken</repoToken>
-    </configuration>
-</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -147,37 +150,6 @@
 					<scanIntervalSeconds>2</scanIntervalSeconds>
 				</configuration>
 			</plugin>
-			<plugin>
-    <groupId>org.jacoco</groupId>
-    <artifactId>jacoco-maven-plugin</artifactId>
-    <version>0.7.9</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>prepare-agent</goal>
-            </goals>
-        </execution>
-        <execution>
-            <id>report</id>
-            <phase>prepare-package</phase>
-            <goals>
-                <goal>report</goal>
-            </goals>
-        </execution>
-        <execution>
-            <id>prepare-integration-test-agent</id>
-            <goals>
-               <goal>prepare-agent-integration</goal>
-            </goals>
-        </execution>
-        <execution>
-           <id>generate-integration-test-report</id>
-           <goals>
-               <goal>report-integration</goal>
-           </goals>
-       </execution>
-   </executions>
-</plugin>
 		</plugins>
 	</build>
 

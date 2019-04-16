@@ -35,7 +35,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-java-8.0.15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Nat/Downloads/jsch-0.1.55.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nat/Downloads/Programs/jsch-0.1.55.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nat/Downloads/Programs/mysql-connector-java-8.0.15.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Downloads/vaadin-testbench-13.0.3.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
