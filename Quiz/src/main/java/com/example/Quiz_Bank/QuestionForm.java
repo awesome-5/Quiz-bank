@@ -30,6 +30,7 @@ public class QuestionForm extends FormLayout {
 	private NativeSelect<Question>questions=new NativeSelect<>("Variant of");
 	private NativeSelect<QuestionType> type = new NativeSelect<>("Question Type");
 	private TextField line = new TextField("Lines");
+	private TextField space = new TextField("Space");
 	private TextField options = new TextField("MCQ Options");
 	private Button save = new Button("Save");
 	public  Button back = new Button("Back");

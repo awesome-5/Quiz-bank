@@ -31,6 +31,8 @@ public class Question implements Serializable, Cloneable {
 	private String courseCode="";
 
 	private int lines=0;
+	
+	private int space=0;
 
 	private String options="";
 
@@ -135,6 +137,14 @@ public class Question implements Serializable, Cloneable {
 	public boolean isPersisted() {
 		return id != null;
 	}
+	
+	public int getSpace() {
+		return space;
+	}
+
+	public void setSpace(int space) {
+		this.space = space;
+	}
 
 
 
@@ -172,6 +182,8 @@ public class Question implements Serializable, Cloneable {
 		return "Question [id=" + id + ", questionText=" + questionText + ", marks=" + marks + ", difficulty="
 				+ difficulty + ", time=" + time + ", questionAnswer=" + questionAnswer + ", type=" + type +",lines="+lines+",options="+options+ "]";
 	}
+
+
 
 
 	

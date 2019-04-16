@@ -32,6 +32,8 @@ public class MainView extends VerticalLayout implements View {
 	//add new question button
 	 static Button addQuestionBtn = new Button("Add new question");
 	static Button clearFilterTextBtn = new Button();
+	static Button createTest = new Button("Create Test/Exam");
+
 	 HorizontalLayout main = new HorizontalLayout();
 	static CssLayout filtering = new CssLayout();
 	 QuestionService service = QuestionService.getInstance();
@@ -50,13 +52,18 @@ public class MainView extends VerticalLayout implements View {
 		clearFilterTextBtn.setDescription("Clear the current filter");
 		clearFilterTextBtn.addClickListener(e -> filterText.clear());
 
+		createTest.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 		filtering.addComponents(filterText, clearFilterTextBtn);
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
 
 		// toolbar (above the grid)    
-		toolbar.addComponents(filtering, addQuestionBtn);
+		toolbar.addComponents(filtering, addQuestionBtn, createTest);
 
+		createTest.addClickListener(e -> {
+			MyUI.navigator.navigateTo(MyUI.CREATETESTVIEW);
+		});
+		
 		addQuestionBtn.addClickListener(e -> {
 			grid.asSingleSelect().clear();
 			try {
@@ -102,6 +109,7 @@ public class MainView extends VerticalLayout implements View {
 				}
 			}
 		});
+
 		
 
 	}

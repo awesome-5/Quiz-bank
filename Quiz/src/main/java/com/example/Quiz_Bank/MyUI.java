@@ -22,6 +22,8 @@ public class MyUI extends UI {
     protected static final String HOMEPAGE = "home";
     protected static final String SIGNUP = "signup";
     protected static final String FORGOTVIEW = "forgot password";
+    protected static final String CREATETESTVIEW = "Create Test";
+
  
     @Override
     protected void init(VaadinRequest request) {
@@ -37,6 +39,8 @@ public class MyUI extends UI {
       navigator.addView(HOMEPAGE, new HomePage());
       navigator.addView(SIGNUP, new SignupView());
       navigator.addView(FORGOTVIEW, new ForgotPassView());
+      navigator.addView(CREATETESTVIEW, new CreateTestView());
+
       
     }
 

@@ -3,6 +3,7 @@ com\example\Quiz_Bank\MyUI$MyUIServlet.class
 com\example\Quiz_Bank\MainView$MyUIServlet.class
 com\example\Quiz_Bank\SignupView.class
 com\example\Quiz_Bank\MyUI.class
+com\example\Quiz_Bank\CreateTestView.class
 com\example\Quiz_Bank\QuestionType.class
 com\example\Quiz_Bank\ForgotPassView.class
 com\example\Quiz_Bank\LoginView$MyUIServlet.class
