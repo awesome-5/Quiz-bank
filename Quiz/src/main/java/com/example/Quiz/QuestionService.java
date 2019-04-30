@@ -18,8 +18,7 @@ public class QuestionService {
 	public QuestionService instance;
 	private static final Logger LOGGER = Logger.getLogger(QuestionService.class.getName());
 
-	private final HashMap<Long, Question> contacts = new HashMap<>();
-	private long nextId = 0;
+	private final HashMap<Long, Question> questions = new HashMap<>();
 
 	public QuestionService() {
 	}
@@ -29,7 +28,7 @@ public class QuestionService {
 		if (instance == null) {
 			instance = new QuestionService();
 			try {
-				instance.ensureTestData();
+				instance.populateGrid();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -47,18 +46,10 @@ public class QuestionService {
 	public synchronized List<Question> findAll() {
 		return findAll(null);
 	}
-
-	/**
-	 * Finds all Customer's that match given filter.
-	 *
-	 * @param stringFilter
-	 *            filter that returned objects should match or null/empty string
-	 *            if all objects should be returned.
-	 * @return list a Customer objects
-	 */
+	
 	public synchronized List<Question> findAll(String stringFilter) {
 		ArrayList<Question> arrayList = new ArrayList<>();
-		for (Question contact : contacts.values()) {
+		for (Question contact : questions.values()) {
 			try {
 				boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())
 						|| contact.toString().toLowerCase().contains(stringFilter.toLowerCase());
@@ -79,21 +70,9 @@ public class QuestionService {
 		return arrayList;
 	}
 
-	/**
-	 * Finds all Customer's that match given filter and limits the resultset.
-	 *
-	 * @param stringFilter
-	 *            filter that returned objects should match or null/empty string
-	 *            if all objects should be returned.
-	 * @param start
-	 *            the index of first result
-	 * @param maxresults
-	 *            maximum result count
-	 * @return list a Customer objects
-	 */
 	public synchronized List<Question> findAll(String stringFilter, int start, int maxresults) {
 		ArrayList<Question> arrayList = new ArrayList<>();
-		for (Question contact : contacts.values()) {
+		for (Question contact : questions.values()) {
 			try {
 				boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())
 						|| contact.toString().toLowerCase().contains(stringFilter.toLowerCase());
@@ -118,53 +97,7 @@ public class QuestionService {
 		return arrayList.subList(start, end);
 	}
 
-	/**
-	 * @return the amount of all customers in the system
-	 */
-	public synchronized long count() {
-		return contacts.size();
-	}
-
-	/**
-	 * Deletes a customer from a system
-	 *
-	 * @param value
-	 *            the Customer to be deleted
-	 */
-	public synchronized void delete(Question value) {
-		contacts.remove(value.getId());
-	}
-
-	/**
-	 * Persists or updates customer in the system. Also assigns an identifier
-	 * for new Customer instances.
-	 *
-	 * @param entry
-	 */
-	public synchronized void save(Question entry) {
-		if (entry == null) {
-			LOGGER.log(Level.SEVERE,
-					"Customer is null. Are you sure you have connected your form to the application?");
-			return;
-		}
-		if (entry.getId() == null) {
-			entry.setId(nextId++);
-		}
-		try {
-			entry = (Question) entry.clone();
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
-		contacts.put(entry.getId(), entry);
-	}
-
-	/**
-	 * @throws SQLException 
-	 * @throws JSchException 
-	 * @throws ClassNotFoundException 
-	 */
-
-	public void ensureTestData() throws ClassNotFoundException, JSchException, SQLException {
+	public void populateGrid() throws ClassNotFoundException, JSchException, SQLException {
 	
 			if (findAll().isEmpty()) {
 				DBConnection dbc = new DBConnection();
@@ -184,7 +117,8 @@ public class QuestionService {
 					c.setVariantOf(results.get(i).getVariantOf());
 					c.setQuestionAnswer(results.get(i).getQuestionAnswer());
 					c.setCourseCode(results.get(i).getCourseCode());
-					save(c);
+					
+					questions.put(c.getId(), c);
 				}
 			}
 			

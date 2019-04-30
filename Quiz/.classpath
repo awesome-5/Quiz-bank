@@ -39,5 +39,7 @@
 	<classpathentry kind="lib" path="C:/Users/Nat/Downloads/Programs/jsch-0.1.55.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Nat/Downloads/Programs/junit-4.12.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Nat/Downloads/Programs/mysql-connector-java-8.0.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nat/Downloads/Programs/selenium-server-standalone-3.141.59.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nat/Downloads/Programs/selenium-java-3.141.59.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
