@@ -273,45 +273,42 @@ public class DBConnection {
 			int time = Integer.parseInt(q.getTime());
 			String variantOf = String.valueOf(idOfMotherQuestion);
 			String courseCode = q.getCourseCode();
-
-
+			
 			//modify question
-			/*String questionInDB = "SELECT * FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+			String questionInDB = "SELECT * FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 			rss=statement.executeQuery(questionInDB);
 			System.out.println("result of the query"+rss);
 			if(rss != null) {
 				System.out.println("question is being modified");
-				String sqlmofid= "UPDATE Question SET ('"+ QuestionGridView.CurrentId + "','" + "nikola" + "','" + question + "','" + answer + "','" + type + "','" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ ")"+" WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+				String sqlmofid= "UPDATE Question SET question='" + question + "', answer='" + answer + "', type='" + type + "', mark='" + mark + "', difficulty='" + difficulty + "', time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 				statement.executeUpdate(sqlmofid);
-			}*/
-			
-			//add new question in DB
-			
-			String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + "nikola" + "','" + question + "','" + answer + "'," + type + ",'" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
-			statement.executeUpdate(sql);
-
-			String sqlID="SELECT * FROM Question WHERE username = '"+LoginView.loggedInUser+ "' AND question ='" + question +"'";
-			rss=statement.executeQuery(sqlID);
-			int id = 0;
-			while (rss.next()) {
-				id = rss.getInt("questionID");;
 			}
+			
+			else {
+			//add new question in DB
+				String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + "nikola" + "','" + question + "','" + answer + "'," + type + ",'" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
+				statement.executeUpdate(sql);
+
+				String sqlID="SELECT * FROM Question WHERE username = '"+LoginView.loggedInUser+ "' AND question ='" + question +"'";
+				rss=statement.executeQuery(sqlID);
+				int id = 0;
+				while (rss.next()) {
+					id = rss.getInt("questionID");;
+				}
 
 
-			String sqlmcq="INSERT INTO MCQ VALUES('"+ id + "','" + options + "')" ;
-			System.out.println(options);
-			statement.executeUpdate(sqlmcq);
+				String sqlmcq="INSERT INTO MCQ VALUES('"+ id + "','" + options + "')" ;
+				System.out.println(options);
+				statement.executeUpdate(sqlmcq);
 
 			//			else if (lines!=0)
 			//			{
 			//			String sqlstd="INSERT INTO Standard VALUES('"+ id + "','" + space + "','" + lines +"')" ;
 			//			statement.executeUpdate(sqlstd);
 			//			}
-		
-			
-			
-
-			System.out.println("Success");
+	
+				System.out.println("Success");
+			}
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
