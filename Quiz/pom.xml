@@ -21,6 +21,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<!-- If there are no local customizations, this can also be "fetch" or 
+			"cdn" -->
 		<vaadin.widgetset.mode>local</vaadin.widgetset.mode>
 	</properties>
 
@@ -84,7 +86,18 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.12.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>3.12.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
