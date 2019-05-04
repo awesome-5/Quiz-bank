@@ -36,7 +36,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 	HorizontalLayout main = new HorizontalLayout();
 	static CssLayout filtering = new CssLayout();
 	QuestionService service = QuestionService.getInstance();
-	static Long CurrentId;
+	static Long CurrentId=null;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
