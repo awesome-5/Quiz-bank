@@ -97,7 +97,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 		System.out.println("List Updated");
 		addComponent(layout);
 
-		//		 when selecting an element on the grid, fills the question form with the fields of the question 
+		//	 when selecting an element on the grid, fills the question form with the fields of the question 
 		grid.asSingleSelect().addValueChangeListener(e -> {
 			if (e.getValue() == null) {
 				form.setVisible(false);
@@ -127,7 +127,6 @@ public class QuestionGridView extends VerticalLayout implements View {
 		toolbar.setVisible(true);
 
 	}
-
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
