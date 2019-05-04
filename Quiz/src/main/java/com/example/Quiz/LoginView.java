@@ -76,6 +76,7 @@ public class LoginView extends VerticalLayout implements View
 				if (s==null)
 				{
 					label.setValue("Invalid Login");
+					System.out.println("Invalid");
 					userName.clear();
 					password.clear();
 				}

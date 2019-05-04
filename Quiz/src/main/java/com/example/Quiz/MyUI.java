@@ -17,11 +17,11 @@ import com.vaadin.ui.VerticalLayout;
 public class MyUI extends UI {
 
 	static Navigator navigator;
-	protected static final String GRIDVIEW = "question grid";
+	protected static final String GRIDVIEW = "questionGrid";
 	protected static final String LOGINVIEW = "login";
 	protected static final String HOMEPAGE = "home";
 	protected static final String SIGNUP = "signup";
-	protected static final String FORGOTVIEW = "forgot password";
+	protected static final String FORGOTVIEW = "forgotPassword";
 	protected static final String QUIZVIEW = "Quiz";
 	@Override
 	protected void init(VaadinRequest request) {
