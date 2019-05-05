@@ -64,13 +64,6 @@ public class HomePage extends VerticalLayout implements View {
 		{
 			Notification.show("Value: " + e.getItem().getcourseCode());
 			CurrentCourse=e.getItem().getcourseCode();
-			try {
-				new QuestionGridView().service.populateGrid();
-			} catch (ClassNotFoundException | JSchException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
 			System.out.println("Home "+ CurrentCourse );
 			MyUI.navigator.navigateTo(MyUI.GRIDVIEW);
 		});
