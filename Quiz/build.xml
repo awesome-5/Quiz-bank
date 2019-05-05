@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Quiz">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="Maven Dependencies.libraryclasspath">
+        <pathelement location="../../../../.m2/repository/com/jcraft/jsch/0.1.55/jsch-0.1.55.jar"/>
+        <pathelement location="../../../../.m2/repository/mysql/mysql-connector-java/8.0.15/mysql-connector-java-8.0.15.jar"/>
+        <pathelement location="../../../../.m2/repository/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.jar"/>
+        <pathelement location="../../../../.m2/repository/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/vaadin-server/8.7.2/vaadin-server-8.7.2.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/vaadin-sass-compiler/0.9.13/vaadin-sass-compiler-0.9.13.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/external/flute/flute/1.3.0.gg2/flute-1.3.0.gg2.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/vaadin-shared/8.7.2/vaadin-shared-8.7.2.jar"/>
+        <pathelement location="../../../../.m2/repository/org/jsoup/jsoup/1.11.2/jsoup-1.11.2.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/external/gentyref/1.2.0.vaadin1/gentyref-1.2.0.vaadin1.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/vaadin-push/8.7.2/vaadin-push-8.7.2.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/external/atmosphere/atmosphere-runtime/2.4.30.vaadin1/atmosphere-runtime-2.4.30.vaadin1.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/external/slf4j/vaadin-slf4j-jdk14/1.6.1/vaadin-slf4j-jdk14-1.6.1.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/vaadin-client-compiled/8.7.2/vaadin-client-compiled-8.7.2.jar"/>
+        <pathelement location="../../../../.m2/repository/com/vaadin/vaadin-themes/8.7.2/vaadin-themes-8.7.2.jar"/>
+        <pathelement location="../../../../.m2/repository/junit/junit/4.12/junit-4.12.jar"/>
+        <pathelement location="../../../../.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-java/3.12.0/selenium-java-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-api/3.12.0/selenium-api-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/3.12.0/selenium-chrome-driver-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/3.12.0/selenium-edge-driver-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/3.12.0/selenium-firefox-driver-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/3.12.0/selenium-ie-driver-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-opera-driver/3.12.0/selenium-opera-driver-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/3.12.0/selenium-remote-driver-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/3.12.0/selenium-safari-driver-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-support/3.12.0/selenium-support-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/net/bytebuddy/byte-buddy/1.8.3/byte-buddy-1.8.3.jar"/>
+        <pathelement location="../../../../.m2/repository/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar"/>
+        <pathelement location="../../../../.m2/repository/commons-codec/commons-codec/1.10/commons-codec-1.10.jar"/>
+        <pathelement location="../../../../.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
+        <pathelement location="../../../../.m2/repository/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar"/>
+        <pathelement location="../../../../.m2/repository/com/google/guava/guava/23.6-jre/guava-23.6-jre.jar"/>
+        <pathelement location="../../../../.m2/repository/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar"/>
+        <pathelement location="../../../../.m2/repository/org/checkerframework/checker-compat-qual/2.0.0/checker-compat-qual-2.0.0.jar"/>
+        <pathelement location="../../../../.m2/repository/com/google/errorprone/error_prone_annotations/2.1.3/error_prone_annotations-2.1.3.jar"/>
+        <pathelement location="../../../../.m2/repository/com/google/j2objc/j2objc-annotations/1.1/j2objc-annotations-1.1.jar"/>
+        <pathelement location="../../../../.m2/repository/org/codehaus/mojo/animal-sniffer-annotations/1.14/animal-sniffer-annotations-1.14.jar"/>
+        <pathelement location="../../../../.m2/repository/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar"/>
+        <pathelement location="../../../../.m2/repository/org/apache/httpcomponents/httpcore/4.4.6/httpcore-4.4.6.jar"/>
+        <pathelement location="../../../../.m2/repository/com/squareup/okhttp3/okhttp/3.9.1/okhttp-3.9.1.jar"/>
+        <pathelement location="../../../../.m2/repository/com/squareup/okio/okio/1.13.0/okio-1.13.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/selenium-server/3.12.0/selenium-server-3.12.0.jar"/>
+        <pathelement location="../../../../.m2/repository/com/beust/jcommander/1.72/jcommander-1.72.jar"/>
+        <pathelement location="../../../../.m2/repository/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7.jar"/>
+        <pathelement location="../../../../.m2/repository/org/apache/commons/commons-text/1.1/commons-text-1.1.jar"/>
+        <pathelement location="../../../../.m2/repository/commons-io/commons-io/2.6/commons-io-2.6.jar"/>
+        <pathelement location="../../../../.m2/repository/commons-net/commons-net/3.6/commons-net-3.6.jar"/>
+        <pathelement location="../../../../.m2/repository/org/w3c/css/sac/1.3/sac-1.3.jar"/>
+        <pathelement location="../../../../.m2/repository/net/sourceforge/cssparser/cssparser/0.9.24/cssparser-0.9.24.jar"/>
+        <pathelement location="../../../../.m2/repository/net/sourceforge/htmlunit/htmlunit/2.29/htmlunit-2.29.jar"/>
+        <pathelement location="../../../../.m2/repository/net/sourceforge/htmlunit/htmlunit-core-js/2.28/htmlunit-core-js-2.28.jar"/>
+        <pathelement location="../../../../.m2/repository/net/sourceforge/htmlunit/neko-htmlunit/2.28/neko-htmlunit-2.28.jar"/>
+        <pathelement location="../../../../.m2/repository/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar"/>
+        <pathelement location="../../../../.m2/repository/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/jetty-repacked/9.4.7.v20171121/jetty-repacked-9.4.7.v20171121.jar"/>
+        <pathelement location="../../../../.m2/repository/org/eclipse/jetty/jetty-client/9.4.7.v20170914/jetty-client-9.4.7.v20170914.jar"/>
+        <pathelement location="../../../../.m2/repository/org/eclipse/jetty/jetty-http/9.4.8.v20171121/jetty-http-9.4.8.v20171121.jar"/>
+        <pathelement location="../../../../.m2/repository/org/eclipse/jetty/jetty-io/9.4.8.v20171121/jetty-io-9.4.8.v20171121.jar"/>
+        <pathelement location="../../../../.m2/repository/org/eclipse/jetty/jetty-util/9.4.8.v20171121/jetty-util-9.4.8.v20171121.jar"/>
+        <pathelement location="../../../../.m2/repository/org/eclipse/jetty/jetty-xml/9.4.7.v20170914/jetty-xml-9.4.7.v20170914.jar"/>
+        <pathelement location="../../../../.m2/repository/org/seleniumhq/selenium/htmlunit-driver/2.29.0/htmlunit-driver-2.29.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/eclipse/jetty/websocket/websocket-api/9.4.7.v20170914/websocket-api-9.4.7.v20170914.jar"/>
+        <pathelement location="../../../../.m2/repository/org/eclipse/jetty/websocket/websocket-client/9.4.7.v20170914/websocket-client-9.4.7.v20170914.jar"/>
+        <pathelement location="../../../../.m2/repository/org/eclipse/jetty/websocket/websocket-common/9.4.7.v20170914/websocket-common-9.4.7.v20170914.jar"/>
+        <pathelement location="../../../../.m2/repository/xalan/serializer/2.7.2/serializer-2.7.2.jar"/>
+        <pathelement location="../../../../.m2/repository/xalan/xalan/2.7.2/xalan-2.7.2.jar"/>
+        <pathelement location="../../../../.m2/repository/xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar"/>
+        <pathelement location="../../../../.m2/repository/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar"/>
+        <pathelement location="../../../../.m2/repository/org/yaml/snakeyaml/1.19/snakeyaml-1.19.jar"/>
+    </path>
+    <path id="Quiz.classpath">
+        <pathelement location="target/classes"/>
+        <pathelement location="target/test-classes"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <pathelement location="../filesWeNeed/client-combined-3.141.59.jar"/>
+        <pathelement location="../filesWeNeed/client-combined-3.141.59-sources.jar"/>
+        <pathelement location="../filesWeNeed/java.jdbc-0.7.9.jar"/>
+        <pathelement location="../filesWeNeed/jsch-0.1.5.jar"/>
+        <pathelement location="../filesWeNeed/junit-4.12.jar"/>
+        <pathelement location="../filesWeNeed/mysql-connector-java-6.0.2.jar"/>
+        <pathelement location="../filesWeNeed/selenium-server-standalone-3.141.59.jar"/>
+    </path>
+    <path id="run.(default package).classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.ChangeToForgotPasswordView.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.ChangeToSignUpView.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.LoginFailure.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.LoginSuccess.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.Quiz.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.SignUpCancelButton.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.SignUpPasswordsDontMatch.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.SignUpTextViewBlankErrors.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.SignUpUsernameTaken.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.LoginViewTest.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.SignUpTest.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.createCourseTest.classpath">
+        <path refid="Quiz.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="target/classes"/>
+        <mkdir dir="target/test-classes"/>
+        <copy includeemptydirs="false" todir="target/classes">
+            <fileset dir="src/main/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="target/classes">
+            <fileset dir="src/main/resources">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+                <exclude name="**"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="target/test-classes">
+            <fileset dir="src/test/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="target/classes">
+            <fileset dir="target/generated-resources/gwt">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="target/classes"/>
+        <delete dir="target/test-classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/main/java"/>
+            <src path="src/main/resources"/>
+            <src path="target/generated-resources/gwt"/>
+            <exclude name="**"/>
+            <classpath refid="Quiz.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/test-classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/test/java"/>
+            <classpath refid="Quiz.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="(default package)">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="LoginViewTest" todir="${junit.output.dir}"/>
+            <test name="SignUpTest" todir="${junit.output.dir}"/>
+            <test name="createCourseTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.(default package).classpath"/>
+        </junit>
+    </target>
+    <target name="ChangeToForgotPasswordView">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ChangeToForgotPasswordView" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.ChangeToForgotPasswordView.classpath"/>
+        </junit>
+    </target>
+    <target name="ChangeToSignUpView">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ChangeToSignUpView" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.ChangeToSignUpView.classpath"/>
+        </junit>
+    </target>
+    <target name="LoginFailure">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="LoginFailure" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.LoginFailure.classpath"/>
+        </junit>
+    </target>
+    <target name="LoginSuccess">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="LoginSuccess" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.LoginSuccess.classpath"/>
+        </junit>
+    </target>
+    <target name="Quiz">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="LoginViewTest" todir="${junit.output.dir}"/>
+            <test name="SignUpTest" todir="${junit.output.dir}"/>
+            <test name="createCourseTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.Quiz.classpath"/>
+        </junit>
+    </target>
+    <target name="SignUpCancelButton">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="SignUpCancelButton" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.SignUpCancelButton.classpath"/>
+        </junit>
+    </target>
+    <target name="SignUpPasswordsDontMatch">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="SignUpPasswordsDontMatch" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.SignUpPasswordsDontMatch.classpath"/>
+        </junit>
+    </target>
+    <target name="SignUpTextViewBlankErrors">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="SignUpTextViewBlankErrors" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.SignUpTextViewBlankErrors.classpath"/>
+        </junit>
+    </target>
+    <target name="SignUpUsernameTaken">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="SignUpUsernameTaken" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.SignUpUsernameTaken.classpath"/>
+        </junit>
+    </target>
+    <target name="LoginViewTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="LoginViewTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.LoginViewTest.classpath"/>
+        </junit>
+    </target>
+    <target name="SignUpTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="SignUpTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.SignUpTest.classpath"/>
+        </junit>
+    </target>
+    <target name="createCourseTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="createCourseTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.createCourseTest.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
