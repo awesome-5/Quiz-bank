@@ -29,7 +29,7 @@ import com.vaadin.ui.themes.ValoTheme;
 	public class SignupView extends VerticalLayout implements View {
 
 		static boolean blank=true;
-			static int checkUser=1;
+		static int checkUser=1;
 		private static final long serialVersionUID = 1L;
 		//initialising components
 		final VerticalLayout layout = new VerticalLayout();

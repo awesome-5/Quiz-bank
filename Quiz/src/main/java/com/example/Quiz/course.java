@@ -1,6 +1,6 @@
 package com.example.Quiz;
 
-public class course {
+public class Course {
 
 	private String courseCode = "";
 	

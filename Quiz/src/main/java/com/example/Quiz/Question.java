@@ -13,9 +13,9 @@ public class Question implements Serializable, Cloneable {
 	private Long id;
 
 	private String questionText = "";
-	
+
 	private String questionAnswer = "";
-	
+
 	private QuestionType type;
 
 	private String marks = "";
@@ -25,9 +25,9 @@ public class Question implements Serializable, Cloneable {
 	private String time = "";
 
 	private Date lastUsed = null;
-	
+
 	private String variantOf;
-	
+
 	private String courseCode="";
 
 	private int lines=0;
@@ -90,7 +90,7 @@ public class Question implements Serializable, Cloneable {
 	public void setType(QuestionType type) {
 		this.type = type;
 	}
-	
+
 	public String getVariantOf() {
 		return variantOf;
 	}
@@ -101,7 +101,7 @@ public class Question implements Serializable, Cloneable {
 
 
 	public String getCourseCode() {
-		return courseCode;
+		return HomePage.CurrentCourse;
 	}
 
 	public void setCourseCode(String courseCode) {
@@ -172,9 +172,5 @@ public class Question implements Serializable, Cloneable {
 		return "Question [id=" + id + ", questionText=" + questionText + ", marks=" + marks + ", difficulty="
 				+ difficulty + ", time=" + time + ", questionAnswer=" + questionAnswer + ", type=" + type +",lines="+lines+",options="+options+ "]";
 	}
-
-
-	
-
 
 }

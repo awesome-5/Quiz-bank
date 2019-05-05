@@ -22,8 +22,6 @@ public class ForgotPassView extends VerticalLayout implements View {
 	Label label = new Label(null);
 
 
-	
-
 	@Override
 	public void enter(ViewChangeEvent event) {
 		//add elements to display and style them
