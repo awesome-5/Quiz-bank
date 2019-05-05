@@ -20,9 +20,10 @@ import com.vaadin.ui.themes.ValoTheme;
 @PushStateNavigation
 public class HomePage extends VerticalLayout implements View {
 	VerticalLayout mainLayout = new VerticalLayout();
-	HorizontalLayout topBar = new HorizontalLayout();
-	Label label = new Label(null);
-	TextField addCourse = new TextField();
+	VerticalLayout topBar = new VerticalLayout();
+	HorizontalLayout top = new HorizontalLayout();
+	Label label = new Label();
+	TextField addCourse = new TextField("Please Enter Course Code");
 	Button createCourse = new Button("Create Course");	
 	Grid<Course> grid = new Grid<>(Course.class);
 	static String CurrentCourse="";
@@ -76,11 +77,13 @@ public class HomePage extends VerticalLayout implements View {
 
 		createCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 		Page.getCurrent().setTitle("Home Page");
-		topBar.addComponents(addCourse, createCourse);
+		topBar.addComponents(addCourse, createCourse, label);
+		top.addComponent(topBar);
 		grid.setSizeFull();
-		mainLayout.addComponents(topBar,grid);
+		mainLayout.addComponents(top,grid);
 		mainLayout.setSizeFull();
-		mainLayout.setComponentAlignment(topBar,Alignment.MIDDLE_CENTER );		
+		
+		mainLayout.setComponentAlignment(top,Alignment.TOP_CENTER );			
 		addComponent(mainLayout);  
 		
 
@@ -90,12 +93,12 @@ public class HomePage extends VerticalLayout implements View {
 				if (!addCourse.getValue().equals("") && sameCourse==false ) {
 					DBConnection dbca = new DBConnection();
 					dbca.postDB("INSERT INTO Course VALUES('"+LoginView.loggedInUser + "','" + addCourse.getValue() + "')" );
-					Notification.show("Course added");
+					label.setValue("Course added");
 				}else {
-					Notification.show("Cannot add an existing or empty course");
+					label.setValue("Cannot add an existing or empty course");
 				}
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
-				Notification.show("Course not added");
+				label.setValue("Course not added");
 			}
 			addCourse.setValue("");
 			updateGrid();
@@ -106,4 +109,6 @@ public class HomePage extends VerticalLayout implements View {
 
 	}	
 }
+
+
 

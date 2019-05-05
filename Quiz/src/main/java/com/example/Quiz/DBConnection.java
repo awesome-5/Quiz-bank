@@ -35,7 +35,7 @@ public class DBConnection {
 			session = jsch.getSession(uName, host, 22);
 			session.setPassword(uPass);
 			session.setConfig("StrictHostKeyChecking", "no");
-			System.out.println("Establishing Connection...");
+			System.out.println("Establishing readDBUser Connection...");
 			session.connect();
 
 			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
@@ -82,7 +82,7 @@ public class DBConnection {
 			session = jsch.getSession(uName, host, 22);
 			session.setPassword(uPass);
 			session.setConfig("StrictHostKeyChecking", "no");
-			System.out.println("Establishing Connection...");
+			System.out.println("Establishing readDBQuestion Connection...");
 			session.connect();
 			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
 			System.out.println("localhost:" + assigned_port + " -> " + rhost + ":" + rport);
@@ -178,7 +178,7 @@ public class DBConnection {
 			session = jsch.getSession(uName, host, 22);
 			session.setPassword(uPass);
 			session.setConfig("StrictHostKeyChecking", "no");
-			System.out.println("Establishing Connection...");
+			System.out.println("Establishing readDBCourse Connection...");
 			session.connect();
 
 			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
@@ -229,7 +229,7 @@ public class DBConnection {
 			session = jsch.getSession(uName, host, 22);
 			session.setPassword(uPass);
 			session.setConfig("StrictHostKeyChecking", "no");
-			System.out.println("Establishing Connection...");
+			System.out.println("Establishing sendToDBQuestionConnection...");
 			session.connect();
 			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
 			System.out.println("localhost:" + assigned_port + " -> " + rhost + ":" + rport);
@@ -333,7 +333,7 @@ public class DBConnection {
 			session = jsch.getSession(uName, host, 22);
 			session.setPassword(uPass);
 			session.setConfig("StrictHostKeyChecking", "no");
-			System.out.println("Establishing Connection...");
+			System.out.println("Establishing deleteQuestionFromDB Connection...");
 			session.connect();
 			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
 			System.out.println("localhost:" + assigned_port + " -> " + rhost + ":" + rport);
@@ -375,7 +375,7 @@ public class DBConnection {
 			session = jsch.getSession(uName, host, 22);
 			session.setPassword(uPass);
 			session.setConfig("StrictHostKeyChecking", "no");
-			System.out.println("Establishing Connection...");
+			System.out.println("Establishing postDB Connection...");
 			session.connect();
 
 			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
