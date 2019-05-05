@@ -26,7 +26,3 @@ before_install:
 
 after_success:
     - mvn jacoco:report coveralls:report
-
-
-
-
