@@ -1,5 +1,3 @@
-before_install: "cd Quiz"
-
 sudo: required
 dist: trusty
 language: java
@@ -8,6 +6,8 @@ jdk:
 addons:
   firefox: "60.0"
 before_install:
+"cd Quiz"
+
 - sudo apt-get update
 - sudo apt-get install dbus-x11
 - export DISPLAY=:99.0
@@ -27,7 +27,3 @@ before_install:
 
 after_success:
     - mvn jacoco:report coveralls:report
-
-
-
-
