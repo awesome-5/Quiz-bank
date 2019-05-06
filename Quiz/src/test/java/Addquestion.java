@@ -25,8 +25,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-public class QuestionPageTests {
+public class Addquestion {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
@@ -37,18 +36,11 @@ public class QuestionPageTests {
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
     driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-    driver.get("http://localhost:8080/");
-    driver.manage().window().setSize(new Dimension(1200, 769));
-	
-    driver.findElement(By.id("gwt-uid-3")).sendKeys("nikola");
-    driver.findElement(By.id("gwt-uid-5")).sendKeys("1234");
-    driver.findElement(By.cssSelector(".v-slot:nth-child(1) > .v-button")).click();
   }
   @After
   public void tearDown() {
     driver.quit();
   }
-  
   @Test
   public void addquestion() {
     driver.get("http://localhost:8080/");
@@ -106,60 +98,4 @@ public class QuestionPageTests {
       }
       driver.findElement(By.cssSelector(".primary")).click();
     }
-  
-  
-  
-  @Test
-  public void modifyquestion() {
-
-    {
-      WebElement element = driver.findElement(By.cssSelector(".v-grid-row:nth-child(6) > .v-grid-cell"));
-      Actions builder = new Actions(driver);
-      builder.moveToElement(element).clickAndHold().perform();
-    }
-    {
-      WebElement element = driver.findElement(By.cssSelector(".v-grid-row:nth-child(6) > .v-grid-cell"));
-      Actions builder = new Actions(driver);
-      builder.moveToElement(element).perform();
-    }
-    {
-      WebElement element = driver.findElement(By.cssSelector(".v-grid-row:nth-child(6) > .v-grid-cell"));
-      Actions builder = new Actions(driver);
-      builder.moveToElement(element).release().perform();
-    }
-    driver.findElement(By.cssSelector(".v-grid-row:nth-child(6) > .v-grid-cell")).click();
-    driver.findElement(By.cssSelector(".v-grid-row:nth-child(5) > .v-grid-cell:nth-child(2)")).click();
-    driver.findElement(By.id("gwt-uid-7")).click();
-    driver.findElement(By.id("gwt-uid-7")).sendKeys("Question2 variant_modified");
-    driver.findElement(By.id("gwt-uid-15")).click();
-    driver.findElement(By.id("gwt-uid-15")).sendKeys("Wow_modified");
-    driver.findElement(By.cssSelector(".primary")).click();
-  }
-  
-  @Test
-  public void addquestionvariant() {
-	    {
-	      WebElement element = driver.findElement(By.cssSelector(".v-grid-row:nth-child(2) > .v-grid-cell"));
-	      Actions builder = new Actions(driver);
-	      builder.moveToElement(element).clickAndHold().perform();
-	    }
-	    {
-	      WebElement element = driver.findElement(By.cssSelector(".v-grid-row:nth-child(2) > .v-grid-cell"));
-	      Actions builder = new Actions(driver);
-	      builder.moveToElement(element).perform();
-	    }
-	    {
-	      WebElement element = driver.findElement(By.cssSelector(".v-grid-row:nth-child(2) > .v-grid-cell"));
-	      Actions builder = new Actions(driver);
-	      builder.moveToElement(element).release().perform();
-	    }
-	    driver.findElement(By.cssSelector(".v-grid-row:nth-child(2) > .v-grid-cell")).click();
-	    driver.findElement(By.cssSelector(".v-grid-row-focused > .v-grid-cell:nth-child(3)")).click();
-	    driver.findElement(By.id("gwt-uid-7")).click();
-	    driver.findElement(By.id("gwt-uid-7")).sendKeys("First question: is it going to work?_variant");
-	    driver.findElement(By.id("gwt-uid-15")).click();
-	    driver.findElement(By.id("gwt-uid-15")).sendKeys("I hope so_variant");
-	    driver.findElement(By.cssSelector(".v-slot:nth-child(3) > .v-button")).click();
-	  }
-
 }

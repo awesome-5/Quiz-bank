@@ -117,35 +117,20 @@ public class DBConnection {
 				temp.setQuestionText(question);
 				temp.setQuestionAnswer(answer);
 				if(type==0)
-				{
 					temp.setType(QuestionType.StandardQuestion);
-				}
 				else if (type==1)
-				{
 					temp.setType(QuestionType.MCQ);
-				}
 				temp.setMarks(mark);
 				if(difficulty==0)
-				{
 					temp.setDifficulty(QuestionDifficulty.Easy);
-				}
 				else if(difficulty==1)
-				{
 					temp.setDifficulty(QuestionDifficulty.MediumEasy);
-				}
 				else if(difficulty==2)
-				{
 					temp.setDifficulty(QuestionDifficulty.Medium);
-				}
 				else if(difficulty==3)
-				{
 					temp.setDifficulty(QuestionDifficulty.MediumHard);
-				}
 				else if(difficulty==4)
-				{
 					temp.setDifficulty(QuestionDifficulty.MediumHard);
-				}
-
 				temp.setTime(time);
 				temp.setLastUsed(lastUsed);
 				temp.setVariantOf(variantOf);
@@ -217,7 +202,7 @@ public class DBConnection {
 		return(output);
 	}
 
-	public void sendToDBQuestion(Question q, Long idOfMotherQuestion) throws ClassNotFoundException, JSchException, SQLException {
+	public void sendToDBQuestion(Question q, Boolean isModified) throws ClassNotFoundException, JSchException, SQLException {
 
 		int lport=5656;
 		String rhost="127.0.0.1";
@@ -271,11 +256,15 @@ public class DBConnection {
 			if (options.isEmpty())
 				options="NULL";
 			int time = Integer.parseInt(q.getTime());
-			String variantOf = String.valueOf(idOfMotherQuestion);
+			String variantOf = String.valueOf(QuestionGridView.CurrentId);
 			String courseCode = q.getCourseCode();
 
-
-			//modify question
+			if (isModified) {
+				System.out.println("question is being modified");
+				String sqlmofid= "UPDATE Question SET question='" + question + "', answer='" + answer + "', type='" + type + "', mark='" + mark + "', difficulty='" + difficulty + "', time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+				statement.executeUpdate(sqlmofid);
+			}
+			/*//modify question if button Save is clicked --> if button Save As Variant clicked, new question added to DB
 			String questionInDB = "SELECT * FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 			rss=statement.executeQuery(questionInDB);
 			System.out.println("result of the query"+rss);
@@ -283,7 +272,8 @@ public class DBConnection {
 				System.out.println("question is being modified");
 				String sqlmofid= "UPDATE Question SET question='" + question + "', answer='" + answer + "', type='" + type + "', mark='" + mark + "', difficulty='" + difficulty + "', time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 				statement.executeUpdate(sqlmofid);
-			}
+			}*/
+			
 			
 			else {
 				//add new question in DB
@@ -295,7 +285,7 @@ public class DBConnection {
 				int id = 0;
 				while (rss.next()) {
 					id = rss.getInt("questionID");;
-				}
+				
 		
 			String sqlmcq="INSERT INTO MCQ VALUES('"+ id + "','" + options + "')" ;
 			System.out.println(options);
@@ -312,14 +302,12 @@ public class DBConnection {
 
 			System.out.println("Success");
 			}
-			
+		}
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
 		session.disconnect();
 		con.close();
-
-
 	}
 
 	public void deleteQuestionFromDB (Question q) throws ClassNotFoundException, JSchException, SQLException {
