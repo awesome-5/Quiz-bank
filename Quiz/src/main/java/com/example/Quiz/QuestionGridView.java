@@ -92,12 +92,12 @@ public class QuestionGridView extends VerticalLayout implements View {
 		//adding all components to the main layout
 		layout.addComponents(toolbar, main);
 
-		// fetch list of Customers from service and assign it to Grid
+		//fetch list of Customers from service and assign it to Grid
 		updateList();
 		System.out.println("List Updated");
 		addComponent(layout);
 
-		//	 when selecting an element on the grid, fills the question form with the fields of the question 
+		//when selecting an element on the grid, fills the question form with the fields of the question 
 		grid.asSingleSelect().addValueChangeListener(e -> {
 			if (e.getValue() == null) {
 				form.setVisible(false);

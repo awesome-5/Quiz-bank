@@ -83,7 +83,13 @@ public class QuestionForm extends FormLayout {
 
 		save.addClickListener(e -> {
 			try {
-				this.save();
+				if (QuestionGridView.CurrentId==null) {
+					this.save();
+				}
+				if (QuestionGridView.CurrentId!=null) {
+					this.modify();
+				}
+				QuestionGridView.CurrentId=null;
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -92,6 +98,7 @@ public class QuestionForm extends FormLayout {
 		saveVariant.addClickListener(e -> {
 			try {
 				this.saveAsVariant();
+				QuestionGridView.CurrentId=null;
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -100,6 +107,7 @@ public class QuestionForm extends FormLayout {
 		delete.addClickListener(e -> {
 			try {
 				this.delete();
+				QuestionGridView.CurrentId=null;
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -110,6 +118,7 @@ public class QuestionForm extends FormLayout {
 			setVisible(false);
 			QuestionGridView.toolbar.setVisible(true);
 			QuestionGridView.grid.setVisible(true);
+			QuestionGridView.CurrentId=null;
 		});
 
 	}
@@ -123,14 +132,21 @@ public class QuestionForm extends FormLayout {
 
 	private void save() throws ClassNotFoundException, JSchException, SQLException {
 		DBConnection dbc = new DBConnection();
-		dbc.sendToDBQuestion(question, null);
+		dbc.sendToDBQuestion(question, false);
 		QuestionGridView.updateList();	
 		setVisible(false);
 	}
 
 	private void saveAsVariant() throws ClassNotFoundException, JSchException, SQLException {
 		DBConnection dbc = new DBConnection();
-		dbc.sendToDBQuestion(question, QuestionGridView.CurrentId );
+		dbc.sendToDBQuestion(question, false);
+		QuestionGridView.updateList();	
+		setVisible(false);
+	}
+	
+	private void modify() throws ClassNotFoundException, JSchException, SQLException {
+		DBConnection dbc = new DBConnection();
+		dbc.sendToDBQuestion(question, true);
 		QuestionGridView.updateList();	
 		setVisible(false);
 	}
