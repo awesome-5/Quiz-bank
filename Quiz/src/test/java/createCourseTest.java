@@ -2,6 +2,8 @@
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
+import org.junit.Assert;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
@@ -13,6 +15,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.vaadin.event.Action;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
@@ -28,7 +33,7 @@ public class createCourseTest {
 	JavascriptExecutor js;
 	@Before
 	public void setUp() {
-		//System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
+		System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
 		driver = new FirefoxDriver();
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
@@ -45,10 +50,39 @@ public class createCourseTest {
 		driver.quit();
 	}
 	@Test
-	public void createCourse() {
+	public void createExistingCourse() {
 		new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe("http://localhost:8080/#!home"));
 		driver.findElement(By.cssSelector(".v-textfield")).click();
 		driver.findElement(By.cssSelector(".v-textfield")).sendKeys("Coms1002");
 		driver.findElement(By.cssSelector(".v-button")).click();
+		WebDriverWait wait = new WebDriverWait(driver, 3);
+		wait.until(ExpectedConditions.textToBe(By.cssSelector(".v-label"),"Cannot add an existing course"));
 	}
+
+	@Test
+	public void createEmptyCourse() {
+		new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe("http://localhost:8080/#!home"));
+		driver.findElement(By.cssSelector(".v-textfield")).click();
+		driver.findElement(By.cssSelector(".v-button")).click();
+		WebDriverWait wait = new WebDriverWait(driver, 3);
+		wait.until(ExpectedConditions.textToBe(By.cssSelector(".v-label"),"Cannot add an empty course"));	
+	}
+
+	@Test
+	public void createNewCourse() {
+		new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe("http://localhost:8080/#!home"));
+		driver.findElement(By.cssSelector(".v-textfield")).click();
+		driver.findElement(By.cssSelector(".v-textfield")).sendKeys("Testt");//change this for new course
+		driver.findElement(By.cssSelector(".v-button")).click();
+		WebDriverWait wait = new WebDriverWait(driver, 3);
+		wait.until(ExpectedConditions.textToBe(By.cssSelector(".v-label"),"Course added"));
+	}
+	@Test
+	public void selectCourse() {
+		new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe("http://localhost:8080/#!home"));
+		driver.findElement(By.cssSelector(".v-grid-row:nth-child(4) > .v-grid-cell")).click();
+		Assert.assertTrue("Question didn't load",new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe("http://localhost:8080/#!questionGrid")));	
+	}
+
 }
+

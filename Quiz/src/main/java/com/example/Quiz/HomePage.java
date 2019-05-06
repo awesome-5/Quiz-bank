@@ -64,13 +64,6 @@ public class HomePage extends VerticalLayout implements View {
 		{
 			Notification.show("Value: " + e.getItem().getcourseCode());
 			CurrentCourse=e.getItem().getcourseCode();
-			try {
-				new QuestionGridView().service.populateGrid();
-			} catch (ClassNotFoundException | JSchException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
 			System.out.println("Home "+ CurrentCourse );
 			MyUI.navigator.navigateTo(MyUI.GRIDVIEW);
 		});
@@ -94,8 +87,11 @@ public class HomePage extends VerticalLayout implements View {
 					DBConnection dbca = new DBConnection();
 					dbca.postDB("INSERT INTO Course VALUES('"+LoginView.loggedInUser + "','" + addCourse.getValue() + "')" );
 					label.setValue("Course added");
+				}else if (addCourse.getValue().equals("")){
+					label.setValue("Cannot add an empty course");
 				}else {
-					label.setValue("Cannot add an existing or empty course");
+					label.setValue("Cannot add an existing course");
+
 				}
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 				label.setValue("Course not added");

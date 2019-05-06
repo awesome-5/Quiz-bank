@@ -41,7 +41,6 @@ public class QuestionGridView extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-
 		Page.getCurrent().setTitle("Question Page");	
 		//setting filter
 		filterText.setPlaceholder("Filter...");

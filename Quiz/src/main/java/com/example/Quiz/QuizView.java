@@ -12,6 +12,7 @@ import com.vaadin.shared.ui.dnd.DropEffect;
 import com.vaadin.shared.ui.dnd.EffectAllowed;
 import com.vaadin.shared.ui.grid.DropLocation;
 import com.vaadin.shared.ui.grid.DropMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -25,14 +26,17 @@ import com.vaadin.ui.dnd.DropTargetExtension;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class QuizView extends VerticalLayout implements View {
-
+	VerticalLayout mainVertLayout = new VerticalLayout();
 	HorizontalLayout mainLayout = new HorizontalLayout();
 	public Label label = new Label(null);
 	Grid<Question> gridFrom = new Grid<>(Question.class);
 	Grid<Question> gridTo = new Grid<>(Question.class);
+	Grid<Question> clearGrid = new Grid<>(Question.class);
+
 	DropTargetExtension<Grid> dropTarget = new DropTargetExtension<>(gridTo);
 	static String CurrentCourse="";
 	Boolean sameCourse = false;
+	Button backBtn = new Button("Back");	
 	private List<Question> draggedItems;
 	ArrayList<Question> blankObj = new ArrayList<Question>();
 
@@ -54,6 +58,7 @@ public class QuizView extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		gridTo.getDataProvider().refreshAll();
 		updateGrid();
 		gridFrom.setCaption("Question Bank");
 		gridTo.setCaption("Selected Questions");
@@ -61,11 +66,13 @@ public class QuizView extends VerticalLayout implements View {
 		Page.getCurrent().setTitle("Create Quiz Page");	
 		gridFrom.setColumns("questionText","questionAnswer","type", "marks", "difficulty","time","lastUsed","variantOf");
 		gridTo.setColumns("questionText","questionAnswer","type", "marks", "difficulty","time","lastUsed","variantOf");
+		mainVertLayout.setSizeFull();
 		gridFrom.setSizeFull();
 		gridTo.setSizeFull();
 		mainLayout.setSizeFull();
 		mainLayout.addComponents(gridFrom,gridTo);
-		addComponents(mainLayout);  
+		mainVertLayout.addComponents(mainLayout,backBtn);
+		addComponents(mainVertLayout);  
 
 		
 
@@ -99,6 +106,9 @@ public class QuizView extends VerticalLayout implements View {
 				// Remove reference to dragged items
 				draggedItems = null;
 			}
+		});
+		backBtn.addClickListener(e -> {
+			MyUI.navigator.navigateTo(MyUI.GRIDVIEW);
 		});
 
 

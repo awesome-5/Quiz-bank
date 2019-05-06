@@ -81,7 +81,7 @@ public class LoginView extends VerticalLayout implements View
 					password.clear();
 				}
 				else {
-					Notification.show("Login Successful");
+					//Notification.show("Login Successful");
 					loggedInUser=userName.getValue();
 	            	MyUI.navigator.navigateTo(MyUI.HOMEPAGE);
 

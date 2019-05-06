@@ -100,6 +100,7 @@ public class QuestionService {
 	public void populateGrid() throws ClassNotFoundException, JSchException, SQLException {
 	
 			if (findAll().isEmpty()) {
+				System.out.println("in populate grid");
 				DBConnection dbc = new DBConnection();
 				ArrayList<Question> results=new ArrayList<>();
 				results=dbc.readDBQuestion();
