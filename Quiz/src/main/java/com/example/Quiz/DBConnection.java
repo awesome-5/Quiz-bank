@@ -14,7 +14,7 @@ import com.jcraft.jsch.Session;
 import com.vaadin.ui.Notification;
 
 public class DBConnection {
-	ArrayList<course> courseObj = new ArrayList<course>();
+	ArrayList<Course> courseObj = new ArrayList<Course>();
 	
 	public String readDBUser(String sql) throws ClassNotFoundException, JSchException, SQLException {
 
@@ -202,7 +202,7 @@ public class DBConnection {
 
 			while (rs.next()) {
 				//adds each new course to an arraylist of courses
-				course c  = new course();
+				Course c  = new Course();
 				c.setcourseCode(rs.getString("courseCode"));
 				output =rs.getString("courseCode");
 				courseObj.add(c);
@@ -217,7 +217,7 @@ public class DBConnection {
 		return(output);
 	}
 
-	public void sendToDBQuestion(Question q) throws ClassNotFoundException, JSchException, SQLException {
+	public void sendToDBQuestion(Question q, Long idOfMotherQuestion) throws ClassNotFoundException, JSchException, SQLException {
 
 		int lport=5656;
 		String rhost="127.0.0.1";
@@ -243,70 +243,60 @@ public class DBConnection {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(dbUrl, uName, uPass);
 			System.out.println ("Database connection established");
+			ResultSet rss;
 			Statement statement = con.createStatement();
 
-
+			//get all information of the questions filled in the form
 			String question = q.getQuestionText();
 			String answer = q.getQuestionAnswer();
-
 			if (answer.isEmpty())
-			{
 				answer="NULL";
-			}
-
 			int type = 0;
 			if (q.getType()==QuestionType.MCQ)
-			{
 				type = 1;
-			}
-
 			String mark = q.getMarks();
-
 			int difficulty=0;
 			if(q.getDifficulty()==QuestionDifficulty.Easy)
-			{
 				difficulty = 0;
-			}
 			else if(q.getDifficulty()==QuestionDifficulty.MediumEasy)
-			{
 				difficulty = 1;
-			}
 			else if (q.getDifficulty()==QuestionDifficulty.Medium)
-			{
 				difficulty = 2;
-			}
 			else if(q.getDifficulty()==QuestionDifficulty.MediumHard)
-			{
 				difficulty =3 ;
-			}
 			else if(q.getDifficulty()==QuestionDifficulty.Hard)
-			{
 				difficulty = 4;
-			}
-
 			int lines=q.getLines();
-
 			String options=q.getOptions();
 			if (options.isEmpty())
-			{
 				options="NULL";
-			}
-
 			int time = Integer.parseInt(q.getTime());
-			String variantOf = q.getVariantOf();
+			String variantOf = String.valueOf(idOfMotherQuestion);
 			String courseCode = q.getCourseCode();
 
-			String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + "nikola" + "','" + question + "','" + answer + "'," + type + ",'" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
-			statement.executeUpdate(sql);
 
-			String sqlID="SELECT * FROM Question WHERE username = '"+LoginView.loggedInUser+ "' AND question ='" + question +"'";
-			ResultSet rss=statement.executeQuery(sqlID);
-			int id = 0;
-			while (rss.next()) {
-				id = rss.getInt("questionID");;
+			//modify question
+			String questionInDB = "SELECT * FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+			rss=statement.executeQuery(questionInDB);
+			System.out.println("result of the query"+rss);
+			if(rss != null) {
+				System.out.println("question is being modified");
+				String sqlmofid= "UPDATE Question SET question='" + question + "', answer='" + answer + "', type='" + type + "', mark='" + mark + "', difficulty='" + difficulty + "', time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+				statement.executeUpdate(sqlmofid);
 			}
-
-
+			
+			else {
+				//add new question in DB
+				String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + "nikola" + "','" + question + "','" + answer + "'," + type + ",'" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
+				statement.executeUpdate(sql);
+	
+				String sqlID="SELECT * FROM Question WHERE username = '"+LoginView.loggedInUser+ "' AND question ='" + question +"'";
+				rss=statement.executeQuery(sqlID);
+				int id = 0;
+				while (rss.next()) {
+					id = rss.getInt("questionID");;
+				}
+		
 			String sqlmcq="INSERT INTO MCQ VALUES('"+ id + "','" + options + "')" ;
 			System.out.println(options);
 			statement.executeUpdate(sqlmcq);
@@ -316,8 +306,13 @@ public class DBConnection {
 			//			String sqlstd="INSERT INTO Standard VALUES('"+ id + "','" + space + "','" + lines +"')" ;
 			//			statement.executeUpdate(sqlstd);
 			//			}
+		
+			
+			
 
 			System.out.println("Success");
+			}
+			
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
@@ -327,6 +322,55 @@ public class DBConnection {
 
 	}
 
+	public void deleteQuestionFromDB (Question q) throws ClassNotFoundException, JSchException, SQLException {
+
+		int lport=5656;
+		String rhost="127.0.0.1";
+		String host="lamp.ms.wits.ac.za";
+		int rport=3306;
+		String dbUrl = "jdbc:mysql://"+rhost+":"+lport+"/d1268698";
+		String uName = "s1268698";
+		String uPass = "s1268698";
+		Connection con = null;
+		Session session = null;
+		ResultSet rss;
+
+		try {
+
+			JSch jsch = new JSch();
+			session = jsch.getSession(uName, host, 22);
+			session.setPassword(uPass);
+			session.setConfig("StrictHostKeyChecking", "no");
+			System.out.println("Establishing Connection...");
+			session.connect();
+			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
+			System.out.println("localhost:" + assigned_port + " -> " + rhost + ":" + rport);
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection(dbUrl, uName, uPass);
+			System.out.println ("Database connection established");
+			Statement statement = con.createStatement();
+			
+
+			String deleteQuesion = "DELETE FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+			statement.executeUpdate(deleteQuesion);
+			System.out.println("question deleted");
+			
+			String findVariants = "SELECT * FROM Question WHERE variantOf = '"+QuestionGridView.CurrentId+"'";
+			rss=statement.executeQuery(findVariants);
+			if (rss!=null) {
+				String sqlmofid= "UPDATE Question SET variantOf=NULL WHERE variantOf = '"+QuestionGridView.CurrentId+"'";
+				statement.executeUpdate(sqlmofid);
+			}
+			
+		} catch (SQLException err) {
+			System.out.println(err);
+		}
+		session.disconnect();
+		con.close();
+
+
+	}
 	public void postDB(String sql) throws ClassNotFoundException, JSchException, SQLException {
 
 

@@ -17,12 +17,12 @@ import com.vaadin.ui.VerticalLayout;
 public class MyUI extends UI {
 
 	static Navigator navigator;
-	protected static final String MAINVIEW = "main";
+	protected static final String GRIDVIEW = "question grid";
 	protected static final String LOGINVIEW = "login";
 	protected static final String HOMEPAGE = "home";
 	protected static final String SIGNUP = "signup";
 	protected static final String FORGOTVIEW = "forgot password";
-
+	protected static final String QUIZVIEW = "Quiz";
 	@Override
 	protected void init(VaadinRequest request) {
 		getPage().setTitle("Quiz Bank");
@@ -33,11 +33,11 @@ public class MyUI extends UI {
 		// Create and register the views
 		navigator.addView("", new LoginView());
 		navigator.addView(LOGINVIEW, new LoginView());
-		navigator.addView(MAINVIEW, new MainView());
+		navigator.addView(GRIDVIEW, new QuestionGridView());
 		navigator.addView(HOMEPAGE, new HomePage());
 		navigator.addView(SIGNUP, new SignupView());
 		navigator.addView(FORGOTVIEW, new ForgotPassView());		
-
+		navigator.addView(QUIZVIEW, new QuizView());
 	}
 
 

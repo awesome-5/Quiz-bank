@@ -101,7 +101,7 @@ public class Question implements Serializable, Cloneable {
 
 
 	public String getCourseCode() {
-		return courseCode;
+		return HomePage.CurrentCourse ;
 	}
 
 	public void setCourseCode(String courseCode) {

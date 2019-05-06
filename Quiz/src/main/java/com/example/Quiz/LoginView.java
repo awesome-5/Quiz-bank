@@ -44,9 +44,9 @@ public class LoginView extends VerticalLayout implements View
 	Button create = new Button("Sign Up");
 	Button forgot = new Button("Forgot Password");
 	Label label = new Label(null);
+	
 	@Override
 	public void enter(ViewChangeEvent event) {
-
 		
 		logIn.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 		create.setStyleName(ValoTheme.BUTTON_FRIENDLY);
@@ -67,6 +67,7 @@ public class LoginView extends VerticalLayout implements View
 		formlayout.addComponents(userName, password, label, hl, forgot);
 		panel.setContent(formlayout);
 		logIn.setClickShortcut(KeyCode.ENTER);
+		
 		logIn.addClickListener(log -> {
 			try {
 				DBConnection dbc = new DBConnection();

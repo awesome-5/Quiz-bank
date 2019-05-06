@@ -40,10 +40,9 @@ public class HomePage extends VerticalLayout implements View {
 	Label label = new Label(null);
 	TextField addCourse = new TextField();
 	Button createCourse = new Button("Create Course");	
-	Grid<course> grid = new Grid<>(course.class);
+	Grid<Course> grid = new Grid<>(Course.class);
 	static String CurrentCourse="";
 	Boolean sameCourse = false;
-	Button createTest=new Button("Create test");
 
 	//reads all the courses that link to the user that is currently logged in
 
@@ -81,29 +80,25 @@ public class HomePage extends VerticalLayout implements View {
 			Notification.show("Value: " + e.getItem().getcourseCode());
 			CurrentCourse=e.getItem().getcourseCode();
 			try {
-				new MainView().service.ensureTestData();
+				new QuestionGridView().service.populateGrid();
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
 			System.out.println("Home "+ CurrentCourse );
-			MyUI.navigator.navigateTo(MyUI.MAINVIEW);
+			MyUI.navigator.navigateTo(MyUI.GRIDVIEW);
 		});
 
 
 		createCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY);
-		Page.getCurrent().setTitle("Homeeee Page");	
-		vl.addComponents(addCourse,createCourse,createTest);
+		Page.getCurrent().setTitle("Home Page");	
+		vl.addComponents(addCourse, createCourse);
 		mainLayout.addComponents(grid,vl);
 		//mainLayout.setSizeFull();
 		addComponent(mainLayout);  
 
 
-		createTest.addClickListener(e -> {
-			
-		});
-		
 		createCourse.addClickListener(e -> {
 			try {
 				updateGrid(addCourse.getValue());

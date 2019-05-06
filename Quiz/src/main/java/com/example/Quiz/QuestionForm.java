@@ -32,15 +32,16 @@ public class QuestionForm extends FormLayout {
 	private TextField line = new TextField("Lines");
 	private TextField options = new TextField("MCQ Options");
 	private Button save = new Button("Save");
-	public  Button back = new Button("Back");
-
-	private QuestionService service = QuestionService.getInstance();
+	private Button delete = new Button("Delete");
+	private Button back = new Button("Back");
+	private Button saveVariant= new Button ("Save Variant");
+	
 	private Question question;
-	private MainView myUI;
+	private QuestionGridView myUI;
 	private Binder<Question> binder = new Binder<>(Question.class);
 
-	public QuestionForm(MainView mainView) {
-		this.myUI = mainView;
+	public QuestionForm(QuestionGridView gridView) {
+		this.myUI = gridView;
 		questionText.setRequiredIndicatorVisible(true);
 		questionText.setWidth("100%");
 		questionAnswer.setWidth("100%");
@@ -53,7 +54,7 @@ public class QuestionForm extends FormLayout {
 
 		setSizeUndefined();
 		
-		HorizontalLayout buttons = new HorizontalLayout(save,back);
+		HorizontalLayout buttons = new HorizontalLayout(save,saveVariant,delete, back);
 		addComponents(questionText, marks, difficulty, time, questionAnswer, type, line, options, buttons);
 		setWidth("100%");
 
@@ -87,11 +88,28 @@ public class QuestionForm extends FormLayout {
 				e1.printStackTrace();
 			}
 		});
+		
+		saveVariant.addClickListener(e -> {
+			try {
+				this.saveAsVariant();
+			} catch (ClassNotFoundException | JSchException | SQLException e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		delete.addClickListener(e -> {
+			try {
+				this.delete();
+			} catch (ClassNotFoundException | JSchException | SQLException e1) {
+				e1.printStackTrace();
+			}
+		});
+		
 		back.addClickListener(log -> {
 		//Page.getCurrent().reload();
 			setVisible(false);
-			MainView.toolbar.setVisible(true);
-			MainView.grid.setVisible(true);
+			QuestionGridView.toolbar.setVisible(true);
+			QuestionGridView.grid.setVisible(true);
 		});
 
 	}
@@ -104,10 +122,23 @@ public class QuestionForm extends FormLayout {
 	}
 
 	private void save() throws ClassNotFoundException, JSchException, SQLException {
-		service.save(question);
 		DBConnection dbc = new DBConnection();
-		dbc.sendToDBQuestion(question);
-		MainView.updateList();	
+		dbc.sendToDBQuestion(question, null);
+		QuestionGridView.updateList();	
+		setVisible(false);
+	}
+
+	private void saveAsVariant() throws ClassNotFoundException, JSchException, SQLException {
+		DBConnection dbc = new DBConnection();
+		dbc.sendToDBQuestion(question, QuestionGridView.CurrentId );
+		QuestionGridView.updateList();	
+		setVisible(false);
+	}
+	
+	private void delete() throws ClassNotFoundException, JSchException, SQLException {
+		DBConnection dbc = new DBConnection();
+		dbc.deleteQuestionFromDB(question);
+		QuestionGridView.updateList();	
 		setVisible(false);
 	}
 }
