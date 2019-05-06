@@ -30,6 +30,7 @@ public class QuestionPageTests {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
+  
   @Before
   public void setUp() {
 	  System.setProperty("webdriver.chrome.driver", "/Users/clara/Desktop/Software Design/filesWeNeed/chromedriver");
