@@ -211,7 +211,7 @@ public class DBConnection {
 		return(output);
 	}
 
-	public void sendToDBQuestion(Question q, Long idOfMotherQuestion) throws ClassNotFoundException, JSchException, SQLException {
+	public void sendToDBQuestion(Question q, Boolean isModified) throws ClassNotFoundException, JSchException, SQLException {
 
 		int lport=5656;
 		String rhost="127.0.0.1";
@@ -265,11 +265,16 @@ public class DBConnection {
 			if (options.isEmpty())
 				options="NULL";
 			int time = Integer.parseInt(q.getTime());
-			String variantOf = String.valueOf(idOfMotherQuestion);
+			String variantOf = String.valueOf(QuestionGridView.CurrentId);
 			String courseCode = q.getCourseCode();
 
 
 			//modify question
+			if (isModified) {
+				System.out.println("question is being modified");
+				String sqlmofid= "UPDATE Question SET question='"+ question + "', answer='" + answer + "', mark='"  + mark + "',difficulty='" + difficulty + "',time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+				statement.executeUpdate(sqlmofid);
+			}
 			/*String questionInDB = "SELECT * FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 			rss=statement.executeQuery(questionInDB);
 			System.out.println("result of the query"+rss);
@@ -280,7 +285,7 @@ public class DBConnection {
 			}*/
 			
 			//add new question in DB
-			
+			else {
 			String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + "nikola" + "','" + question + "','" + answer + "'," + type + ",'" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
 			statement.executeUpdate(sql);
 
@@ -306,6 +311,7 @@ public class DBConnection {
 			
 
 			System.out.println("Success");
+			}
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
@@ -326,6 +332,7 @@ public class DBConnection {
 		String uPass = "s1268698";
 		Connection con = null;
 		Session session = null;
+		ResultSet rss;
 
 		try {
 
@@ -342,11 +349,18 @@ public class DBConnection {
 			con = DriverManager.getConnection(dbUrl, uName, uPass);
 			System.out.println ("Database connection established");
 			Statement statement = con.createStatement();
-
+			
 			String deleteQuesion = "DELETE FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
-			//right syntax, pb in DB structure
 			statement.executeUpdate(deleteQuesion);
 			System.out.println("question deleted");
+			
+			String findVariants = "SELECT * FROM Question WHERE variantOf = '"+QuestionGridView.CurrentId+"'";
+			rss=statement.executeQuery(findVariants);
+			if (rss!=null) {
+				String sqlmofid= "UPDATE Question SET variantOf=NULL WHERE variantOf = '"+QuestionGridView.CurrentId+"'";
+				statement.executeUpdate(sqlmofid);
+			}
+			
 			
 		} catch (SQLException err) {
 			System.out.println(err);

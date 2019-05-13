@@ -15,6 +15,7 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.NativeSelect;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -123,16 +124,28 @@ public class QuestionForm extends FormLayout {
 
 	private void save() throws ClassNotFoundException, JSchException, SQLException {
 		DBConnection dbc = new DBConnection();
-		dbc.sendToDBQuestion(question, null);
-		QuestionGridView.updateList();	
-		setVisible(false);
+		if (!checkFields(question)) {
+			Notification.show("Fill all mandatory fields");
+		}
+		else {
+			if (QuestionGridView.CurrentId==null)		
+				dbc.sendToDBQuestion(question, false);
+			else dbc.sendToDBQuestion(question, true);
+			QuestionGridView.updateList();	
+			setVisible(false);
+		}
 	}
 
 	private void saveAsVariant() throws ClassNotFoundException, JSchException, SQLException {
 		DBConnection dbc = new DBConnection();
-		dbc.sendToDBQuestion(question, QuestionGridView.CurrentId );
-		QuestionGridView.updateList();	
-		setVisible(false);
+		if (!checkFields(question)) {
+			Notification.show("Fill all mandatory fields");
+		}
+		else {
+			dbc.sendToDBQuestion(question, false);
+			QuestionGridView.updateList();	
+			setVisible(false);
+		}
 	}
 	
 	private void delete() throws ClassNotFoundException, JSchException, SQLException {
@@ -140,5 +153,12 @@ public class QuestionForm extends FormLayout {
 		dbc.deleteQuestionFromDB(question);
 		QuestionGridView.updateList();	
 		setVisible(false);
+	}
+	
+	public Boolean checkFields(Question question) {
+		if (question.getQuestionText().isEmpty() || question.getMarks().isEmpty() || question.getTime().isEmpty() || question.getCourseCode().isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 }

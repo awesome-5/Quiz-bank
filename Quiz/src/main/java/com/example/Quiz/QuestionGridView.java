@@ -37,11 +37,12 @@ public class QuestionGridView extends VerticalLayout implements View {
 	HorizontalLayout main = new HorizontalLayout();
 	static CssLayout filtering = new CssLayout();
 	QuestionService service = QuestionService.getInstance();
-	static Long CurrentId;
+	static Long CurrentId=null;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Page.getCurrent().setTitle("Question Page");	
+		Page.getCurrent().setTitle("Question Grid");	
+		CurrentId=null;
 		//setting filter
 		filterText.setPlaceholder("Filter...");
 		filterText.addValueChangeListener(e -> updateList());
@@ -96,7 +97,8 @@ public class QuestionGridView extends VerticalLayout implements View {
 		updateList();
 		System.out.println("List Updated");
 		addComponent(layout);
-		//		 when selecting an element on the grid, fills the question form with the fields of the question 
+		
+		//when selecting an element on the grid, fills the question form with the fields of the question 
 		grid.asSingleSelect().addValueChangeListener(e -> {
 			if (e.getValue() == null) {
 				form.setVisible(false);
