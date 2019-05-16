@@ -22,3 +22,4 @@ jdk:
   - oraclejdk8
 language: java
 sudo: required
+script: mvn jetty:run
