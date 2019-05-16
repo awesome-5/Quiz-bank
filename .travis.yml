@@ -23,5 +23,4 @@ jdk:
 language: java
 sudo: required
 script:
-  - mvn jetty:run
   - mvn clean test
