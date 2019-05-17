@@ -20,11 +20,13 @@ before_install:
   - mvn clean install -X
 
 dist: trusty
+
 jdk: 
   - oraclejdk8
 language: java
+
 sudo: required 
 
 install:true 
 
-script: ./mvnw clean install
+script: ./mvn clean install
