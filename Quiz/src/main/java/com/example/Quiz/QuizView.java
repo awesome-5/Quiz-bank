@@ -49,15 +49,30 @@ public class QuizView extends VerticalLayout implements View {
 	Grid<Question> gridTo = new Grid<>(Question.class);
 	Label messageLabel = new Label();
 	DropTargetExtension<Grid> dropTarget = new DropTargetExtension<>(gridTo);
-	static String CurrentCourse="";
-	Boolean sameCourse = false;
 	Button backBtn = new Button("Back");
 	List<Question> draggedItems;
 	List<Question> draggedItemsFrom ;
 	List<Question> questionObj = new ArrayList<Question>();
 	ArrayList<Question> blankObj = new ArrayList<Question>();
 
+	public Boolean checkName(String name) {
+		try {
+			String temp ="";
+			DBConnection dbc = new DBConnection();
+			temp = dbc.readQuizName("SELECT quizName FROM Quiz WHERE quizName='"+addQuiz.getValue()+"'");
+			//System.out.println(temp);
+			if (temp==null){
+				return false;
+			} else if (temp.equals(name)){
+				return true;
+			}else {
+				return false;
+			}
 
+		} catch (ClassNotFoundException | JSchException | SQLException e1) {
+			return false;
+		}
+	}
 	//reads all the questions that link to the user that is currently logged in
 
 	public void updateGrid() {
@@ -127,7 +142,7 @@ public class QuizView extends VerticalLayout implements View {
 		//System.out.println("2");
 		});
 		rightToLeft.getGridDragSource().addDragStartListener(evnt -> {leftToRight.getGridDropTarget().setDropEffect(DropEffect.NONE);
-	//	System.out.println("3");
+		//	System.out.println("3");
 		});
 		rightToLeft.getGridDragSource().addDragEndListener(evet -> {leftToRight.getGridDropTarget().setDropEffect(null);
 		for (int i =0;i<questionObj.size();i++) 
@@ -136,7 +151,7 @@ public class QuizView extends VerticalLayout implements View {
 			if (questionObj.get(i) == draggedItemsFrom.get(0)) 
 				questionObj.remove(i); 
 		} 		
-	//	System.out.println("4");
+		//	System.out.println("4");
 		});
 		dragSource.addGridDragStartListener(eent ->{
 			// Keep reference to the dragged items
@@ -166,16 +181,38 @@ public class QuizView extends VerticalLayout implements View {
 			Page.getCurrent().reload();			
 			MyUI.navigator.navigateTo(MyUI.GRIDVIEW);
 		});
-//		Display.addClickListener(e -> {
-//			System.out.println("QOBJ --------------- "+questionObj.toString());
-//		});
+		//		Display.addClickListener(e -> {
+		//			System.out.println("QOBJ --------------- "+questionObj.toString());
+		//		});
 		saveTest.addClickListener(e -> {
-			postToDB(false);
-			System.out.println("SaveTest");
+			if (checkName(addQuiz.getValue())&&questionObj.size()==0) {
+				System.out.println("Please change the name of your test and add some questions to your test");
+				//System.out.println(questionObj.size());
+			}else if (checkName(addQuiz.getValue())&&questionObj.size()>0) {
+				System.out.println("Please change the name of your test");
+				//System.out.println(questionObj.size());
+			}else if(!checkName(addQuiz.getValue()) && questionObj.size()==0) {
+				System.out.println("Please add some questions to your test");
+			}
+			else  {
+				postToDB(false);
+				System.out.println("Test Saved");
+			}
 		});
 		saveExam.addClickListener(e -> {
-			postToDB(true);
-			System.out.println("SaveExam");
+			if (checkName(addQuiz.getValue())&&questionObj.size()==0) {
+				System.out.println("Please enter another name and add some questions to your test");
+				//System.out.println(questionObj.size());
+			}else if (checkName(addQuiz.getValue())&&questionObj.size()>0) {
+				System.out.println("Please change the name of your test");
+				//System.out.println(questionObj.size());
+			}else if(!checkName(addQuiz.getValue()) && questionObj.size()==0) {
+				System.out.println("Please add some questions to your test");
+			}
+			else  {
+				postToDB(true);
+				System.out.println("Exam Saved");
+			}
 		});
 	}	
 }
