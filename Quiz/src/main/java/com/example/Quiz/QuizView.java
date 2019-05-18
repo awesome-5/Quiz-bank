@@ -1,8 +1,14 @@
 package com.example.Quiz;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import com.jcraft.jsch.JSchException;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
@@ -12,11 +18,13 @@ import com.vaadin.shared.ui.dnd.DropEffect;
 import com.vaadin.shared.ui.dnd.EffectAllowed;
 import com.vaadin.shared.ui.grid.DropLocation;
 import com.vaadin.shared.ui.grid.DropMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.GridDragSource;
 import com.vaadin.ui.components.grid.GridDropTarget;
@@ -28,17 +36,27 @@ import com.vaadin.ui.themes.ValoTheme;
 public class QuizView extends VerticalLayout implements View {
 	VerticalLayout mainVertLayout = new VerticalLayout();
 	HorizontalLayout mainLayout = new HorizontalLayout();
-	public Label label = new Label(null);
+	HorizontalLayout botBar = new HorizontalLayout();
+	Label displayLable = new Label();
+	Label label = new Label("Test Name: ");
+	Button saveTest = new Button("Save As Test");	
+	Button saveExam = new Button("Save As Exam");	
+	//Button Display = new Button("Display");	
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	LocalDate localDate = LocalDate.now();
+	TextField addQuiz = new TextField();
 	Grid<Question> gridFrom = new Grid<>(Question.class);
 	Grid<Question> gridTo = new Grid<>(Question.class);
-	Grid<Question> clearGrid = new Grid<>(Question.class);
-
+	Label messageLabel = new Label();
 	DropTargetExtension<Grid> dropTarget = new DropTargetExtension<>(gridTo);
 	static String CurrentCourse="";
 	Boolean sameCourse = false;
-	Button backBtn = new Button("Back");	
-	private List<Question> draggedItems;
+	Button backBtn = new Button("Back");
+	List<Question> draggedItems;
+	List<Question> draggedItemsFrom ;
+	List<Question> questionObj = new ArrayList<Question>();
 	ArrayList<Question> blankObj = new ArrayList<Question>();
+
 
 	//reads all the questions that link to the user that is currently logged in
 
@@ -51,15 +69,26 @@ public class QuizView extends VerticalLayout implements View {
 		}
 	}
 	public TargetDataProviderUpdater<Question> updateNewGrid() {
-
 		gridTo.setItems(blankObj);
 		return null;
+	}
+	public void postToDB(Boolean TestOrExam) {
+		String QuestionIDPost = "";
+		for (int i = 0 ; i<questionObj.size() ; i++) {
+			QuestionIDPost+=""+questionObj.get(i).getId()+",";
+		}
+		QuestionIDPost=QuestionIDPost.substring(0, QuestionIDPost.length()-1);
+		try {
+			DBConnection dbca = new DBConnection();
+			dbca.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + QuestionIDPost + "'," + 0 + ","+"NULL"+","+ TestOrExam +",'"+ addQuiz.getValue() +"')" );
+		} catch (ClassNotFoundException | JSchException | SQLException e1) {
+		}
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		gridTo.getDataProvider().refreshAll();
 		updateGrid();
+		label.addStyleName("large");
 		gridFrom.setCaption("Question Bank");
 		gridTo.setCaption("Selected Questions");
 		//gridTo.addStyleName(ValoTheme.LAYOUT_CARD);
@@ -70,14 +99,19 @@ public class QuizView extends VerticalLayout implements View {
 		gridFrom.setSizeFull();
 		gridTo.setSizeFull();
 		mainLayout.setSizeFull();
+		botBar.addComponents(backBtn,label,addQuiz,saveTest,saveExam);
 		mainLayout.addComponents(gridFrom,gridTo);
-		mainVertLayout.addComponents(mainLayout,backBtn);
+		mainVertLayout.addComponents(mainLayout,botBar,displayLable);
 		addComponents(mainVertLayout);  
-
-		
+		addQuiz.setValue(""+dtf.format(localDate)+"_"+HomePage.CurrentCourse);
+		addQuiz.setWidth("15em");
+		saveTest.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		saveExam.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 
 		GridDragSource<Question> dragSource = new GridDragSource<>(gridFrom);
 		GridDropTarget<Question> dropTarget = new GridDropTarget<>(gridTo, DropMode.ON_GRID);
+		GridDragSource<Question> dragSource2 = new GridDragSource<>(gridTo);
+
 		dragSource.setEffectAllowed(EffectAllowed.MOVE);
 		dropTarget.setDropEffect(DropEffect.MOVE);
 
@@ -86,15 +120,33 @@ public class QuizView extends VerticalLayout implements View {
 		leftToRight.setTargetDataProviderUpdater(updateNewGrid());
 
 
-		leftToRight.getGridDragSource().addDragStartListener(evnt -> rightToLeft.getGridDropTarget().setDropEffect(DropEffect.NONE));
-		leftToRight.getGridDragSource().addDragEndListener(evet -> rightToLeft.getGridDropTarget().setDropEffect(null));
-		rightToLeft.getGridDragSource().addDragStartListener(evnt -> leftToRight.getGridDropTarget().setDropEffect(DropEffect.NONE));
-		rightToLeft.getGridDragSource().addDragEndListener(evet -> leftToRight.getGridDropTarget().setDropEffect(null));
+		leftToRight.getGridDragSource().addDragStartListener(evnt -> {rightToLeft.getGridDropTarget().setDropEffect(DropEffect.NONE);
+		//System.out.println("1");
+		});
+		leftToRight.getGridDragSource().addDragEndListener(evet -> {rightToLeft.getGridDropTarget().setDropEffect(null);
+		//System.out.println("2");
+		});
+		rightToLeft.getGridDragSource().addDragStartListener(evnt -> {leftToRight.getGridDropTarget().setDropEffect(DropEffect.NONE);
+	//	System.out.println("3");
+		});
+		rightToLeft.getGridDragSource().addDragEndListener(evet -> {leftToRight.getGridDropTarget().setDropEffect(null);
+		for (int i =0;i<questionObj.size();i++) 
+		{ 
+			//System.out.println("GRID FROM :::::---::::: "+draggedItemsFrom.toString());
+			if (questionObj.get(i) == draggedItemsFrom.get(0)) 
+				questionObj.remove(i); 
+		} 		
+	//	System.out.println("4");
+		});
+		dragSource.addGridDragStartListener(eent ->{
+			// Keep reference to the dragged items
+			draggedItems = eent.getDraggedItems();
+		});
+		dragSource2.addGridDragStartListener(t ->{
+			// Keep reference to the dragged items
+			draggedItemsFrom = t.getDraggedItems();
+		});
 
-		dragSource.addGridDragStartListener(eent ->
-		// Keep reference to the dragged items
-		draggedItems = eent.getDraggedItems()
-				);
 
 		// Add drag end listener
 		dragSource.addGridDragEndListener(vent -> {
@@ -104,14 +156,27 @@ public class QuizView extends VerticalLayout implements View {
 				.removeAll(draggedItems);
 				gridFrom.getDataProvider().refreshAll();
 				// Remove reference to dragged items
+				//System.out.println("GRID TO :::::---::::: "+draggedItems.get(0).toString());
+				questionObj.add(draggedItems.get(0));
 				draggedItems = null;
 			}
 		});
+
 		backBtn.addClickListener(e -> {
+			Page.getCurrent().reload();			
 			MyUI.navigator.navigateTo(MyUI.GRIDVIEW);
 		});
-
-
+//		Display.addClickListener(e -> {
+//			System.out.println("QOBJ --------------- "+questionObj.toString());
+//		});
+		saveTest.addClickListener(e -> {
+			postToDB(false);
+			System.out.println("SaveTest");
+		});
+		saveExam.addClickListener(e -> {
+			postToDB(true);
+			System.out.println("SaveExam");
+		});
 	}	
 }
 

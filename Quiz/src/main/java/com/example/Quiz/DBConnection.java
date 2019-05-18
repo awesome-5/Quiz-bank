@@ -286,7 +286,7 @@ public class DBConnection {
 			
 			//add new question in DB
 			else {
-			String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + "nikola" + "','" + question + "','" + answer + "'," + type + ",'" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
+			String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + LoginView.loggedInUser + "','" + question + "','" + answer + "'," + type + ",'" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
 			statement.executeUpdate(sql);
 
 			String sqlID="SELECT * FROM Question WHERE username = '"+LoginView.loggedInUser+ "' AND question ='" + question +"'";

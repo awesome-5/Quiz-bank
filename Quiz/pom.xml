@@ -98,6 +98,13 @@
 			<version>3.12.0</version>
 			<scope>test</scope>
 		</dependency>
+<dependency>
+	<groupId>com.vaadin</groupId>
+	<artifactId>vaadin-confirm-dialog-flow</artifactId>
+	<version>1.0.1</version>
+</dependency>
+<!-- Thanks for using https://jar-download.com -->
+
 	</dependencies>
 
 	<build>

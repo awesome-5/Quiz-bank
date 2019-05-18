@@ -17,7 +17,7 @@ public class LoginViewTest {
 	JavascriptExecutor js;
 	@Before
 	public void setUp() {
-		System.setProperty("webdriver.gecko.driver", "/usr/bin/geckodriver");
+		System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
 		driver = new FirefoxDriver();
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
