@@ -236,6 +236,12 @@ public class TestView extends VerticalLayout implements View {
 
 		});
 
+		edit.addClickListener(e->
+		{
+			MyUI.navigator.navigateTo(MyUI.EDITDRAGVIEW);
+
+		});
+		
 		viewFinal.addClickListener(e->
 		{
 			MyUI.navigator.navigateTo(MyUI.TESTQUESTIONS);

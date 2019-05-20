@@ -34,7 +34,7 @@ public class QuestionPageTests {
   @Before
   public void setUp() {
 
-    System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
+   // System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
 	  
 		driver = new FirefoxDriver();
     js = (JavascriptExecutor) driver;

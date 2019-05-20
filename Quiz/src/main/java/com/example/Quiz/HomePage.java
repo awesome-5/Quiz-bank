@@ -84,7 +84,7 @@ public class HomePage extends VerticalLayout implements View {
 		mainLayout.setMargin(false);
 		mainLayout.setComponentAlignment(topBar,Alignment.TOP_CENTER );			
 		addComponent(mainLayout);  
-		grid.setBodyRowHeight(50);
+		grid.setBodyRowHeight(60);
 		grid.setHeightMode(HeightMode.ROW);
 
 		createCourse.addClickListener(e -> {
