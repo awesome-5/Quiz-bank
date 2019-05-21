@@ -8,8 +8,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.gargoylesoftware.htmlunit.javascript.host.URL;
 
 public class SignUpTest {
 	private WebDriver driver;
@@ -17,10 +20,13 @@ public class SignUpTest {
 	JavascriptExecutor js;
 	@Before
 	public void setUp() {
-		//System.setProperty("webdriver.gecko.driver", "C:\\geckodriver.exe");
-		driver = new FirefoxDriver();
+		System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+ "/src/main/resources/geckodriver");
+		FirefoxOptions options = new FirefoxOptions();
+		options.setHeadless(true);
+		driver = new FirefoxDriver(options);
 		js = (JavascriptExecutor) driver;
 		vars = new HashMap<String, Object>();
+	
 	}
 	@After
 	public void tearDown() {
@@ -32,22 +38,18 @@ public class SignUpTest {
 	{
 
 		driver.get("http://localhost:8080/#!signup");
-		driver.manage().window().maximize();
 		WebDriverWait wait = new WebDriverWait(driver, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".v-slot:nth-child(3) > .v-button")));
 		driver.findElement(By.cssSelector(".v-slot:nth-child(3) > .v-button")).click();
-		Assert.assertTrue("Cancel didn't work",new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe("http://localhost:8080/#!login")));	
-
+		Assert.assertTrue(new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe("http://localhost:8080/#!login")));	
+		System.out.println("Success");
 	}
 
 	@Test
 	public void SignUpPasswordDontMatch() {
-
 		driver.get("http://localhost:8080/#!signup");
-		driver.manage().window().maximize();
 		WebDriverWait wait = new WebDriverWait(driver, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".v-slot:nth-child(1) > .v-button")));
-
 		driver.findElement(By.id("gwt-uid-3")).click();
 		driver.findElement(By.id("gwt-uid-3")).sendKeys("A");
 		driver.findElement(By.id("gwt-uid-5")).click();
@@ -61,20 +63,18 @@ public class SignUpTest {
 		driver.findElement(By.id("gwt-uid-13")).click();
 		driver.findElement(By.id("gwt-uid-13")).sendKeys("b");
 		driver.findElement(By.cssSelector(".v-slot:nth-child(1) > .v-button")).click();
-
 		driver.findElement(By.cssSelector(".v-slot:nth-child(1) > .v-button")).click();
 		WebDriverWait wait2 = new WebDriverWait(driver, 5);
 		wait2.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-errorindicator")));
+		System.out.println("Success");
+
 	}
 
 	@Test
 	public void SignUpUsernameTaken() {
-
 		driver.get("http://localhost:8080/#!signup");
-		driver.manage().window().maximize();
 		WebDriverWait wait = new WebDriverWait(driver, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".v-slot:nth-child(1) > .v-button")));
-
 		driver.findElement(By.id("gwt-uid-3")).click();
 		driver.findElement(By.id("gwt-uid-3")).sendKeys("a");
 		driver.findElement(By.id("gwt-uid-5")).sendKeys("a");
@@ -89,13 +89,13 @@ public class SignUpTest {
 		driver.findElement(By.cssSelector(".v-slot:nth-child(1) > .v-button")).click();
 		WebDriverWait wait2 = new WebDriverWait(driver, 20);
 		wait2.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".v-errorindicator")));
+		System.out.println("Success");
+
 	}
 
 	@Test
 	public void SignUpTextViewErrors() {
-
 		driver.get("http://localhost:8080/#!signup");
-		driver.manage().window().maximize();
 		WebDriverWait wait = new WebDriverWait(driver, 100);
 		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".v-slot:nth-child(1) > .v-button")));
 
@@ -107,6 +107,7 @@ public class SignUpTest {
 		wait2.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#gwt-uid-8 > .v-errorindicator")));
 		wait2.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#gwt-uid-4 > .v-errorindicator")));
 		wait2.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#gwt-uid-12 > .v-errorindicator")));
+		System.out.println("Success");
 	}
 
 }
