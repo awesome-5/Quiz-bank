@@ -20,7 +20,7 @@ public class LoginViewTest {
 	JavascriptExecutor js;
 	@Before
 	public void setUp() {
-		System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+ "/src/main/resources/geckodriver");
+		System.setProperty("webdriver.gecko.driver", "/usr/bin/geckodriver");
 		FirefoxOptions options = new FirefoxOptions();
 		options.setHeadless(true);
 		driver = new FirefoxDriver(options);
