@@ -23,4 +23,4 @@ jdk:
 language: java
 sudo: required
 after_install:
-  maven install
+  mvn test -B
