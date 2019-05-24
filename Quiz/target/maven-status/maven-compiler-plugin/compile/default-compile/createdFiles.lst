@@ -1,5 +1,6 @@
 com/example/Quiz/ResetPasswordView.class
 com/example/Quiz/HomePage.class
+com/example/Quiz/SyncPipe.class
 com/example/Quiz/MyUI.class
 com/example/Quiz/QuestionService$1.class
 com/example/Quiz/ForgotPassView.class
@@ -13,6 +14,7 @@ com/example/Quiz/Quiz.class
 com/example/Quiz/QuestionType.class
 com/example/Quiz/QuestionGridView.class
 com/example/Quiz/Course.class
+com/example/Quiz/latexTemplate.class
 com/example/Quiz/LoginView$1.class
 com/example/Quiz/CommonsEmailService.class
 com/example/Quiz/SignupView$1.class
@@ -24,4 +26,5 @@ com/example/Quiz/LoginView$2.class
 com/example/Quiz/LoginView.class
 com/example/Quiz/Question.class
 com/example/Quiz/DBConnection.class
+com/example/Quiz/QuestionFormTest.class
 com/example/Quiz/QuestionDifficulty.class

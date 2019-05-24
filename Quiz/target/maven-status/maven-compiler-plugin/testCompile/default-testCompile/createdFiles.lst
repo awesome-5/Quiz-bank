@@ -1,1 +1,14 @@
 SignUpTest.class
+TestViewTest.class
+QuestionTest.class
+LoginViewTest.class
+QuizTest.class
+HomePageTest.class
+EditDragViewTest.class
+ResetPasswordViewTest.class
+CourseTest.class
+TestQuestionViewTest.class
+DragViewTest.class
+ForgotPassViewTest.class
+DBConnectionTest.class
+QuestionGridViewTest.class

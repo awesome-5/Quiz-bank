@@ -29,7 +29,13 @@ public class DBConnection {
 	PrintStream ps2 = new PrintStream(os2);
 	public static OutputStream os3 = new ByteArrayOutputStream();
 	PrintStream ps3 = new PrintStream(os3);
-
+	public static OutputStream os4 = new ByteArrayOutputStream();
+	PrintStream ps4 = new PrintStream(os4);
+	public static OutputStream os5 = new ByteArrayOutputStream();
+	PrintStream ps5 = new PrintStream(os5);
+	public static OutputStream os6 = new ByteArrayOutputStream();
+	PrintStream ps6 = new PrintStream(os6);
+	
 	public String readDBUser(String sql) throws ClassNotFoundException, JSchException, SQLException {
 
 		String output = null;
@@ -70,7 +76,6 @@ public class DBConnection {
 
 
 		} catch (SQLException err) {
-			output = "GET ERROR";
 		}
 		session.disconnect();
 		con.close();
@@ -117,7 +122,6 @@ public class DBConnection {
 
 
 		} catch (SQLException err) {
-			output = "GET ERROR";
 		}
 		session.disconnect();
 		con.close();
@@ -199,7 +203,7 @@ public class DBConnection {
 				}
 				else if(difficulty==4)
 				{
-					temp.setDifficulty(QuestionDifficulty.MediumHard);
+					temp.setDifficulty(QuestionDifficulty.Hard);
 				}
 
 				temp.setTime(time);
@@ -211,14 +215,15 @@ public class DBConnection {
 
 				System.out.println(output);
 			}
-			System.setOut(ps);
-			System.out.print("success");
-			PrintStream originalOut = System.out;
-			System.setOut(originalOut);
+			
 
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
+		System.setOut(ps);
+		System.out.print("success");
+		PrintStream originalOut = System.out;
+		System.setOut(originalOut);
 		session.disconnect();
 		con.close();
 		return output;
@@ -268,8 +273,8 @@ public class DBConnection {
 				output =rs.getString("courseCode");
 				courseObj.add(c);
 			}
-			System.setOut(ps);
-			System.out.print("success");
+			System.setOut(ps1);
+			System.out.print("success1");
 			PrintStream originalOut = System.out;
 			System.setOut(originalOut);
 
@@ -315,7 +320,7 @@ public class DBConnection {
 			String answer = q.getQuestionAnswer();
 			if (answer.isEmpty())
 				answer="NULL";
-			int type = 0;
+			int type = 0; //mcq
 			if (q.getType()==QuestionType.StandardQuestion)
 				type = 1;
 			String mark = q.getMarks();
@@ -345,8 +350,8 @@ public class DBConnection {
 				String sqlmofid= "UPDATE Question SET question='"+ question + "', answer='" + answer+ "', type='"+type+"', mark='" + mark + "',difficulty='" + difficulty + "',time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 				statement.executeUpdate(sqlmofid);
 
-				System.setOut(ps1);
-				System.out.print("success");
+				System.setOut(ps2);
+				System.out.print("success2");
 				PrintStream originalOut = System.out;
 				System.setOut(originalOut);
 
@@ -383,8 +388,8 @@ public class DBConnection {
 					statement.executeUpdate(sqlmcq);
 				}
 
-				System.setOut(ps2);
-				System.out.print("success");
+				System.setOut(ps3);
+				System.out.print("success3");
 				PrintStream originalOut = System.out;
 				System.setOut(originalOut);
 			}
@@ -443,15 +448,18 @@ public class DBConnection {
 				String sqlmcq="DELETE FROM MCQ WHERE questionID = '"+q.getId()+"'";
 				statement.executeUpdate(sqlmcq);
 			}
-			else
+			else //std
 			{
 				String sqlmcq="DELETE FROM Standard WHERE questionID = '"+q.getId()+"'";
 				statement.executeUpdate(sqlmcq);
 			}
-
+			
 		} catch (SQLException err) {
-			System.out.println(err);
 		}
+		System.setOut(ps4);
+		System.out.print("success4");
+		PrintStream originalOut = System.out;
+		System.setOut(originalOut);
 		session.disconnect();
 		con.close();
 
@@ -495,7 +503,10 @@ public class DBConnection {
 
 
 		} catch (SQLException err) {
-
+			System.setOut(ps5);
+			System.out.print("success5");
+			PrintStream originalOut = System.out;
+			System.setOut(originalOut);
 		}
 		session.disconnect();
 		con.close();
