@@ -48,7 +48,6 @@ import com.vaadin.ui.themes.ValoTheme;
 		Button submit = new Button("Submit");
 		Button cancel = new Button("Cancel");
 		
-		
 		Panel panel = new Panel();
 		TextField fieldEmailValidator = new TextField();
 

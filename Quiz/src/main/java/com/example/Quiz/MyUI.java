@@ -25,8 +25,6 @@ public class MyUI extends UI {
 	protected static final String DRAGVIEW = "drag";
 	protected static final String TESTVIEW = "tests";
 	protected static final String TESTQUESTIONS = "testQuestions";
-	protected static final String EDITDRAGVIEW = "editDragView";
-	protected static final String RESETVIEW = "resetPassword";
 	@Override
 	protected void init(VaadinRequest request) {
 		getPage().setTitle("Quiz Bank");
@@ -44,8 +42,6 @@ public class MyUI extends UI {
 		navigator.addView(DRAGVIEW, new DragView());
 		navigator.addView(TESTVIEW, new TestView());
 		navigator.addView(TESTQUESTIONS, new TestQuestionView());
-		navigator.addView(EDITDRAGVIEW, new EditDragView());
-		navigator.addView(RESETVIEW, new ResetPasswordView());
 	}
 
 

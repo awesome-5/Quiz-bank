@@ -1,0 +1,144 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{xcolor}
+\usepackage{wits_code}
+\usepackage{wits_exam}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{wits_flowchart}
+\usepackage{wits_pseudocode}
+\usepackage{amsmath}
+\usepackage{charter}
+
+
+\usepackage[]{color}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{varioref}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\definecolor{darkgreen}{rgb}{0.0,0.7,0.0}
+\hypersetup{
+  colorlinks   = true,              %Colours links instead of ugly boxes
+  urlcolor     = blue,              %Colour for external hyperlinks
+  linkcolor    = blue,              %Colour of internal links
+  citecolor    = darkgreen                %Colour of citations
+}
+
+
+
+
+
+\newcommand{\todo}{\textbf{TODO}}
+\titleHeadTime{2}
+\titleHeadDay{1}
+\titleHeadMonth{Mar}
+\titleHeadYear{2018}
+\titleHeadVenue{CB Exams Hall}
+% First set up fieled that the exams office wants
+\courseno{COMS1018A}
+\papertitle{Introduction to Algorithms and Programming}
+\testmonth{March 1}
+\testyear{2018}
+%\yearofstudy{1} % None for Arts and Science
+\degrees{BSc, BSc (Applied Computing), BEconSci}
+\faculties{Science}
+\internalexaminer{Mr Steven James\\x-76157}
+\externalexaminer{Prof. Stefan Gruner (UP)}
+\specialmaterial{None}
+\hoursallowance{2 Hours}
+\instructions{\thetotalmarks\ Marks available. \thetotalmarks\ marks = 100\%.\\ Answer all questions. This is a closed book exam. This exam consists of 11 pages.}
+%% Following field not needed for \examcover but for \simpleexamhead
+%\department{Computer Science}
+%\solutiontitle{Mark scheme}
+
+%\newcommand{\ansline}{\\[15pt]\rule{\linewidth}{0.1pt}}
+%\newcommand{\anslineL}{\rule{\linewidth}{0.1pt}}
+    
+\usepackage{titling}
+\setlength{\droptitle}{-7em}   % This is your set screw
+\title{Introduction to Algorithms \& Programming (COMS1018A) \\ Class Test 1}
+\date{1 March 2018, 14h15--16h15, Exams Hall}
+\begin{document}
+%\makeexamcover
+\maketitle
+
+\begin{tabular}{lll}
+
+Name: \makebox[2in]{\hrulefill} & Row: \makebox[0.5in]{\hrulefill} ~~Seat: \makebox[0.5in]{\hrulefill} & Signature: \makebox[0.8in]{\hrulefill}   \\ \\
+ Student Number: \makebox[1.2in]{\hrulefill} & ID Number: \makebox[1.2in]{\hrulefill} & \\
+
+\end{tabular}
+
+\vspace*{10mm}
+
+
+\centerline{\textbf{For marking purposes only}}
+\begin{center}
+{\renewcommand{\arraystretch}{1.4} %<- modify value to suit your needs
+\begin{tabular}{|c|c|}
+\hline 
+Question 1 & \hspace*{10mm} \\  \hline
+Question 2 & \\ \hline
+Question 3 & \\ \hline
+Question 4 & \\ \hline
+%Question 5 & \\ \hline
+Total & \\ \hline
+\end{tabular}
+}
+\end{center}
+
+\section*{Instructions}
+
+\begin{itemize}
+\item Answer all questions in pen. \textbf{Do not write in pencil.}
+\item This test consists of $11$ pages. Ensure that you are not missing any pages.
+\item This is a \textbf{closed-book} test: you may not consult any written material or notes.
+\item You are allocated 2 hours to complete this test.
+\item There are $4$ questions and $50$ marks available.
+\item Ensure your cellphone is switched off.
+\end{itemize}
+
+\section*{Flowchart Symbols}
+
+\begin{minipage}{\linewidth}
+{\bf Basic symbols used in flowcharts}
+\centering
+\renewcommand{\tabcolsep}{2pt}
+\newcolumntype{P}{>{\centering\arraybackslash} m{32pt} } 
+\newcolumntype{A}{>{\centering\arraybackslash} m{32pt} } 
+\newcolumntype{T}{>{\arraybackslash} m{272pt} } 
+\begin{tabular}{PAT}
+\begin{tikzpicture} \node[startstop] {}; \end{tikzpicture} & $\rightarrow$ & Start/Stop the program \\
+\begin{tikzpicture} \node[process] {}; \end{tikzpicture} & $\rightarrow$ & Process, Instruction \\
+\begin{tikzpicture} \node[io] {}; \end{tikzpicture} & $\rightarrow$ & Input/Output \\		
+\begin{tikzpicture} \node[decision] {}; \end{tikzpicture} & $\rightarrow$ & Decision, Question (use in branching) \\
+\begin{tikzpicture} \node[connector] {}; \end{tikzpicture} & $\rightarrow$ & Connector (connect one part of the flowchart to another) \\	
+\end{tabular}
+\end{minipage}
+
+\pagebreak
+
+\begin{enumerate}
+
+\item New question
+\ansline
+
+\item New
+\ansline
+
+\item Question2
+\ansline
+
+\item Question2
+\ansline
+
+\item Question2 variant
+\ansline
+
+\item arfewrgdsfg
+\ansline
+
+\end{enumerate}
+\end{document}

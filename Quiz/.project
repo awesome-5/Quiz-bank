@@ -34,10 +34,4 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<variableList>
-		<variable>
-			<name>gecko</name>
-			<value>file:/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/geckodriver</value>
-		</variable>
-	</variableList>
 </projectDescription>

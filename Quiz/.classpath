@@ -20,30 +20,30 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="target/generated-resources/gwt">
+	<classpathentry kind="src" output="target/classes" path="target/generated-resources/gwt">
 		<attributes>
+			<attribute name="ignore_optional_problems" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/client-combined-3.141.59-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/client-combined-3.141.59.jar"/>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/java.jdbc-0.7.9.jar"/>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/jsch-0.1.5.jar"/>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/junit-4.12.jar"/>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/mysql-connector-java-6.0.2.jar"/>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/selenium-server-standalone-3.141.59.jar"/>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/selenium-chrome-driver-4.0.0-alpha-1.jar"/>
-	<classpathentry kind="lib" path="/Users/nastassjaphilippou/Desktop/Quiz-bank-Test-Page/Quiz/src/main/resources/selenium-java-3.141.59.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/client-combined-3.141.59.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/client-combined-3.141.59-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/java.jdbc-0.7.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/jsch-0.1.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/mysql-connector-java-6.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/selenium-server-standalone-3.141.59.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/vaadin-confirm-dialog-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/vaadin-confirm-dialog-flow-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nikola/Desktop/Quiz Project/filesWeNeed/vaadin-dialog-2.0.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,8 +1,14 @@
 package com.example.Quiz;
 import java.awt.Checkbox;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFileChooser;
+
 import com.jcraft.jsch.JSchException;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
@@ -27,6 +33,7 @@ import com.vaadin.ui.components.grid.GridRowDragger;
 import com.vaadin.ui.components.grid.TargetDataProviderUpdater;
 import com.vaadin.ui.dnd.DropTargetExtension;
 import com.vaadin.ui.themes.ValoTheme;
+
 
 public class TestView extends VerticalLayout implements View {
 	VerticalLayout wrap =new VerticalLayout();
@@ -53,9 +60,36 @@ public class TestView extends VerticalLayout implements View {
 	Button moveFinal = new Button("Move to Final");
 	Button moveDraft = new Button("Move to Draft");
 	Button viewFinal = new Button("View Quiz");
-	
+	Button exportDraft = new Button("Export Draft");
+	Button exportFinal = new Button("Export Final");
+	Button backBtn = new Button("Back");
+	ArrayList<Question> qTestObj=new ArrayList<Question>();
+
 	static String currentDraftQuiz;
 	static String currentFinalQuiz;
+
+
+	public static String getIDS(String s) {
+		String ret=null;
+		try {
+			DBConnection dbcGetIds = new DBConnection(); 
+			ret=dbcGetIds.getIDS(s);
+		} catch (ClassNotFoundException | JSchException | SQLException e1) {
+		}
+		return ret;
+	}
+
+	public static Question getQuestions(String s) {
+		Question q = new Question();
+		try {
+			DBConnection dbcQuestionTest = new DBConnection(); 
+			q= dbcQuestionTest.readQuestionsTest(s);
+
+		} catch (ClassNotFoundException | JSchException | SQLException e1) {
+		}
+		return q;
+	}
+
 	public static void updateDraftGrid(String s) {
 		try {
 			DBConnection dbcdraft = new DBConnection(); 
@@ -94,11 +128,11 @@ public class TestView extends VerticalLayout implements View {
 		draftBar.setComponentAlignment(draftExamBox, Alignment.MIDDLE_CENTER );	
 		finalBar.setComponentAlignment(finalTestBox, Alignment.MIDDLE_CENTER );	
 		finalBar.setComponentAlignment(finalExamBox, Alignment.MIDDLE_CENTER );	
-		
+
 		draftVLayout.addComponents(draftBar,draftGrid,bottomDraftBar);
 		finalVLayout.addComponents(finalBar,finalGrid,bottomFinalBar);
-		bottomDraftBar.addComponents(view,edit,delete,moveFinal);
-		bottomFinalBar.addComponents(viewFinal,moveDraft);
+		bottomDraftBar.addComponents(backBtn,view,edit,delete,moveFinal,exportDraft);
+		bottomFinalBar.addComponents(viewFinal,moveDraft,exportFinal);
 		mainLayout.addComponents(draftVLayout,finalVLayout);
 		delete.setEnabled(false);
 		edit.setEnabled(false);
@@ -106,12 +140,10 @@ public class TestView extends VerticalLayout implements View {
 		moveFinal.setEnabled(false);
 		moveDraft.setEnabled(false);
 		viewFinal.setEnabled(false);
+		exportDraft.setEnabled(false);
+		exportFinal.setEnabled(false);
 		addComponent(mainLayout);
 		wrap.setSizeFull();
-		draftTestBox.setValue(true);
-		draftExamBox.setValue(true);
-		finalTestBox.setValue(true);
-		finalExamBox.setValue(true);
 		draftGrid.setCaption("Draft Papers");
 		finalGrid.setCaption("Final Papers");
 		draftGrid.setSizeFull();
@@ -120,10 +152,13 @@ public class TestView extends VerticalLayout implements View {
 		draftGrid.setHeightMode(HeightMode.ROW);
 		finalGrid.setBodyRowHeight(60);
 		finalGrid.setHeightMode(HeightMode.ROW);
-		
-		
 
-// updates grids if boxes are ticked, exam, test or both
+
+		draftTestFlag = true;
+		draftExamFlag = true;
+		finalTestFlag = true;
+		finalExamFlag = true;
+		// updates grids if boxes are ticked, exam, test or both
 		draftTestBox.addValueChangeListener(eent ->{
 			draftTestFlag=draftTestBox.getValue();
 			updateDraftGrid();
@@ -143,54 +178,60 @@ public class TestView extends VerticalLayout implements View {
 			finalExamFlag=finalExamBox.getValue();
 			updateFinalGrid();
 		});
-		
-		
+
+
 		draftGrid.addItemClickListener(e ->
 		{
-		currentDraftQuiz=e.getItem().getQuizName();
+			currentDraftQuiz=e.getItem().getQuizName();
 		});
-		
+
 		finalGrid.addItemClickListener(e ->
 		{
 			currentFinalQuiz=e.getItem().getQuizName();
 		});
-		
-		
+
+
 		draftGrid.addSelectionListener(e ->
 		{
 			if (draftGrid.getSelectedItems().size()==0)
 			{
-			delete.setEnabled(false);
-			edit.setEnabled(false);
-			view.setEnabled(false);
-			moveFinal.setEnabled(false);
+				delete.setEnabled(false);
+				edit.setEnabled(false);
+				view.setEnabled(false);
+				moveFinal.setEnabled(false);
+				exportDraft.setEnabled(false);
 			}
 			else {
-			delete.setEnabled(true);
-			edit.setEnabled(true);
-			view.setEnabled(true);
-			moveFinal.setEnabled(true);
+				delete.setEnabled(true);
+				edit.setEnabled(true);
+				view.setEnabled(true);
+				moveFinal.setEnabled(true);
+				exportDraft.setEnabled(true);
 			}
 		});
 
 
 		finalGrid.addSelectionListener(e ->
 		{
-			
+
 			if (finalGrid.getSelectedItems().size()==0)
 			{
 				viewFinal.setEnabled(false);
 				moveDraft.setEnabled(false);
+				exportFinal.setEnabled(false);
+
 			}
 			else {
 				viewFinal.setEnabled(true);
 				moveDraft.setEnabled(true);
+				exportFinal.setEnabled(true);
+
 			}
-			
-			
+
+
 		});
-		
-	
+
+
 		delete.addClickListener(e->
 		{
 			try {
@@ -228,26 +269,148 @@ public class TestView extends VerticalLayout implements View {
 			updateFinalGrid("SELECT quizName FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND draftOrFinal=1");
 
 		});
-		
-		
+
+
 		view.addClickListener(e->
 		{
 			MyUI.navigator.navigateTo(MyUI.TESTQUESTIONS);
 
 		});
 
-		edit.addClickListener(e->
-		{
-			MyUI.navigator.navigateTo(MyUI.EDITDRAGVIEW);
-
-		});
-		
 		viewFinal.addClickListener(e->
 		{
 			MyUI.navigator.navigateTo(MyUI.TESTQUESTIONS);
 
 		});
 
+		exportDraft.addClickListener(e->
+		{
+			latexTemplate tex = new latexTemplate ();
+			String[] ids;
+			ids=getIDS("SELECT questionIDS FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='"+TestView.currentDraftQuiz+"'").split(",");
+
+			for (int i=0;i<ids.length;i++)
+			{
+				System.out.print("id is " +ids[i]);
+				qTestObj.add(getQuestions("SELECT * FROM Question WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND questionID='"+ids[i]+"'"));
+				System.out.println("Q test obj"+qTestObj);
+			}
+			//String sb = "Ezpz";
+			JFileChooser chooser = new JFileChooser();
+			chooser.setCurrentDirectory(new File("/home/me/Documents"));
+			int retrival = chooser.showSaveDialog(null);
+			if (retrival == JFileChooser.APPROVE_OPTION) {
+				try {
+					FileWriter fw = new FileWriter(chooser.getSelectedFile()+".tex");
+					fw.write(tex.frontPage);
+					fw.write("\\begin{enumerate}");
+					fw.write("\n");
+					fw.write("\n");
+					for (int i=0;i<ids.length;i++)
+					{
+						fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
+						//fw.write(""+qTestObj.get(i).getLines());
+						fw.write("\n");
+						fw.write("\\ansline");
+						fw.write("\n");
+						fw.write("\n");						
+					}
+					fw.write("\\end{enumerate}");
+					fw.write("\n");
+					fw.write("\\end{document}");
+					fw.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			String[] command =
+				{
+						"cmd",
+				};
+			Process p;
+			try {
+				p = Runtime.getRuntime().exec(command);
+				new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
+				new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
+				PrintWriter stdin = new PrintWriter(p.getOutputStream());
+				stdin.println("cd "+chooser.getCurrentDirectory());
+				stdin.println("pdflatex --file-line-error --synctex=1 --shell-escape --interaction=nonstopmode");
+				stdin.println(chooser.getSelectedFile().getName());
+				stdin.close();
+				p.waitFor();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+
+		});
+
+		exportFinal.addClickListener(e->
+		{
+			latexTemplate tex = new latexTemplate ();
+			String[] ids;
+			ids=getIDS("SELECT questionIDS FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='"+TestView.currentDraftQuiz+"'").split(",");
+
+			for (int i=0;i<ids.length;i++)
+			{
+				System.out.print("id is " +ids[i]);
+				qTestObj.add(getQuestions("SELECT * FROM Question WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND questionID='"+ids[i]+"'"));
+				System.out.println("Q test obj"+qTestObj);
+			}
+			//String sb = "Ezpz";
+			JFileChooser chooser = new JFileChooser();
+			chooser.setCurrentDirectory(new File("/home/me/Documents"));
+			int retrival = chooser.showSaveDialog(null);
+			if (retrival == JFileChooser.APPROVE_OPTION) {
+				try {
+					FileWriter fw = new FileWriter(chooser.getSelectedFile()+".tex");
+					fw.write(tex.frontPage);
+					fw.write("\\begin{enumerate}");
+					fw.write("\n");
+					fw.write("\n");
+					for (int i=0;i<ids.length;i++)
+					{
+						fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
+						//fw.write(""+qTestObj.get(i).getLines());
+						fw.write("\n");
+						fw.write("\\ansline");
+						fw.write("\n");
+						fw.write("\n");						
+					}
+					fw.write("\\end{enumerate}");
+					fw.write("\n");
+					fw.write("\\end{document}");
+					fw.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			String[] command =
+				{
+						"cmd",
+				};
+			Process p;
+			try {
+				p = Runtime.getRuntime().exec(command);
+				new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
+				new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
+				PrintWriter stdin = new PrintWriter(p.getOutputStream());
+				stdin.println("cd "+chooser.getCurrentDirectory());
+				stdin.println("pdflatex --file-line-error --synctex=1 --shell-escape --interaction=nonstopmode");
+				stdin.println(chooser.getSelectedFile().getName());
+				stdin.close();
+				p.waitFor();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+
+
+		});
+		backBtn.addClickListener(e -> {	
+			MyUI.navigator.navigateTo(MyUI.DRAGVIEW);
+			Page.getCurrent().reload();		
+		});
 
 	}
 

@@ -33,7 +33,7 @@ public class TestQuestionView extends VerticalLayout implements View {
 	Grid<Question> Grid = new Grid<>(Question.class);
 	Button back = new Button("Back");
 	static String[] ids;
-	ArrayList<Question> qTestObj=new ArrayList<Question>();
+	 ArrayList<Question> qTestObj=new ArrayList<Question>();
 	
 	public static String getIDS(String s) {
 		String ret=null;
