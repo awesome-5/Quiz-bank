@@ -22,7 +22,7 @@ public class CommonsEmailService {
      * @throws MessagingException
      * @throws IOException
      */
-    public static void send(String from, Collection<String> recipients, String subject, String text)
+    public void send(String from, Collection<String> recipients, String subject, String text)
             throws IOException, EmailException {
         send(from, recipients, subject, text, null, null, null);
     }

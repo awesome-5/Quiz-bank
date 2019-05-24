@@ -16,7 +16,7 @@ import com.jcraft.jsch.JSchException;
 public class QuestionService {
 
 	public QuestionService instance;
-	private static final Logger LOGGER = Logger.getLogger(QuestionService.class.getName());
+	private final Logger LOGGER = Logger.getLogger(QuestionService.class.getName());
 
 	private final HashMap<Long, Question> questions = new HashMap<>();
 

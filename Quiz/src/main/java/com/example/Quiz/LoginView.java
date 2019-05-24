@@ -47,10 +47,9 @@ public class LoginView extends VerticalLayout implements View
 	Button forgot = new Button("Forgot Password");
 	Label label = new Label(null);
 	final FormLayout formlayout = new FormLayout();
- 
-	
 	@Override
 	public void enter(ViewChangeEvent event) {
+		loggedInUser="";
 		logIn.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 		create.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 		forgot.setStyleName(ValoTheme.BUTTON_LINK);
@@ -58,7 +57,6 @@ public class LoginView extends VerticalLayout implements View
 		password.setRequiredIndicatorVisible(isVisible());
 
 		addComponent(layout);  	
-		
 		
 		panel.setWidth(null);
 		layout.setSizeFull();
@@ -94,7 +92,6 @@ public class LoginView extends VerticalLayout implements View
 					password.clear();
 				}
 				else {
-					//Notification.show("Login Successful");
 					loggedInUser=userName.getValue();
 	            	MyUI.navigator.navigateTo(MyUI.HOMEPAGE);
 

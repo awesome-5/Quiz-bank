@@ -65,12 +65,12 @@ public class TestView extends VerticalLayout implements View {
 	Button backBtn = new Button("Back");
 	ArrayList<Question> qTestObj=new ArrayList<Question>();
 
-	static String currentDraftQuiz;
-	static String currentFinalQuiz;
+	static String currentDraftQuiz="";
+	static String currentFinalQuiz="";
 
 
 	public static String getIDS(String s) {
-		String ret=null;
+		String ret="";
 		try {
 			DBConnection dbcGetIds = new DBConnection(); 
 			ret=dbcGetIds.getIDS(s);
@@ -144,6 +144,10 @@ public class TestView extends VerticalLayout implements View {
 		exportFinal.setEnabled(false);
 		addComponent(mainLayout);
 		wrap.setSizeFull();
+		draftTestBox.setValue(true);
+		draftExamBox.setValue(true);
+		finalTestBox.setValue(true);
+		finalExamBox.setValue(true);
 		draftGrid.setCaption("Draft Papers");
 		finalGrid.setCaption("Final Papers");
 		draftGrid.setSizeFull();
@@ -153,11 +157,6 @@ public class TestView extends VerticalLayout implements View {
 		finalGrid.setBodyRowHeight(60);
 		finalGrid.setHeightMode(HeightMode.ROW);
 
-
-		draftTestFlag = true;
-		draftExamFlag = true;
-		finalTestFlag = true;
-		finalExamFlag = true;
 		// updates grids if boxes are ticked, exam, test or both
 		draftTestBox.addValueChangeListener(eent ->{
 			draftTestFlag=draftTestBox.getValue();
@@ -251,6 +250,7 @@ public class TestView extends VerticalLayout implements View {
 				moveToFinal.moveFinal(currentDraftQuiz);
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 			}
+			updateLastUsed();
 
 			updateDraftGrid("SELECT quizName FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND draftOrFinal=0");
 			updateFinalGrid("SELECT quizName FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND draftOrFinal=1");
@@ -275,6 +275,10 @@ public class TestView extends VerticalLayout implements View {
 		{
 			MyUI.navigator.navigateTo(MyUI.TESTQUESTIONS);
 
+		});
+		edit.addClickListener(e->
+		{
+			MyUI.navigator.navigateTo(MyUI.EDITDRAGVIEW);
 		});
 
 		viewFinal.addClickListener(e->
@@ -456,5 +460,28 @@ public class TestView extends VerticalLayout implements View {
 		}
 
 	}
+	public void updateLastUsed()
+	{
+		String[] ids;
+		ids=TestQuestionView.getIDS("SELECT questionIDS FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='"+currentDraftQuiz+"'").split(",");
+		for (int i=0;i<ids.length;i++)
+		{
+			System.out.print("id is " +ids[i]);
+			changeQuestions(ids[i]);
+		}
+		try {
+			DBConnection changeQuizLastUsed = new DBConnection();
+			changeQuizLastUsed.setQuizLastUsed(currentDraftQuiz);
+		} catch (ClassNotFoundException | JSchException | SQLException e1) {
+		}
+	}
+	public void changeQuestions(String id) {
+		try {
+			DBConnection dbcQuestionChange = new DBConnection();
+			dbcQuestionChange.setLastUsed(id);
+		} catch (ClassNotFoundException | JSchException | SQLException e1) {
+		}
+	}
 }
+
 

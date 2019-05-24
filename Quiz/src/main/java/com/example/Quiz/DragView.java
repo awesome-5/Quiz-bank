@@ -44,7 +44,7 @@ public class DragView extends VerticalLayout implements View {
 	//Button Display = new Button("Display");	
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	LocalDate localDate = LocalDate.now();
-	TextField addQuiz = new TextField();
+	static TextField addQuiz = new TextField();
 	Grid<Question> gridFrom = new Grid<>(Question.class);
 	Grid<Question> gridTo = new Grid<>(Question.class);
 	Label messageLabel = new Label();
@@ -105,7 +105,6 @@ public class DragView extends VerticalLayout implements View {
 	public void enter(ViewChangeEvent event) {
 		updateGrid();
 		label.addStyleName("large");
-		displayLabel.addStyleName("large");
 		gridFrom.setCaption("Question Bank");
 		gridTo.setCaption("Selected Questions");
 		//gridTo.addStyleName(ValoTheme.LAYOUT_CARD);
@@ -190,45 +189,42 @@ public class DragView extends VerticalLayout implements View {
 			Page.getCurrent().reload();			
 			MyUI.navigator.navigateTo(MyUI.GRIDVIEW);
 		});
-		//		Display.addClickListener(e -> {
-		//			System.out.println("QOBJ --------------- "+questionObj.toString());
-		//		});
-		
+
 		view.addClickListener(e -> {
-			//Page.getCurrent().reload();			
+			Page.getCurrent().reload();			
 			MyUI.navigator.navigateTo(MyUI.TESTVIEW);
 		});
-		
+
 		saveTest.addClickListener(e -> {
-			if ((checkName(addQuiz.getValue())||addQuiz.getValue().equals(""))&&questionObj.size()==0) {
-				displayLabel.setValue("Please change the name of your test and add some questions to your test");
+			if (checkName(addQuiz.getValue())&&questionObj.size()==0) {
+				Notification.show("Please change the name of your test and add some questions to your test");
 				//System.out.println(questionObj.size());
-			}else if (checkName(addQuiz.getValue())||addQuiz.getValue().equals("")&&questionObj.size()>0) {
-				displayLabel.setValue("Please change the name of your test");
+			}else if (checkName(addQuiz.getValue())&&questionObj.size()>0) {
+				Notification.show("Please change the name of your test");
 				//System.out.println(questionObj.size());
 			}else if(!checkName(addQuiz.getValue()) && questionObj.size()==0) {
-				displayLabel.setValue("Please add some questions to your test");
+				Notification.show("Please add some questions to your test");
 			}
 			else  {
 				postToDB(false);
-				System.out.println("Test Saved");
+				Notification.show("Test Saved");
 				Page.getCurrent().reload();			
 				MyUI.navigator.navigateTo(MyUI.TESTVIEW);
 			}
 		});
 		saveExam.addClickListener(e -> {
-			if ((checkName(addQuiz.getValue())||addQuiz.getValue().equals(""))&&questionObj.size()==0) {
-				displayLabel.setValue("Please enter another name and add some questions to your test");
+			if (checkName(addQuiz.getValue())&&questionObj.size()==0) {
+				Notification.show("Please enter another name and add some questions to your test");
 				//System.out.println(questionObj.size());
-			}else if (checkName(addQuiz.getValue())||addQuiz.getValue().equals("") &&questionObj.size()>0) {
-				displayLabel.setValue("Please change the name of your test");
+			}else if (checkName(addQuiz.getValue())&&questionObj.size()>0) {
+				Notification.show("Please change the name of your test");
 				//System.out.println(questionObj.size());
 			}else if(!checkName(addQuiz.getValue()) && questionObj.size()==0) {
-				displayLabel.setValue("Please add some questions to your test");
+				Notification.show("Please add some questions to your test");
 			}
 			else  {
 				postToDB(true);
-				System.out.println("Exam Saved");
+				Notification.show("Exam Saved");
 				Page.getCurrent().reload();			
 				MyUI.navigator.navigateTo(MyUI.TESTVIEW);
 			}

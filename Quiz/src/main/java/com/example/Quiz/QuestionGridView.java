@@ -33,13 +33,13 @@ public class QuestionGridView extends VerticalLayout implements View {
 	//add new question button
 	static Button addQuestionBtn = new Button("Add new question");
 	static Button clearFilterTextBtn = new Button();
-	static Button newTest = new Button("Create Quiz");
+	static Button newTest = new Button("Create Test");
 	static Button back = new Button ("Back");
 	HorizontalLayout main = new HorizontalLayout();
 	static CssLayout filtering = new CssLayout();
-	static Button view = new Button("View Quizzes");
 	QuestionService service = QuestionService.getInstance();
 	static Long CurrentId=null;
+	Button view = new Button("View All Quizzes");
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -59,7 +59,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
 		// toolbar (above the grid)    
-		toolbar.addComponents(back,filtering,addQuestionBtn,newTest,view );		
+		toolbar.addComponents(filtering, addQuestionBtn,newTest, back,view);		
 		addQuestionBtn.setStyleName(ValoTheme.BUTTON_PRIMARY);
 
 		addQuestionBtn.addClickListener(e -> {
@@ -73,17 +73,17 @@ public class QuestionGridView extends VerticalLayout implements View {
 				e1.printStackTrace();
 			}
 		});
-		
+
 		back.addClickListener(log -> {
 			MyUI.navigator.navigateTo(MyUI.HOMEPAGE);
 		});
-		
-		
+
+
 		//formatting of the grid
 		grid.setColumns("id","questionText","questionAnswer","type", "marks", "difficulty","time","lastUsed","variantOf","courseCode");
 		grid.getColumn("questionText").setMaximumWidth(250.0);
 		grid.getColumn("questionAnswer").setMaximumWidth(250.0);
-				
+
 
 		main.addComponents(grid, form);
 		main.setSizeFull();
@@ -101,7 +101,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 		updateList();
 		System.out.println("List Updated");
 		addComponent(layout);
-		
+
 		//when selecting an element on the grid, fills the question form with the fields of the question 
 		grid.asSingleSelect().addValueChangeListener(e -> {
 			if (e.getValue() == null) {
@@ -121,9 +121,11 @@ public class QuestionGridView extends VerticalLayout implements View {
 
 		newTest.addClickListener(e -> {
 			MyUI.navigator.navigateTo(MyUI.DRAGVIEW);
-			
+
 		});
+
 		view.addClickListener(e -> {
+			Page.getCurrent().reload();			
 			MyUI.navigator.navigateTo(MyUI.TESTVIEW);
 		});
 	}
@@ -135,6 +137,8 @@ public class QuestionGridView extends VerticalLayout implements View {
 		toolbar.setVisible(true);
 
 	}
+
+
 
 
 
