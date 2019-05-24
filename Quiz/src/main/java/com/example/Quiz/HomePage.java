@@ -34,7 +34,7 @@ public class HomePage extends VerticalLayout implements View {
 	Button deleteCourse = new Button("Delete Course");
 	Button createCourse = new Button("Create Course");	
 	Grid<Course> grid = new Grid<>(Course.class);
-	static String CurrentCourse="";
+	public static String CurrentCourse="";
 	static String CurrentCourseName="";
 	Boolean sameCourse = false;
 

@@ -1,5 +1,7 @@
 package com.example.Quiz;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -9,6 +11,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -18,6 +21,14 @@ public class DBConnection {
 	ArrayList<Quiz> quizObj = new ArrayList<Quiz>();
 	ArrayList<Question> output =new ArrayList<Question>();
 	Question temp=new Question();
+	public static OutputStream os = new ByteArrayOutputStream();
+	PrintStream ps = new PrintStream(os);
+	public static OutputStream os1 = new ByteArrayOutputStream();
+	PrintStream ps1 = new PrintStream(os1);
+	public static OutputStream os2 = new ByteArrayOutputStream();
+	PrintStream ps2 = new PrintStream(os2);
+	public static OutputStream os3 = new ByteArrayOutputStream();
+	PrintStream ps3 = new PrintStream(os3);
 
 	public String readDBUser(String sql) throws ClassNotFoundException, JSchException, SQLException {
 
@@ -200,6 +211,10 @@ public class DBConnection {
 
 				System.out.println(output);
 			}
+			System.setOut(ps);
+			System.out.print("success");
+			PrintStream originalOut = System.out;
+			System.setOut(originalOut);
 
 		} catch (SQLException err) {
 			System.out.println(err);
@@ -253,7 +268,10 @@ public class DBConnection {
 				output =rs.getString("courseCode");
 				courseObj.add(c);
 			}
-
+			System.setOut(ps);
+			System.out.print("success");
+			PrintStream originalOut = System.out;
+			System.setOut(originalOut);
 
 		} catch (SQLException err) {
 			output = "GET ERROR";
@@ -298,7 +316,7 @@ public class DBConnection {
 			if (answer.isEmpty())
 				answer="NULL";
 			int type = 0;
-			if (q.getType()==QuestionType.MCQ)
+			if (q.getType()==QuestionType.StandardQuestion)
 				type = 1;
 			String mark = q.getMarks();
 			int difficulty=0;
@@ -324,8 +342,14 @@ public class DBConnection {
 			//modify question
 			if (isModified) {
 				System.out.println("question is being modified");
-				String sqlmofid= "UPDATE Question SET question='"+ question + "', answer='" + answer + "', mark='"  + mark + "',difficulty='" + difficulty + "',time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+				String sqlmofid= "UPDATE Question SET question='"+ question + "', answer='" + answer+ "', type='"+type+"', mark='" + mark + "',difficulty='" + difficulty + "',time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 				statement.executeUpdate(sqlmofid);
+
+				System.setOut(ps1);
+				System.out.print("success");
+				PrintStream originalOut = System.out;
+				System.setOut(originalOut);
+
 			}
 			/*String questionInDB = "SELECT * FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 			rss=statement.executeQuery(questionInDB);
@@ -338,7 +362,7 @@ public class DBConnection {
 
 			//add new question in DB
 			else {
-				String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + "nikola" + "','" + question + "','" + answer + "'," + type + ",'" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
+				String sql="INSERT INTO Question VALUES("+ "NULL" + ",'" + LoginView.loggedInUser + "','" + question + "','" + answer + "','" + type + "','" + mark + "','" + difficulty + "','" + time+ "'," + "NULL" + "," + variantOf+ ",'" +courseCode+ "')" ;
 				statement.executeUpdate(sql);
 
 				String sqlID="SELECT * FROM Question WHERE username = '"+LoginView.loggedInUser+ "' AND question ='" + question +"'";
@@ -348,21 +372,21 @@ public class DBConnection {
 					id = rss.getInt("questionID");;
 				}
 
+				if (q.getType()==QuestionType.MCQ) //mcq
+				{
+					String sqlmcq="INSERT INTO MCQ VALUES('"+ id + "','" + options + "')" ;
+					statement.executeUpdate(sqlmcq);
+				}
+				else
+				{
+					String sqlmcq="INSERT INTO Standard VALUES('"+ id + "','" + lines + "')" ;
+					statement.executeUpdate(sqlmcq);
+				}
 
-				String sqlmcq="INSERT INTO MCQ VALUES('"+ id + "','" + options + "')" ;
-				System.out.println(options);
-				statement.executeUpdate(sqlmcq);
-
-				//			else if (lines!=0)
-				//			{
-				//			String sqlstd="INSERT INTO Standard VALUES('"+ id + "','" + space + "','" + lines +"')" ;
-				//			statement.executeUpdate(sqlstd);
-				//			}
-
-
-
-
-				System.out.println("Success");
+				System.setOut(ps2);
+				System.out.print("success");
+				PrintStream originalOut = System.out;
+				System.setOut(originalOut);
 			}
 		} catch (SQLException err) {
 			System.out.println(err);
@@ -402,17 +426,28 @@ public class DBConnection {
 			System.out.println ("Database connection established");
 			Statement statement = con.createStatement();
 
-			String deleteQuesion = "DELETE FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
-			statement.executeUpdate(deleteQuesion);
+			String deleteQuestion = "DELETE FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+			statement.executeUpdate(deleteQuestion);
 			System.out.println("question deleted");
 
+			
 			String findVariants = "SELECT * FROM Question WHERE variantOf = '"+QuestionGridView.CurrentId+"'";
 			rss=statement.executeQuery(findVariants);
 			if (rss!=null) {
 				String sqlmofid= "UPDATE Question SET variantOf=NULL WHERE variantOf = '"+QuestionGridView.CurrentId+"'";
 				statement.executeUpdate(sqlmofid);
 			}
-
+			
+			if (q.getType()==QuestionType.MCQ) //mcq
+			{
+				String sqlmcq="DELETE FROM MCQ WHERE questionID = '"+q.getId()+"'";
+				statement.executeUpdate(sqlmcq);
+			}
+			else
+			{
+				String sqlmcq="DELETE FROM Standard WHERE questionID = '"+q.getId()+"'";
+				statement.executeUpdate(sqlmcq);
+			}
 
 		} catch (SQLException err) {
 			System.out.println(err);
@@ -651,7 +686,7 @@ public class DBConnection {
 
 
 	}
-	
+
 	public String getIDS(String sql) throws SQLException, JSchException, ClassNotFoundException
 	{
 		System.out.println(HomePage.CurrentCourse);
@@ -914,7 +949,7 @@ public class DBConnection {
 			System.out.println ("Database connection established");
 			Statement statement = con.createStatement();
 
-			
+
 			statement.executeUpdate(sq);
 			System.out.println("id deleted");
 
@@ -926,7 +961,7 @@ public class DBConnection {
 
 
 	}
-	
+
 	public void addID (String sq) throws ClassNotFoundException, JSchException, SQLException {
 
 
@@ -958,7 +993,7 @@ public class DBConnection {
 			System.out.println ("Database connection established");
 			Statement statement = con.createStatement();
 
-			
+
 			statement.executeUpdate(sq);
 			System.out.println("id added");
 
@@ -970,7 +1005,7 @@ public class DBConnection {
 
 
 	}
-	
+
 	public void setLastUsed (String id) throws ClassNotFoundException, JSchException, SQLException {
 
 		int lport=5656;
@@ -1045,13 +1080,13 @@ public class DBConnection {
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
-		
+
 		session.disconnect();
 		con.close();
 
 
 	}
-	
+
 }
 
 

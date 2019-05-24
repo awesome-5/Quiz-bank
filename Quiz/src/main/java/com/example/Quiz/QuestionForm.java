@@ -48,10 +48,11 @@ public class QuestionForm extends FormLayout {
 		questionAnswer.setWidth("100%");
 		marks.setRequiredIndicatorVisible(true);
 		difficulty.setRequiredIndicatorVisible(true);
+		questionAnswer.setRequiredIndicatorVisible(true);
 		time.setRequiredIndicatorVisible(true);
 		type.setRequiredIndicatorVisible(true);
-		line.setVisible(false);
 		options.setVisible(false);
+		line.setVisible(false);
 
 		setSizeUndefined();
 		

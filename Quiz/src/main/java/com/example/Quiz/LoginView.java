@@ -36,7 +36,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class LoginView extends VerticalLayout implements View 
 {
-	static String loggedInUser="";
+	public static String loggedInUser="";
 	final VerticalLayout layout = new VerticalLayout();
 	final TextField userName = new TextField("Username : ");
 	final PasswordField password = new PasswordField("Password : ", "");
