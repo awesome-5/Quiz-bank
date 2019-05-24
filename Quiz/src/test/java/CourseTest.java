@@ -6,10 +6,15 @@ import com.example.Quiz.Quiz;
 public class CourseTest {
 
 	@Test
-	public void shouldReturnQuizName() {
+	public void shouldReturnCourseName() {
+		Course course = new Course(); 
+		course.setCourseName("Test");
+		assertEquals("Course Name Should Equal Test", course.getCourseName(),"Test");
+	}	
+	@Test
+	public void shouldReturnCourseCode() {
 		Course course = new Course(); 
 		course.setcourseCode("Test");
-		assertEquals("Course Name Should Equal Test", course.getcourseCode(),"Test");
+		assertEquals("Course Code Should Equal Test", course.getcourseCode(),"Test");
 	}	
-
 }
