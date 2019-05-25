@@ -54,7 +54,7 @@ public class DragView extends VerticalLayout implements View {
 	List<Question> draggedItemsFrom ;
 	List<Question> questionObj = new ArrayList<Question>();
 	ArrayList<Question> blankObj = new ArrayList<Question>();
-	Button view = new Button("View Quizzes");
+	static Button view = new Button("View Quizzes");
 
 	public Boolean checkName(String name) {
 		try {

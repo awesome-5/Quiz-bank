@@ -21,8 +21,20 @@ public class DBConnection {
 	ArrayList<Quiz> quizObj = new ArrayList<Quiz>();
 	ArrayList<Question> output =new ArrayList<Question>();
 	Question temp=new Question();
-	public static Boolean result=false;
-	
+	public static OutputStream os = new ByteArrayOutputStream();
+	PrintStream ps = new PrintStream(os);
+	public static OutputStream os1 = new ByteArrayOutputStream();
+	PrintStream ps1 = new PrintStream(os1);
+	public static OutputStream os2 = new ByteArrayOutputStream();
+	PrintStream ps2 = new PrintStream(os2);
+	public static OutputStream os3 = new ByteArrayOutputStream();
+	PrintStream ps3 = new PrintStream(os3);
+	public static OutputStream os4 = new ByteArrayOutputStream();
+	PrintStream ps4 = new PrintStream(os4);
+	public static OutputStream os5 = new ByteArrayOutputStream();
+	PrintStream ps5 = new PrintStream(os5);
+	public static OutputStream os6 = new ByteArrayOutputStream();
+	PrintStream ps6 = new PrintStream(os6);
 	
 	public String readDBUser(String sql) throws ClassNotFoundException, JSchException, SQLException {
 
@@ -164,11 +176,11 @@ public class DBConnection {
 				temp.setId(questionID);
 				temp.setQuestionText(question);
 				temp.setQuestionAnswer(answer);
-				if(type==0)
+				if(type==1)
 				{
 					temp.setType(QuestionType.StandardQuestion);
 				}
-				else if (type==1)
+				else if (type==0)
 				{
 					temp.setType(QuestionType.MCQ);
 				}
@@ -198,15 +210,20 @@ public class DBConnection {
 				temp.setLastUsed(lastUsed);
 				temp.setVariantOf(variantOf);
 				temp.setCourseCode(courseCode);
+
 				output.add(temp);
-				result=true;
+
 				System.out.println(output);
 			}
-
+			
 
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
+		System.setOut(ps);
+		System.out.print("success");
+		PrintStream originalOut = System.out;
+		System.setOut(originalOut);
 		session.disconnect();
 		con.close();
 		return output;
@@ -256,12 +273,14 @@ public class DBConnection {
 				output =rs.getString("courseCode");
 				courseObj.add(c);
 			}
-			
+			System.setOut(ps1);
+			System.out.print("success1");
+			PrintStream originalOut = System.out;
+			System.setOut(originalOut);
 
 		} catch (SQLException err) {
 			output = "GET ERROR";
 		}
-		result=true;
 		session.disconnect();
 		con.close();
 		return(output);
@@ -309,25 +328,13 @@ public class DBConnection {
 			if(q.getDifficulty()==QuestionDifficulty.Easy)
 				difficulty = 0;
 			else if(q.getDifficulty()==QuestionDifficulty.MediumEasy)
-			{	
 				difficulty = 1;
-				result=true;
-			}
 			else if (q.getDifficulty()==QuestionDifficulty.Medium)
-			{
 				difficulty = 2;
-				result=true;
-			}
 			else if(q.getDifficulty()==QuestionDifficulty.MediumHard)
-			{
-				difficulty =3;
-				result=true;
-			}
+				difficulty =3 ;
 			else if(q.getDifficulty()==QuestionDifficulty.Hard)
-			{	
 				difficulty = 4;
-				result=true;
-			}
 			int lines=q.getLines();
 			String options=q.getOptions();
 			if (options.isEmpty())
@@ -343,7 +350,10 @@ public class DBConnection {
 				String sqlmofid= "UPDATE Question SET question='"+ question + "', answer='" + answer+ "', type='"+type+"', mark='" + mark + "',difficulty='" + difficulty + "',time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
 				statement.executeUpdate(sqlmofid);
 
-				result=true;
+				System.setOut(ps2);
+				System.out.print("success2");
+				PrintStream originalOut = System.out;
+				System.setOut(originalOut);
 
 			}
 			/*String questionInDB = "SELECT * FROM Question WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
@@ -378,7 +388,10 @@ public class DBConnection {
 					statement.executeUpdate(sqlmcq);
 				}
 
-				result=true;
+				System.setOut(ps3);
+				System.out.print("success3");
+				PrintStream originalOut = System.out;
+				System.setOut(originalOut);
 			}
 		} catch (SQLException err) {
 			System.out.println(err);
@@ -422,14 +435,14 @@ public class DBConnection {
 			statement.executeUpdate(deleteQuestion);
 			System.out.println("question deleted");
 
-
+			
 			String findVariants = "SELECT * FROM Question WHERE variantOf = '"+QuestionGridView.CurrentId+"'";
 			rss=statement.executeQuery(findVariants);
 			if (rss!=null) {
 				String sqlmofid= "UPDATE Question SET variantOf=NULL WHERE variantOf = '"+QuestionGridView.CurrentId+"'";
 				statement.executeUpdate(sqlmofid);
 			}
-
+			
 			if (q.getType()==QuestionType.MCQ) //mcq
 			{
 				String sqlmcq="DELETE FROM MCQ WHERE questionID = '"+q.getId()+"'";
@@ -440,10 +453,13 @@ public class DBConnection {
 				String sqlmcq="DELETE FROM Standard WHERE questionID = '"+q.getId()+"'";
 				statement.executeUpdate(sqlmcq);
 			}
-			result=true;
-
+			
 		} catch (SQLException err) {
 		}
+		System.setOut(ps4);
+		System.out.print("success4");
+		PrintStream originalOut = System.out;
+		System.setOut(originalOut);
 		session.disconnect();
 		con.close();
 
@@ -487,9 +503,11 @@ public class DBConnection {
 
 
 		} catch (SQLException err) {
-
+			System.setOut(ps5);
+			System.out.print("success5");
+			PrintStream originalOut = System.out;
+			System.setOut(originalOut);
 		}
-		result=true;
 		session.disconnect();
 		con.close();
 
@@ -539,7 +557,7 @@ public class DBConnection {
 
 			}
 
-			result=true;
+
 		} catch (SQLException err) {
 			output = "GET ERROR";
 		}
@@ -586,7 +604,6 @@ public class DBConnection {
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
-		result=true;
 		session.disconnect();
 		con.close();
 
@@ -631,7 +648,6 @@ public class DBConnection {
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
-		result=true;
 		session.disconnect();
 		con.close();
 
@@ -676,7 +692,6 @@ public class DBConnection {
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
-		result=true;
 		session.disconnect();
 		con.close();
 
@@ -777,11 +792,11 @@ public class DBConnection {
 				temp.setId(questionID);
 				temp.setQuestionText(question);
 				temp.setQuestionAnswer(answer);
-				if(type==0)
+				if(type==1)
 				{
 					temp.setType(QuestionType.StandardQuestion);
 				}
-				else if (type==1)
+				else if (type==0)
 				{
 					temp.setType(QuestionType.MCQ);
 				}
@@ -816,7 +831,6 @@ public class DBConnection {
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
-		
 		session.disconnect();
 		con.close();
 		return temp;
@@ -953,7 +967,6 @@ public class DBConnection {
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
-		result=true;
 		session.disconnect();
 		con.close();
 
@@ -998,7 +1011,6 @@ public class DBConnection {
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
-		result=true;
 		session.disconnect();
 		con.close();
 
@@ -1036,11 +1048,10 @@ public class DBConnection {
 			String change = "UPDATE Question SET lastUsed = '"+ now+ "' WHERE questionID ='"+id+"'";
 			statement.executeUpdate(change);
 			System.out.println("last used change");
-			result= true;
+
 		} catch (SQLException err) {
 			System.out.println(err);
 		}		
-		result=true;
 		session.disconnect();
 		con.close();
 	}
@@ -1076,7 +1087,7 @@ public class DBConnection {
 			String change = "UPDATE Quiz SET quizLastUsed = '"+ now+ "' WHERE quizName ='"+name+"'";
 			statement.executeUpdate(change);
 			System.out.println("last used quiz changed where id = "+name);
-			result=true;
+
 		} catch (SQLException err) {
 			System.out.println(err);
 		}
@@ -1085,6 +1096,145 @@ public class DBConnection {
 		con.close();
 
 
+	}
+	public String readLines(String sql) throws ClassNotFoundException, JSchException, SQLException {
+
+		String output = null;
+		int lport=5656;
+		String rhost="127.0.0.1";
+		String host="lamp.ms.wits.ac.za";
+		int rport=3306;
+		String dbUrl = "jdbc:mysql://"+rhost+":"+lport+"/d1268698";
+		String uName = "s1268698";
+		String uPass = "s1268698";
+		Connection con = null;
+		Session session = null;
+		ResultSet rs;
+
+		try {
+
+			JSch jsch = new JSch();
+			session = jsch.getSession(uName, host, 22);
+			session.setPassword(uPass);
+			session.setConfig("StrictHostKeyChecking", "no");
+			System.out.println("Establishing readDBUser Connection...");
+			session.connect();
+
+			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
+			System.out.println("localhost:" + assigned_port + " -> " + rhost + ":" + rport);
+
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection(dbUrl, uName, uPass);
+			System.out.println ("Database connection established");
+			Statement statement = con.createStatement();
+
+			rs = statement.executeQuery(sql);
+
+			while (rs.next()) {
+				output =rs.getString("line");
+			}
+
+
+		} catch (SQLException err) {
+		}
+		session.disconnect();
+		con.close();
+		return(output);
+	}
+	public String readOptions(String sql) throws ClassNotFoundException, JSchException, SQLException {
+
+		String output = null;
+		int lport=5656;
+		String rhost="127.0.0.1";
+		String host="lamp.ms.wits.ac.za";
+		int rport=3306;
+		String dbUrl = "jdbc:mysql://"+rhost+":"+lport+"/d1268698";
+		String uName = "s1268698";
+		String uPass = "s1268698";
+		Connection con = null;
+		Session session = null;
+		ResultSet rs;
+
+		try {
+
+			JSch jsch = new JSch();
+			session = jsch.getSession(uName, host, 22);
+			session.setPassword(uPass);
+			session.setConfig("StrictHostKeyChecking", "no");
+			System.out.println("Establishing readDBUser Connection...");
+			session.connect();
+
+			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
+			System.out.println("localhost:" + assigned_port + " -> " + rhost + ":" + rport);
+
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection(dbUrl, uName, uPass);
+			System.out.println ("Database connection established");
+			Statement statement = con.createStatement();
+
+			rs = statement.executeQuery(sql);
+
+			while (rs.next()) {
+				output =rs.getString("options");
+			}
+
+
+		} catch (SQLException err) {
+		}
+		session.disconnect();
+		con.close();
+		return(output);
+	}
+	public int readTestOrExam(String sql) throws ClassNotFoundException, JSchException, SQLException {
+
+		int output = 0;
+		int lport=5656;
+		String rhost="127.0.0.1";
+		String host="lamp.ms.wits.ac.za";
+		int rport=3306;
+		String dbUrl = "jdbc:mysql://"+rhost+":"+lport+"/d1268698";
+		String uName = "s1268698";
+		String uPass = "s1268698";
+		Connection con = null;
+		Session session = null;
+		ResultSet rs;
+
+		try {
+
+			JSch jsch = new JSch();
+			session = jsch.getSession(uName, host, 22);
+			session.setPassword(uPass);
+			session.setConfig("StrictHostKeyChecking", "no");
+			System.out.println("Establishing readDBCourse Connection...");
+			session.connect();
+
+			int assigned_port = session.setPortForwardingL(lport, rhost, rport);
+			System.out.println("localhost:" + assigned_port + " -> " + rhost + ":" + rport);
+
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection(dbUrl, uName, uPass);
+			System.out.println ("Database connection established");
+			Statement statement = con.createStatement();
+
+			rs = statement.executeQuery(sql);
+
+
+			while (rs.next()) {
+				//adds each new quiz to an arraylist of quizzes
+				output =rs.getInt("testOrExam");
+
+			}
+
+
+		} catch (SQLException err) {
+			output = 2;
+		}
+		session.disconnect();
+		con.close();
+		return(output);
 	}
 
 }

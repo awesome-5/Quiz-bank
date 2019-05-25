@@ -11,7 +11,5 @@ public class Quiz {
 	public void setQuizName(String quizName) {
 		this.quizName = quizName;
 	}
-
-	
 	
 }
