@@ -1,3 +1,5 @@
+package com.example.Quiz;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import com.example.Quiz.Course;

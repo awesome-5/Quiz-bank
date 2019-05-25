@@ -134,8 +134,8 @@ public class TestView extends VerticalLayout implements View {
 
 		draftVLayout.addComponents(draftBar,draftGrid,bottomDraftBar);
 		finalVLayout.addComponents(finalBar,finalGrid,bottomFinalBar,memoBox);
-		bottomDraftBar.addComponents(backBtn,view,edit,delete,moveFinal,exportDraft);
-		bottomFinalBar.addComponents(viewFinal,moveDraft,exportFinal);
+		bottomDraftBar.addComponents(view,edit,delete,moveFinal,exportDraft);
+		bottomFinalBar.addComponents(viewFinal,moveDraft,exportFinal,backBtn);
 		mainLayout.addComponents(draftVLayout,finalVLayout);
 		delete.setEnabled(false);
 		edit.setEnabled(false);

@@ -1,3 +1,5 @@
+package com.example.Quiz;
+
 import static org.junit.Assert.assertEquals;
 import java.io.PrintStream;
 import java.sql.SQLException;

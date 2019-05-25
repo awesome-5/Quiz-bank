@@ -121,7 +121,7 @@ public class DragView extends VerticalLayout implements View {
 		gridFrom.setHeightMode(HeightMode.ROW);
 		gridTo.setBodyRowHeight(60);
 		gridTo.setHeightMode(HeightMode.ROW);
-		botBar.addComponents(backBtn,label,addQuiz,saveTest,saveExam,view);
+		botBar.addComponents(label,addQuiz,saveTest,saveExam,view,backBtn);
 		botBar.setMargin(false);
 		mainLayout.addComponents(gridFrom,gridTo);
 		mainVertLayout.addComponents(mainLayout,botBar,displayLabel);

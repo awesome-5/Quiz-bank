@@ -33,7 +33,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 	//add new question button
 	static Button addQuestionBtn = new Button("Add new question");
 	static Button clearFilterTextBtn = new Button();
-	static Button newTest = new Button("Create Test");
+	static Button newTest = new Button("Create Quiz");
 	static Button back = new Button ("Back");
 	HorizontalLayout main = new HorizontalLayout();
 	static CssLayout filtering = new CssLayout();
@@ -59,7 +59,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 		filtering.setStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
 		// toolbar (above the grid)    
-		toolbar.addComponents(filtering, addQuestionBtn,newTest, back,view);		
+		toolbar.addComponents(filtering, addQuestionBtn,newTest,view,back);		
 		addQuestionBtn.setStyleName(ValoTheme.BUTTON_PRIMARY);
 
 		addQuestionBtn.addClickListener(e -> {
