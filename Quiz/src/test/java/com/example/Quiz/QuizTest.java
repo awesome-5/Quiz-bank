@@ -13,6 +13,7 @@ public class QuizTest {
 		Quiz quiz = new Quiz(); 
 		quiz.setQuizName("Test");
 		assertEquals("Quiz Name Should Equal Test", quiz.getQuizName(),"Test");
+		System.out.println("Success");
 	}	
 	
 	

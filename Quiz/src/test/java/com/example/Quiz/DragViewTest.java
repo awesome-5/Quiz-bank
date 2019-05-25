@@ -49,7 +49,8 @@ driver.get("http://localhost:8080/");
 		WebDriverWait wait6 = new WebDriverWait(driver, 100);
 		wait6.until(ExpectedConditions.urlToBe("http://localhost:8080/#!home"));
 		
-		driver.findElement(By.cssSelector(".v-grid-row:nth-child(5) > .v-grid-cell")).click();
+		driver.findElement(By.cssSelector(".v-grid-cell-focused")).click();
+	    driver.findElement(By.cssSelector(".v-slot:nth-child(1) > .v-button")).click();
 		
 		WebDriverWait wait7 = new WebDriverWait(driver, 100);
 		wait7.until(ExpectedConditions.urlToBe("http://localhost:8080/#!questionGrid"));

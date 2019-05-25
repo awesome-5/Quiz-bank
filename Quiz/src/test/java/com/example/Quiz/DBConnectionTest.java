@@ -58,6 +58,7 @@ public class DBConnectionTest {
 		} catch (Exception e1) {
 
 		}
+		System.out.println("Success");
 	}
 
 	@Test
@@ -65,18 +66,21 @@ public class DBConnectionTest {
 
 		String x = db.readDBEmail("SELECT * FROM User WHERE username='nikola'");
 		assertEquals("email Should Equal ","1268698@students.wit",x);
+		System.out.println("Success");
 	}
 
 	@Test
 	public void readDBQuestionTest() throws ClassNotFoundException, JSchException, SQLException {
 		db.readDBQuestion();
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
 	}
 
 	@Test
 	public void readDBCourseTest() throws ClassNotFoundException, JSchException, SQLException {
 		db.readDBCourse("SELECT courseCode,courseName FROM Course WHERE username='"+LoginView.loggedInUser+"'");
 		assertEquals(true, DBConnection.result);
+		System.out.println("Success");
 	}
 
 	@Test
@@ -84,6 +88,7 @@ public class DBConnectionTest {
 
 		db.sendToDBQuestion(STDQ,true);
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
 	}
 
 	@Test
@@ -91,6 +96,8 @@ public class DBConnectionTest {
 
 		db.sendToDBQuestion(STDQ,false);
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
+
 	}
 
 	@Test
@@ -98,6 +105,8 @@ public class DBConnectionTest {
 		STDQ.setDifficulty(QuestionDifficulty.MediumEasy);
 		db.sendToDBQuestion(STDQ,false);
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
+
 	}
 	
 	@Test
@@ -105,6 +114,8 @@ public class DBConnectionTest {
 		STDQ.setDifficulty(QuestionDifficulty.Medium);
 		db.sendToDBQuestion(STDQ,false);
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
+
 	}
 
 	@Test
@@ -112,6 +123,8 @@ public class DBConnectionTest {
 		STDQ.setDifficulty(QuestionDifficulty.MediumHard);
 		db.sendToDBQuestion(STDQ,false);
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
+
 	}
 
 	@Test
@@ -119,6 +132,8 @@ public class DBConnectionTest {
 		STDQ.setDifficulty(QuestionDifficulty.Hard);
 		db.sendToDBQuestion(STDQ,false);
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
+
 	}
 
 	@Test
@@ -127,6 +142,8 @@ public class DBConnectionTest {
 		db.sendToDBQuestion(STDQ,false);
 		db.deleteQuestionFromDB(STDQ);
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
+
 	}
 
 	@Test
@@ -134,7 +151,7 @@ public class DBConnectionTest {
 	{
 		db.postDB("INSERT INTO User VALUES('"+"TEST" + "','" + "TEST" + "','" + "TEST" + "','" + "TEST" + "','" + "TEST" + "')" );
 		assertEquals(true,DBConnection.result);
-
+		System.out.println("Success");
 	}
 
 	@Test
@@ -142,6 +159,7 @@ public class DBConnectionTest {
 	{
 		db.readTests("SELECT quizName FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND draftOrFinal=0");
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
 	}
 	@Test
 	public void deleteQuizTest() throws ClassNotFoundException, JSchException, SQLException
@@ -149,6 +167,7 @@ public class DBConnectionTest {
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "1,2,3" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
 		db.deleteQuiz("TEST");
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
 	}
 	
 	@Test
@@ -157,7 +176,7 @@ public class DBConnectionTest {
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "1,2,3" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
 		db.moveFinal("TEST");
 		assertEquals(true,DBConnection.result);
-
+		System.out.println("Success");
 	}
 	
 	@Test	
@@ -166,6 +185,7 @@ public class DBConnectionTest {
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "1,2,3" + "'," + 1 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
 		db.moveFinal("TEST");
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
 	}
 	
 	@Test	
@@ -174,7 +194,7 @@ public class DBConnectionTest {
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "7" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
 		String id=db.getIDS("SELECT questionIDS FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='TEST'");
 		assertEquals("7",id);
-		
+		System.out.println("Success");
 	}
 	
 	@Test	
@@ -183,6 +203,7 @@ public class DBConnectionTest {
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "7" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
 		Question quest=db.readQuestionsTest("SELECT * FROM Question WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND questionID='7'");
 		assertEquals("7",quest.getId().toString());
+		System.out.println("Success");
 	}
 
 	@Test
@@ -191,6 +212,7 @@ public class DBConnectionTest {
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "7" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
 		String name=db.readQuizName("SELECT quizName FROM Quiz WHERE quizName='TEST'");
 		assertEquals("TEST",name);
+		System.out.println("Success");
 	}
 	
 	@Test	
@@ -198,7 +220,9 @@ public class DBConnectionTest {
 	{
 		Timestamp t=db.readReset("SELECT timestamp from Reset WHERE email='natp4444@yahoo.com' AND ID='123'");
 		assertEquals(null,t);
+		System.out.println("Success");
 	}
+	
 	
 	@Test	
 	public void deleteIDTest() throws ClassNotFoundException, JSchException, SQLException
@@ -206,7 +230,7 @@ public class DBConnectionTest {
 		db.addID("INSERT INTO Reset VALUES('natp4444@yahoo.com', NULL,'1234')");
 		db.deleteID("DELETE FROM Reset WHERE email='natp4444@yahoo.com'");
 		assertEquals(true,DBConnection.result);
-
+		System.out.println("Success");
 	}
 	
 	@Test	
@@ -214,6 +238,7 @@ public class DBConnectionTest {
 	{
 		db.addID("INSERT INTO Reset VALUES('natp4444@yahoo.com', NULL,'1234')");
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
 	}
 	
 	@Test	
@@ -222,6 +247,7 @@ public class DBConnectionTest {
 		db.sendToDBQuestion(STDQ,true);
 		db.setLastUsed(STDQ.getId().toString());
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
 	}
 	
 	@Test	
@@ -230,5 +256,30 @@ public class DBConnectionTest {
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "7" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
 		db.setQuizLastUsed("TEST");
 		assertEquals(true,DBConnection.result);
+		System.out.println("Success");
+	}
+	
+	@Test	
+	public void readLinesTest() throws ClassNotFoundException, JSchException, SQLException
+	{
+		String res=db.readLines("SELECT line FROM Standard WHERE questionID= '230'" );
+		assertEquals("1",res);
+		System.out.println("Success");
+	}
+	
+	@Test	
+	public void readOptionsTest() throws ClassNotFoundException, JSchException, SQLException
+	{
+		String s=db.readOptions("SELECT options FROM MCQ WHERE questionID= '232'");
+		assertEquals("1926,1929,1936",s);
+		System.out.println("Success");
+	}
+	
+	@Test	
+	public void readTestOrExamTest() throws ClassNotFoundException, JSchException, SQLException
+	{
+		int res=db.readTestOrExam("SELECT testOrExam FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='Quiz2A'");
+		assertEquals(1,res);
+		System.out.println("Success");
 	}
 }

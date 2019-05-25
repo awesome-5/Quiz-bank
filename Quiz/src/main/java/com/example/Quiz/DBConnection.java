@@ -164,11 +164,11 @@ public class DBConnection {
 				temp.setId(questionID);
 				temp.setQuestionText(question);
 				temp.setQuestionAnswer(answer);
-				if(type==0)
+				if(type==1)
 				{
 					temp.setType(QuestionType.StandardQuestion);
 				}
-				else if (type==1)
+				else if (type==0)
 				{
 					temp.setType(QuestionType.MCQ);
 				}
@@ -328,7 +328,7 @@ public class DBConnection {
 				difficulty = 4;
 				result=true;
 			}
-			int lines=q.getLines();
+			int line=q.getLines();
 			String options=q.getOptions();
 			if (options.isEmpty())
 				options="NULL";
@@ -374,7 +374,7 @@ public class DBConnection {
 				}
 				else
 				{
-					String sqlmcq="INSERT INTO Standard VALUES('"+ id + "','" + lines + "')" ;
+					String sqlmcq="INSERT INTO Standard VALUES('"+ id + "','" + line + "')" ;
 					statement.executeUpdate(sqlmcq);
 				}
 
@@ -777,11 +777,11 @@ public class DBConnection {
 				temp.setId(questionID);
 				temp.setQuestionText(question);
 				temp.setQuestionAnswer(answer);
-				if(type==0)
+				if(type==1)
 				{
 					temp.setType(QuestionType.StandardQuestion);
 				}
-				else if (type==1)
+				else if (type==0)
 				{
 					temp.setType(QuestionType.MCQ);
 				}

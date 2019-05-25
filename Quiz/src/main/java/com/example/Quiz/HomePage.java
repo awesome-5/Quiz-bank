@@ -45,6 +45,7 @@ public class HomePage extends VerticalLayout implements View {
 			DBConnection dbc = new DBConnection();
 			dbc.readDBCourse("SELECT courseCode,courseName FROM Course WHERE username='"+LoginView.loggedInUser+"'");
 			grid.setItems(dbc.courseObj);
+			System.out.println("333333333333"+dbc.courseObj.toString());
 		} catch (ClassNotFoundException | JSchException | SQLException e1) {
 		}
 	}
@@ -53,10 +54,10 @@ public class HomePage extends VerticalLayout implements View {
 	public void updateGrid(String code) {
 		try {
 			DBConnection dbc = new DBConnection();
-			dbc.readDBCourse("SELECT courseCode FROM Course WHERE username='"+LoginView.loggedInUser+"'");
-			grid.setItems(dbc.courseObj);
+			dbc.readDBCourse("SELECT courseCode,courseName FROM Course WHERE username='"+LoginView.loggedInUser+"'");
+			System.out.println("llllllllllllll"+dbc.courseObj.toString());
 			for (int i =0; i<dbc.courseObj.size();i++) {
-				//System.out.println(dbc.courseObj.get(i).getcourseCode());
+				//System.out.println("llllllllllllll"+dbc.courseObj.get(i).getcourseCode());
 				if (dbc.courseObj.get(i).getcourseCode().equalsIgnoreCase(code)) {
 					sameCourse=true;
 				}
@@ -72,11 +73,18 @@ public class HomePage extends VerticalLayout implements View {
 		editCourse.setEnabled(false);
 		deleteCourse.setEnabled(false);
 		createCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		selectCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		deleteCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		editCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY); 
 		Page.getCurrent().setTitle("Home Page");
-		topTop.addComponents(addCourseCode,addCourseName,createCourse);
+		topTop.addComponents(addCourseCode,addCourseName,createCourse, editCourse, deleteCourse,selectCourse);
 		topTop.setComponentAlignment(addCourseCode, Alignment.BOTTOM_CENTER);
 		topTop.setComponentAlignment(addCourseName, Alignment.BOTTOM_CENTER);
 		topTop.setComponentAlignment(createCourse, Alignment.BOTTOM_CENTER);
+		topTop.setComponentAlignment(editCourse, Alignment.BOTTOM_CENTER);
+		topTop.setComponentAlignment(deleteCourse, Alignment.BOTTOM_CENTER);
+		topTop.setComponentAlignment(selectCourse, Alignment.BOTTOM_CENTER);
+		label.addStyleName("large");
 		label.addStyleName("large");
 		labelInfo.addStyleName("large");
 		topBar.addComponents(topTop,label);
@@ -85,7 +93,6 @@ public class HomePage extends VerticalLayout implements View {
 		topBar.setMargin(false);
 		grid.setSizeFull();
 		grid.setColumns("courseCode","courseName");
-		botBar.addComponents(selectCourse,editCourse,deleteCourse);
 		mainLayout.addComponents(topBar,grid,botBar,labelInfo);
 		mainLayout.setSizeFull();
 		mainLayout.setMargin(false);
@@ -93,11 +100,11 @@ public class HomePage extends VerticalLayout implements View {
 		addComponent(mainLayout);  
 		grid.setBodyRowHeight(50);
 		grid.setHeightMode(HeightMode.ROW);
-		addCourseCode.setValue("");
-		addCourseName.setValue("");
+		//		addCourseCode.setValue("");
+		//		addCourseName.setValue("");
 		//grid.getEditor().setEnabled(true);
-		
-		
+
+
 		grid.addItemClickListener(e ->
 		{
 			//Notification.show("Value: " + e.getItem().getcourseCode());
@@ -105,8 +112,8 @@ public class HomePage extends VerticalLayout implements View {
 			CurrentCourseName=e.getItem().getCourseName();
 			System.out.println("Home "+ CurrentCourse );
 		});
-		
-		
+
+
 		grid.addSelectionListener(e ->
 		{
 
@@ -123,7 +130,7 @@ public class HomePage extends VerticalLayout implements View {
 				selectCourse.setEnabled(true);
 				editCourse.setEnabled(true);
 				deleteCourse.setEnabled(true);
-				labelInfo.setValue("PLease use above fields and click Edit to update an existing course");
+				labelInfo.setValue("Please use above fields and click Edit to update an existing course");
 
 
 			}
@@ -152,27 +159,27 @@ public class HomePage extends VerticalLayout implements View {
 			updateGrid();
 			sameCourse = false;
 		});
-		
-		
+
+
 		selectCourse.addClickListener(e -> {
 			MyUI.navigator.navigateTo(MyUI.GRIDVIEW);
 		});
-		
+
 		editCourse.addClickListener(e -> {
 			DBConnection dbc = new DBConnection();
 			try {
 				if (addCourseCode.getValue()=="") {
-				dbc.postDB("UPDATE Course\n"
-						+ "SET courseCode = '" + CurrentCourse + "', courseName = '"+ addCourseName.getValue() +"'\n"
-								+ "WHERE courseCode = '"+ CurrentCourse +"'"
-										+ "AND username = '"+ LoginView.loggedInUser +"'");
+					dbc.postDB("UPDATE Course\n"
+							+ "SET courseCode = '" + CurrentCourse + "', courseName = '"+ addCourseName.getValue() +"'\n"
+							+ "WHERE courseCode = '"+ CurrentCourse +"'"
+							+ "AND username = '"+ LoginView.loggedInUser +"'");
 				}else if (addCourseName.getValue()=="") {
 					dbc.postDB("UPDATE Course\n"
 							+ "SET courseCode = '" + addCourseCode.getValue() + "', courseName = '"+ CurrentCourseName +"'\n"
-									+ "WHERE courseCode = '"+ CurrentCourse +"'"
-											+ "AND username = '"+ LoginView.loggedInUser +"'");
+							+ "WHERE courseCode = '"+ CurrentCourse +"'"
+							+ "AND username = '"+ LoginView.loggedInUser +"'");
 				}else {
-					
+
 				}
 				updateGrid();
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
@@ -182,7 +189,7 @@ public class HomePage extends VerticalLayout implements View {
 
 			addCourseCode.setValue("");
 			addCourseName.setValue("");
-	
+
 		});
 
 		deleteCourse.addClickListener(e->
@@ -196,10 +203,10 @@ public class HomePage extends VerticalLayout implements View {
 				updateGrid();
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 			}
-
+			label.setValue("Course Deleted"); 
 		});
 		updateGrid();
-		
+
 
 		createCourse.setClickShortcut(KeyCode.ENTER);
 

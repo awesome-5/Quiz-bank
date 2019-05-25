@@ -12,11 +12,14 @@ public class CourseTest {
 		Course course = new Course(); 
 		course.setCourseName("Test");
 		assertEquals("Course Name Should Equal Test", course.getCourseName(),"Test");
+		System.out.println("Success");
+
 	}	
 	@Test
 	public void shouldReturnCourseCode() {
 		Course course = new Course(); 
 		course.setcourseCode("Test");
 		assertEquals("Course Code Should Equal Test", course.getcourseCode(),"Test");
+		System.out.println("Success");
 	}	
 }
