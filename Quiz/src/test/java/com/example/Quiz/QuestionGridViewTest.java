@@ -1,5 +1,12 @@
 package com.example.Quiz;
 
-public class QuestionGridViewTest {
+import org.junit.Test;
 
+public class QuestionGridViewTest {
+	@Test
+	public void updateList() {
+		QuestionGridView qgv = new QuestionGridView(); 
+		qgv.updateList();	
+		System.out.println("Success");
+	}
 }

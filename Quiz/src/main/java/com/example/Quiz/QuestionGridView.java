@@ -39,7 +39,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 	static CssLayout filtering = new CssLayout();
 	QuestionService service = QuestionService.getInstance();
 	static Long CurrentId=null;
-	Button view = new Button("View All Quizzes");
+	static Button view = new Button("View All Quizzes");
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -108,6 +108,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 				form.setVisible(false);
 			} else {
 				try {
+					DBConnection dbc = new DBConnection();
 					CurrentId= e.getValue().getId();
 					System.out.println("id of mother question"+CurrentId);
 					grid.setVisible(false);

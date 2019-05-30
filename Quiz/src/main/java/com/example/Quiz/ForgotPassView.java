@@ -100,7 +100,7 @@ public class ForgotPassView extends VerticalLayout implements View
 	}
 
 
-	private void sendEmail(String to) {
+	 public void sendEmail(String to) {
 		try {
 			String token;
 			final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -130,7 +130,7 @@ public class ForgotPassView extends VerticalLayout implements View
 
 		}
 	}
-	void updateUser(String token)
+	public void updateUser(String token)
 	{
 			try {
 				DBConnection dbc = new DBConnection();

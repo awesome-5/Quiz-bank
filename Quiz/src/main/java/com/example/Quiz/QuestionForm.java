@@ -31,7 +31,7 @@ public class QuestionForm extends FormLayout {
 	private NativeSelect<Question>questions=new NativeSelect<>("Variant of");
 	private NativeSelect<QuestionType> type = new NativeSelect<>("Question Type");
 	private TextField line = new TextField("Lines");
-	private TextField options = new TextField("MCQ Options");
+	private TextArea options = new TextArea("MCQ Options");
 	private Button save = new Button("Save");
 	private Button delete = new Button("Delete");
 	private Button back = new Button("Back");
@@ -51,6 +51,7 @@ public class QuestionForm extends FormLayout {
 		questionAnswer.setRequiredIndicatorVisible(true);
 		time.setRequiredIndicatorVisible(true);
 		type.setRequiredIndicatorVisible(true);
+		options.setWidth("100%");
 		options.setVisible(false);
 		line.setVisible(false);
 
@@ -85,7 +86,11 @@ public class QuestionForm extends FormLayout {
 
 		save.addClickListener(e -> {
 			try {
+				if(line.isVisible()) {
+				question.setLines(Integer.parseInt(line.getValue()));
+				}
 				this.save();
+				Page.getCurrent().reload();			
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -93,7 +98,11 @@ public class QuestionForm extends FormLayout {
 		
 		saveVariant.addClickListener(e -> {
 			try {
+				if(line.isVisible()) {
+					question.setLines(Integer.parseInt(line.getValue()));
+					}		
 				this.saveAsVariant();
+				Page.getCurrent().reload();			
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -102,6 +111,7 @@ public class QuestionForm extends FormLayout {
 		delete.addClickListener(e -> {
 			try {
 				this.delete();
+				Page.getCurrent().reload();			
 			} catch (ClassNotFoundException | JSchException | SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -112,12 +122,20 @@ public class QuestionForm extends FormLayout {
 			setVisible(false);
 			QuestionGridView.toolbar.setVisible(true);
 			QuestionGridView.grid.setVisible(true);
+			Page.getCurrent().reload();			
 		});
 
 	}
 
 	public void setQuestion(Question question) throws ClassNotFoundException, JSchException, SQLException {
+		DBConnection dbc = new DBConnection();
 		this.question = question;
+		if (question.getType()==QuestionType.MCQ) {
+		question.setOptions(dbc.readOptions("SELECT options FROM MCQ WHERE questionID= '"+question.getId()+"'"));
+		}
+//		else if(question.getType()==QuestionType.StandardQuestion) {
+//			question.setLines(Integer.parseInt(dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+question.getId()+"'")));
+//		}
 		binder.setBean(question); 
 		setVisible(true);
 		questionText.selectAll();
