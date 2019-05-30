@@ -1,0 +1,9 @@
+---
+addons:
+  firefox: "60.0"
+before_install:
+  - "cd Quiz"
+jdk:
+  - oraclejdk8
+language: java
+sudo: required
