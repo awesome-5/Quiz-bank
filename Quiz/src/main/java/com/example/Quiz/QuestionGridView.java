@@ -39,7 +39,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 	static CssLayout filtering = new CssLayout();
 	QuestionService service = QuestionService.getInstance();
 	static Long CurrentId=null;
-	Button view = new Button("View All Quizzes");
+	static Button view = new Button("View All Quizzes");
 
 	@Override
 	public void enter(ViewChangeEvent event) {

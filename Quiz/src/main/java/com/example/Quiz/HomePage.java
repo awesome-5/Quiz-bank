@@ -16,6 +16,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 @PushStateNavigation
@@ -37,7 +38,6 @@ public class HomePage extends VerticalLayout implements View {
 	public static String CurrentCourse="";
 	static String CurrentCourseName="";
 	Boolean sameCourse = false;
-
 	//reads all the courses that link to the user that is currently logged in
 
 	public void updateGrid() {
@@ -45,7 +45,7 @@ public class HomePage extends VerticalLayout implements View {
 			DBConnection dbc = new DBConnection();
 			dbc.readDBCourse("SELECT courseCode,courseName FROM Course WHERE username='"+LoginView.loggedInUser+"'");
 			grid.setItems(dbc.courseObj);
-			System.out.println("333333333333"+dbc.courseObj.toString());
+			//System.out.println("333333333333"+dbc.courseObj.toString());
 		} catch (ClassNotFoundException | JSchException | SQLException e1) {
 		}
 	}
@@ -55,7 +55,7 @@ public class HomePage extends VerticalLayout implements View {
 		try {
 			DBConnection dbc = new DBConnection();
 			dbc.readDBCourse("SELECT courseCode,courseName FROM Course WHERE username='"+LoginView.loggedInUser+"'");
-			System.out.println("llllllllllllll"+dbc.courseObj.toString());
+			//System.out.println("llllllllllllll"+dbc.courseObj.toString());
 			for (int i =0; i<dbc.courseObj.size();i++) {
 				//System.out.println("llllllllllllll"+dbc.courseObj.get(i).getcourseCode());
 				if (dbc.courseObj.get(i).getcourseCode().equalsIgnoreCase(code)) {
