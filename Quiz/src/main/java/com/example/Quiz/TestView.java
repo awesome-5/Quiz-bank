@@ -26,6 +26,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.GridDragSource;
 import com.vaadin.ui.components.grid.GridDropTarget;
@@ -40,6 +41,10 @@ public class TestView extends VerticalLayout implements View {
 	HorizontalLayout mainLayout = new HorizontalLayout();
 	VerticalLayout draftVLayout = new VerticalLayout();
 	VerticalLayout finalVLayout = new VerticalLayout();
+	VerticalLayout latexInputs = new VerticalLayout();
+	HorizontalLayout exportLayout = new HorizontalLayout();
+
+
 	HorizontalLayout draftBar = new HorizontalLayout();
 	HorizontalLayout finalBar = new HorizontalLayout();
 	HorizontalLayout bottomDraftBar = new HorizontalLayout();
@@ -56,6 +61,24 @@ public class TestView extends VerticalLayout implements View {
 	static Boolean finalTestFlag = true;
 	static Boolean finalExamFlag = true;
 	Boolean memoFlag = false;
+	
+	TextField date = new TextField("Date of Quiz(DD/MM/YYYY)");
+	static String dateString="";
+	TextField internalExaminers = new TextField("Internal Examiner");
+	static String internalExaminersString="";
+	TextField externalExaminers = new TextField("External Examiner");
+	static String externalExaminersString="";
+	TextField special = new TextField("Special Materials");
+	static String specialString="";
+	TextField time = new TextField("Times Allowance");
+	static String timeString="";
+	TextField instructions = new TextField("Instructions to candidates");
+	static String instructionsString="";
+	TextField venue = new TextField("Venue");
+	static String venueString="";
+	TextField yearOfStudy = new TextField("Year of Study");
+	static String yearOfStudyString="";
+
 
 	Button delete = new Button("Delete Quiz");
 	Button edit = new Button("Edit Quiz");
@@ -66,6 +89,8 @@ public class TestView extends VerticalLayout implements View {
 	Button exportDraft = new Button("Export Draft");
 	Button exportFinal = new Button("Export Final");
 	Button backBtn = new Button("Back");
+	
+	Label space = new Label(" ");
 	ArrayList<Question> qTestObj=new ArrayList<Question>();
 
 	static String currentDraftQuiz="";
@@ -121,6 +146,7 @@ public class TestView extends VerticalLayout implements View {
 		draftVLayout.setWidth("100%");
 		finalVLayout.setMargin(false);
 		finalVLayout.setWidth("100%");
+		finalVLayout.setSizeFull();
 		bottomDraftBar.setMargin(false);
 		bottomFinalBar.setMargin(false);
 		mainLayout.setMargin(false);
@@ -132,11 +158,16 @@ public class TestView extends VerticalLayout implements View {
 		finalBar.setComponentAlignment(finalTestBox, Alignment.MIDDLE_CENTER );	
 		finalBar.setComponentAlignment(finalExamBox, Alignment.MIDDLE_CENTER );	
 
+		latexInputs.setMargin(false);
+		latexInputs.setSizeFull();
+		exportLayout.addComponents(exportDraft,exportFinal);
+		latexInputs.addComponents(space,date,venue,yearOfStudy,internalExaminers,externalExaminers,special,time,instructions,exportLayout);
 		draftVLayout.addComponents(draftBar,draftGrid,bottomDraftBar);
 		finalVLayout.addComponents(finalBar,finalGrid,bottomFinalBar,memoBox);
-		bottomDraftBar.addComponents(view,edit,delete,moveFinal,exportDraft);
-		bottomFinalBar.addComponents(viewFinal,moveDraft,exportFinal,backBtn);
-		mainLayout.addComponents(draftVLayout,finalVLayout);
+		bottomDraftBar.addComponents(view,edit,delete,moveFinal);
+		bottomFinalBar.addComponents(viewFinal,moveDraft,backBtn);
+		mainLayout.addComponents(draftVLayout,finalVLayout,latexInputs);
+		mainLayout.setComponentAlignment(latexInputs, Alignment.TOP_RIGHT );	
 		delete.setEnabled(false);
 		edit.setEnabled(false);
 		view.setEnabled(false);
@@ -295,6 +326,17 @@ public class TestView extends VerticalLayout implements View {
 
 		exportDraft.addClickListener(e->
 		{
+			dateString=date.getValue();
+			internalExaminersString=internalExaminers.getValue();
+			externalExaminersString=externalExaminers.getValue();		
+			specialString=special.getValue();
+			timeString=time.getValue();
+			instructionsString=instructions.getValue();
+			venueString = venue.getValue();
+			yearOfStudyString = yearOfStudy.getValue();
+			if((specialString).equals("")) {
+				specialString="None";
+				}
 
 			DBConnection dbc = new DBConnection();
 			latexTemplate tex = new latexTemplate ();
@@ -410,8 +452,8 @@ public class TestView extends VerticalLayout implements View {
 			}
 			String[] command =
 				{
-						"cmd",
-						//"bash",
+						//"cmd",
+						"zsh",
 				};
 			Process p;
 			try {
@@ -419,6 +461,7 @@ public class TestView extends VerticalLayout implements View {
 				new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
 				new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
 				PrintWriter stdin = new PrintWriter(p.getOutputStream());
+				//stdin.println("export PATH = ~/bin");
 				stdin.println("cd "+chooser.getCurrentDirectory());
 				stdin.println("pdflatex --file-line-error --synctex=1 --shell-escape --interaction=nonstopmode");
 				stdin.println(chooser.getSelectedFile().getName());
@@ -434,7 +477,17 @@ public class TestView extends VerticalLayout implements View {
 
 		exportFinal.addClickListener(e->
 		{
-
+			dateString=date.getValue();
+			internalExaminersString=internalExaminers.getValue();
+			externalExaminersString=externalExaminers.getValue();		
+			specialString=special.getValue();
+			timeString=time.getValue();
+			instructionsString=instructions.getValue();
+			venueString = venue.getValue();
+			yearOfStudyString = yearOfStudy.getValue();
+			if((specialString).equals("")) {
+				specialString="None";
+				}
 			DBConnection dbc = new DBConnection();
 			latexTemplate tex = new latexTemplate ();
 			String[] ids;
@@ -549,8 +602,8 @@ public class TestView extends VerticalLayout implements View {
 			}
 			String[] command =
 				{
-						"cmd",
-						//"bash",
+						//"cmd",
+					"zsh",
 				};
 			Process p;
 			try {
