@@ -33,6 +33,7 @@ public class MyUI extends UI {
 
 		// Create a navigator to control the views
 		navigator = new Navigator(this, this);
+
 		// Create and register the views
 		navigator.addView("", new LoginView());
 		navigator.addView(LOGINVIEW, new LoginView());

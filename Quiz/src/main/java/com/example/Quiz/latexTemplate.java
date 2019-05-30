@@ -1,8 +1,7 @@
 package com.example.Quiz;
 
 public class latexTemplate {
-	String []  dateArr = TestView.dateString.split("/");
-
+	
 String coverPageTestFinal ="\\documentclass[a4paper,11pt]{article}\r\n" + 
 		"\\usepackage{xcolor}\r\n" + 
 		"\\usepackage{wits_code}\r\n" + 
@@ -36,24 +35,24 @@ String coverPageTestFinal ="\\documentclass[a4paper,11pt]{article}\r\n" +
 		"\r\n" + 
 		"\r\n" + 
 		"\\newcommand{\\todo}{\\textbf{TODO}}\r\n" + 
-		"\\titleHeadTime"+"{"+TestView.timeString+"}\r\n" + 
-		"\\titleHeadDay"+"{"+dateArr[0]+"}\r\n" + 
-		"\\titleHeadMonth"+"{"+dateArr[1]+"}\r\n" + 
-		"\\titleHeadYear"+"{"+dateArr[2]+"}\r\n" + 
-		"\\titleHeadVenue"+"{"+TestView.venueString+"}\r\n" + 
+		"\\titleHeadTime{2}\r\n" + 
+		"\\titleHeadDay{1}\r\n" + 
+		"\\titleHeadMonth{Mar}\r\n" + 
+		"\\titleHeadYear{2018}\r\n" + 
+		"\\titleHeadVenue{CB Exams Hall}\r\n" + 
 		"% First set up fieled that the exams office wants\r\n" + 
 		"\\courseno"+"{"+HomePage.CurrentCourse+"}\r\n" + 
 		"\\papertitle"+"{"+HomePage.CurrentCourseName+"}\r\n" +  
-		"\\testmonth"+"{"+dateArr[1]+"}\r\n" + 
-		"\\testyear"+"{"+dateArr[2]+"}\r\n" + 
-		"\\yearofstudy"+"{"+TestView.yearOfStudyString+"} % None for Arts and Science\r\n" + 
+		"\\testmonth{March 1}\r\n" + 
+		"\\testyear{2018}\r\n" + 
+		"%\\yearofstudy{1} % None for Arts and Science\r\n" + 
 		"\\degrees{BSc, BSc (Applied Computing), BEconSci}\r\n" + 
 		"\\faculties{Science}\r\n" + 
-		"\\internalexaminer"+"{"+TestView.internalExaminersString+"}\r\n" + 
-		"\\externalexaminer"+"{"+TestView.externalExaminersString+"}\r\n" + 
-		"\\specialmaterial"+"{"+TestView.specialString+"}\r\n" + 
-		"\\hoursallowance"+"{"+TestView.timeString+ " Hours}\r\n" + 
-		"\\instructions"+"{"+TestView.instructionsString+"}\r\n" + 
+		"\\internalexaminer{Mr Steven James\\\\x-76157}\r\n" + 
+		"\\externalexaminer{Prof. Stefan Gruner (UP)}\r\n" + 
+		"\\specialmaterial{None}\r\n" + 
+		"\\hoursallowance{2 Hours}\r\n" + 
+		"\\instructions{\\thetotalmarks\\ Marks available. \\thetotalmarks\\ marks = 100\\%.\\\\ Answer all questions. This is a closed book exam. This exam consists of 11 pages.}\r\n" + 
 		"%% Following field not needed for \\examcover but for \\simpleexamhead\r\n" + 
 		"%\\department{Computer Science}\r\n" + 
 		"%\\solutiontitle{Mark scheme}\r\n" + 
@@ -64,7 +63,7 @@ String coverPageTestFinal ="\\documentclass[a4paper,11pt]{article}\r\n" +
 		"\\usepackage{titling}\r\n" + 
 		"\\setlength{\\droptitle}{-7em}   % This is your set screw\r\n" + 
 		"\\title"+"{"+HomePage.CurrentCourseName+" ("+HomePage.CurrentCourse+") \\\\ Class Test 1}\r\n" + 
-		"\\date"+"{"+dateArr[0]+" "+dateArr[1]+" "+dateArr[2]+", 14h15--16h15, "+TestView.venueString+"}\r\n" + 
+		"\\date{1 March 2018, 14h15--16h15, Exams Hall}\r\n" + 
 		"\\begin{document}\r\n" + 
 		"%\\makeexamcover\r\n" + 
 		"\\maketitle\r\n" + 
@@ -159,24 +158,24 @@ String coverPageTestDraft ="\\documentclass[a4paper,11pt]{article}\r\n" +
 		"\r\n" + 
 		"\r\n" + 
 		"\\newcommand{\\todo}{\\textbf{TODO}}\r\n" + 
-		"\\titleHeadTime"+"{"+TestView.timeString+"}\r\n" + 
-		"\\titleHeadDay"+"{"+dateArr[0]+"}\r\n" + 
-		"\\titleHeadMonth"+"{"+dateArr[1]+"}\r\n" + 
-		"\\titleHeadYear"+"{"+dateArr[2]+"}\r\n" + 
-		"\\titleHeadVenue"+"{"+TestView.venueString+"}\r\n" + 
+		"\\titleHeadTime{2}\r\n" + 
+		"\\titleHeadDay{1}\r\n" + 
+		"\\titleHeadMonth{Mar}\r\n" + 
+		"\\titleHeadYear{2018}\r\n" + 
+		"\\titleHeadVenue{CB Exams Hall}\r\n" + 
 		"% First set up fieled that the exams office wants\r\n" + 
 		"\\courseno"+"{"+HomePage.CurrentCourse+"}\r\n" + 
 		"\\papertitle"+"{"+HomePage.CurrentCourseName+"}\r\n" +  
-		"\\testmonth"+"{"+dateArr[1]+"}\r\n" + 
-		"\\testyear"+"{"+dateArr[2]+"}\r\n" + 
-		"\\yearofstudy"+"{"+TestView.yearOfStudyString+"} % None for Arts and Science\r\n" + 
+		"\\testmonth{March 1}\r\n" + 
+		"\\testyear{2018}\r\n" + 
+		"%\\yearofstudy{1} % None for Arts and Science\r\n" + 
 		"\\degrees{BSc, BSc (Applied Computing), BEconSci}\r\n" + 
 		"\\faculties{Science}\r\n" + 
-		"\\internalexaminer"+"{"+TestView.internalExaminersString+"}\r\n" + 
-		"\\externalexaminer"+"{"+TestView.externalExaminersString+"}\r\n" + 
-		"\\specialmaterial"+"{"+TestView.specialString+"}\r\n" + 
-		"\\hoursallowance"+"{"+TestView.timeString+ " Hours}\r\n" + 
-		"\\instructions"+"{"+TestView.instructionsString+"}\r\n" + 
+		"\\internalexaminer{Mr Steven James\\\\x-76157}\r\n" + 
+		"\\externalexaminer{Prof. Stefan Gruner (UP)}\r\n" + 
+		"\\specialmaterial{None}\r\n" + 
+		"\\hoursallowance{2 Hours}\r\n" + 
+		"\\instructions{\\thetotalmarks\\ Marks available. \\thetotalmarks\\ marks = 100\\%.\\\\ Answer all questions. This is a closed book exam. This exam consists of 11 pages.}\r\n" + 
 		"%% Following field not needed for \\examcover but for \\simpleexamhead\r\n" + 
 		"%\\department{Computer Science}\r\n" + 
 		"%\\solutiontitle{Mark scheme}\r\n" + 
@@ -187,7 +186,7 @@ String coverPageTestDraft ="\\documentclass[a4paper,11pt]{article}\r\n" +
 		"\\usepackage{titling}\r\n" + 
 		"\\setlength{\\droptitle}{-7em}   % This is your set screw\r\n" + 
 		"\\title"+"{"+HomePage.CurrentCourseName+" ("+HomePage.CurrentCourse+") \\\\ Class Test 1}\r\n" + 
-		"\\date"+"{"+dateArr[0]+" "+dateArr[1]+" "+dateArr[2]+", 14h15--16h15, "+TestView.venueString+"}\r\n" + 
+		"\\date{1 March 2018, 14h15--16h15, Exams Hall}\r\n" + 
 		"\\usepackage{draftwatermark}\r\n" + 
 		"\\SetWatermarkText{Draft}\r\n" + 
 		"\\SetWatermarkScale{2}\r\n"+
@@ -285,24 +284,24 @@ String coverPageExamFinal ="\\documentclass[a4paper,11pt]{article}\r\n" +
 		"\r\n" + 
 		"\r\n" + 
 		"\\newcommand{\\todo}{\\textbf{TODO}}\r\n" + 
-		"\\titleHeadTime"+"{"+TestView.timeString+"}\r\n" + 
-		"\\titleHeadDay"+"{"+dateArr[0]+"}\r\n" + 
-		"\\titleHeadMonth"+"{"+dateArr[1]+"}\r\n" + 
-		"\\titleHeadYear"+"{"+dateArr[2]+"}\r\n" + 
-		"\\titleHeadVenue"+"{"+TestView.venueString+"}\r\n" + 
+		"\\titleHeadTime{2}\r\n" + 
+		"\\titleHeadDay{4}\r\n" + 
+		"\\titleHeadMonth{June}\r\n" + 
+		"\\titleHeadYear{2018}\r\n" + 
+		"\\titleHeadVenue{Old Mutual Sports Hall}\r\n" + 
 		"% First set up fieled that the exams office wants\r\n" + 
 		"\\courseno"+"{"+HomePage.CurrentCourse+"}"+"\r\n" + 
 		"\\papertitle"+"{"+HomePage.CurrentCourseName+"}"+"\r\n" + 
-		"\\testmonth"+"{"+dateArr[1]+"}\r\n" + 
-		"\\testyear"+"{"+dateArr[2]+"}\r\n" + 
-		"\\yearofstudy"+"{"+TestView.yearOfStudyString+"} % None for Arts and Science\r\n" + 
+		"\\testmonth{June}\r\n" + 
+		"\\testyear{2018}\r\n" + 
+		"%\\yearofstudy{1} % None for Arts and Science\r\n" + 
 		"\\degrees{BSc, BSc (Applied Computing), BEconSci}\r\n" + 
 		"\\faculties{Science}\r\n" + 
-		"\\internalexaminer"+"{"+TestView.internalExaminersString+"}\r\n" + 
-		"\\externalexaminer"+"{"+TestView.externalExaminersString+"}\r\n" + 
-		"\\specialmaterial"+"{"+TestView.specialString+"}\r\n" + 
-		"\\hoursallowance"+"{"+TestView.timeString+ " Hours}\r\n" + 
-		"\\instructions"+"{"+TestView.instructionsString+"}\r\n" + 
+		"\\internalexaminer{Mr Steven James\\\\x-76157}\r\n" + 
+		"\\externalexaminer{Prof. Stefan Gruner (UP)}\r\n" + 
+		"\\specialmaterial{None}\r\n" + 
+		"\\hoursallowance{2 Hours}\r\n" + 
+		"\\instructions{\\thetotalmarks\\ Marks available. \\thetotalmarks\\ marks = 100\\%.\\\\ Answer all questions. This is a closed book exam. This exam consists of 12 pages, including this cover page.}\r\n" + 
 		"%% Following field not needed for \\examcover but for \\simpleexamhead\r\n" + 
 		"%\\department{Computer Science}\r\n" + 
 		"%\\solutiontitle{Mark scheme}\r\n" + 
@@ -350,24 +349,24 @@ String coverPageExamDraft="\\documentclass[a4paper,11pt]{article}\r\n" +
 		"\r\n" + 
 		"\r\n" + 
 		"\\newcommand{\\todo}{\\textbf{TODO}}\r\n" + 
-		"\\titleHeadTime"+"{"+TestView.timeString+"}\r\n" + 
-		"\\titleHeadDay"+"{"+dateArr[0]+"}\r\n" + 
-		"\\titleHeadMonth"+"{"+dateArr[1]+"}\r\n" + 
-		"\\titleHeadYear"+"{"+dateArr[2]+"}\r\n" + 
-		"\\titleHeadVenue"+"{"+TestView.venueString+"}\r\n" + 
+		"\\titleHeadTime{2}\r\n" + 
+		"\\titleHeadDay{4}\r\n" + 
+		"\\titleHeadMonth{June}\r\n" + 
+		"\\titleHeadYear{2018}\r\n" + 
+		"\\titleHeadVenue{Old Mutual Sports Hall}\r\n" + 
 		"% First set up fieled that the exams office wants\r\n" + 
 		"\\courseno"+"{"+HomePage.CurrentCourse+"}"+"\r\n" + 
 		"\\papertitle"+"{"+HomePage.CurrentCourseName+"}"+"\r\n" + 
-		"\\testmonth"+"{"+dateArr[1]+"}\r\n" + 
-		"\\testyear"+"{"+dateArr[2]+"}\r\n" + 
-		"\\yearofstudy"+"{"+TestView.yearOfStudyString+"} % None for Arts and Science\r\n" + 
+		"\\testmonth{June}\r\n" + 
+		"\\testyear{2018}\r\n" + 
+		"%\\yearofstudy{1} % None for Arts and Science\r\n" + 
 		"\\degrees{BSc, BSc (Applied Computing), BEconSci}\r\n" + 
 		"\\faculties{Science}\r\n" + 
-		"\\internalexaminer"+"{"+TestView.internalExaminersString+"}\r\n" + 
-		"\\externalexaminer"+"{"+TestView.externalExaminersString+"}\r\n" + 
-		"\\specialmaterial"+"{"+TestView.specialString+"}\r\n" + 
-		"\\hoursallowance"+"{"+TestView.timeString+ " Hours}\r\n" + 
-		"\\instructions"+"{"+TestView.instructionsString+"}\r\n" + 
+		"\\internalexaminer{Mr Steven James\\\\x-76157}\r\n" + 
+		"\\externalexaminer{Prof. Stefan Gruner (UP)}\r\n" + 
+		"\\specialmaterial{None}\r\n" + 
+		"\\hoursallowance{2 Hours}\r\n" + 
+		"\\instructions{\\thetotalmarks\\ Marks available. \\thetotalmarks\\ marks = 100\\%.\\\\ Answer all questions. This is a closed book exam. This exam consists of 12 pages, including this cover page.}\r\n" + 
 		"%% Following field not needed for \\examcover but for \\simpleexamhead\r\n" + 
 		"%\\department{Computer Science}\r\n" + 
 		"%\\solutiontitle{Mark scheme}\r\n" + 
