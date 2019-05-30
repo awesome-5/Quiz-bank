@@ -108,6 +108,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 				form.setVisible(false);
 			} else {
 				try {
+					DBConnection dbc = new DBConnection();
 					CurrentId= e.getValue().getId();
 					System.out.println("id of mother question"+CurrentId);
 					grid.setVisible(false);

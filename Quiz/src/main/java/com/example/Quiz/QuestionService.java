@@ -118,6 +118,8 @@ public class QuestionService {
 					c.setVariantOf(results.get(i).getVariantOf());
 					c.setQuestionAnswer(results.get(i).getQuestionAnswer());
 					c.setCourseCode(results.get(i).getCourseCode());
+//					c.setLines(results.get(i).getLines());
+//					c.setOptions(results.get(i).getOptions());
 					
 					questions.put(c.getId(), c);
 				}

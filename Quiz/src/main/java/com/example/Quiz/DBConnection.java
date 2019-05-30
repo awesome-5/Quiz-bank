@@ -167,6 +167,7 @@ public class DBConnection {
 				if(type==1)
 				{
 					temp.setType(QuestionType.StandardQuestion);
+					
 				}
 				else if (type==0)
 				{
@@ -341,7 +342,13 @@ public class DBConnection {
 			if (isModified) {
 				System.out.println("question is being modified");
 				String sqlmofid= "UPDATE Question SET question='"+ question + "', answer='" + answer+ "', type='"+type+"', mark='" + mark + "',difficulty='" + difficulty + "',time='" + time+ "' WHERE questionID = '"+QuestionGridView.CurrentId+ "';";
+				String sqlmodLine="UPDATE Standard SET line='"+line+ "' WHERE questionID= '"+QuestionGridView.CurrentId+"';";
+				String sqlmodOptions="UPDATE MCQ SET options='"+options+ "' WHERE questionID= '"+QuestionGridView.CurrentId+"';";
+
 				statement.executeUpdate(sqlmofid);
+				statement.executeUpdate(sqlmodLine);
+				statement.executeUpdate(sqlmodOptions);
+
 
 				result=true;
 

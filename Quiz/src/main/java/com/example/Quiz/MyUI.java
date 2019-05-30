@@ -5,7 +5,6 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
-import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -28,14 +27,12 @@ public class MyUI extends UI {
 	protected static final String TESTQUESTIONS = "testQuestions";
 	protected static final String EDITDRAGVIEW = "editDragView";
 	protected static final String RESETVIEW = "resetPassword";
-
 	@Override
 	protected void init(VaadinRequest request) {
 		getPage().setTitle("Quiz Bank");
 
 		// Create a navigator to control the views
 		navigator = new Navigator(this, this);
-
 		// Create and register the views
 		navigator.addView("", new LoginView());
 		navigator.addView(LOGINVIEW, new LoginView());

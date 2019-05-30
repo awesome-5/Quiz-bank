@@ -37,14 +37,11 @@ import com.vaadin.ui.themes.ValoTheme;
 
 
 public class TestView extends VerticalLayout implements View {
-	VerticalLayout wrap =new VerticalLayout();
-	HorizontalLayout mainLayout = new HorizontalLayout();
 	VerticalLayout draftVLayout = new VerticalLayout();
 	VerticalLayout finalVLayout = new VerticalLayout();
 	VerticalLayout latexInputs = new VerticalLayout();
+	HorizontalLayout mainLayout = new HorizontalLayout();
 	HorizontalLayout exportLayout = new HorizontalLayout();
-
-
 	HorizontalLayout draftBar = new HorizontalLayout();
 	HorizontalLayout finalBar = new HorizontalLayout();
 	HorizontalLayout bottomDraftBar = new HorizontalLayout();
@@ -61,7 +58,7 @@ public class TestView extends VerticalLayout implements View {
 	static Boolean finalTestFlag = true;
 	static Boolean finalExamFlag = true;
 	Boolean memoFlag = false;
-	
+
 	TextField date = new TextField("Date of Quiz(DD/MM/YYYY)");
 	static String dateString="";
 	TextField internalExaminers = new TextField("Internal Examiner");
@@ -89,13 +86,13 @@ public class TestView extends VerticalLayout implements View {
 	Button exportDraft = new Button("Export Draft");
 	Button exportFinal = new Button("Export Final");
 	Button backBtn = new Button("Back");
-	
+
 	Label space = new Label(" ");
 	ArrayList<Question> qTestObj=new ArrayList<Question>();
 
 	static String currentDraftQuiz="";
 	static String currentFinalQuiz="";
-
+	static Boolean flag=false;
 
 	public static String getIDS(String s) {
 		String ret="";
@@ -139,27 +136,9 @@ public class TestView extends VerticalLayout implements View {
 		updateDraftGrid("SELECT quizName FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND draftOrFinal=0");
 		updateFinalGrid("SELECT quizName FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND draftOrFinal=1");
 		Page.getCurrent().setTitle("Drafts and Final Papers");
-		draftBar.setMargin(false);
-		finalBar.setMargin(false);
-		draftVLayout.setMargin(false);
-		draftVLayout.setSizeFull();
-		draftVLayout.setWidth("100%");
-		finalVLayout.setMargin(false);
-		finalVLayout.setWidth("100%");
-		finalVLayout.setSizeFull();
-		bottomDraftBar.setMargin(false);
-		bottomFinalBar.setMargin(false);
-		mainLayout.setMargin(false);
-		mainLayout.setSizeFull();
+
 		draftBar.addComponents(draftTestBox,draftExamBox);
 		finalBar.addComponents(finalTestBox,finalExamBox);
-		draftBar.setComponentAlignment(draftTestBox, Alignment.MIDDLE_CENTER );	
-		draftBar.setComponentAlignment(draftExamBox, Alignment.MIDDLE_CENTER );	
-		finalBar.setComponentAlignment(finalTestBox, Alignment.MIDDLE_CENTER );	
-		finalBar.setComponentAlignment(finalExamBox, Alignment.MIDDLE_CENTER );	
-
-		latexInputs.setMargin(false);
-		latexInputs.setSizeFull();
 		exportLayout.addComponents(exportDraft,exportFinal);
 		latexInputs.addComponents(space,date,venue,yearOfStudy,internalExaminers,externalExaminers,special,time,instructions,exportLayout);
 		draftVLayout.addComponents(draftBar,draftGrid,bottomDraftBar);
@@ -167,7 +146,24 @@ public class TestView extends VerticalLayout implements View {
 		bottomDraftBar.addComponents(view,edit,delete,moveFinal);
 		bottomFinalBar.addComponents(viewFinal,moveDraft,backBtn);
 		mainLayout.addComponents(draftVLayout,finalVLayout,latexInputs);
+		draftBar.setMargin(false);
+		finalBar.setMargin(false);
+		latexInputs.setMargin(false);
+		draftVLayout.setMargin(false);
+		finalVLayout.setMargin(false);
+		bottomDraftBar.setMargin(false);
+		bottomFinalBar.setMargin(false);
+		mainLayout.setMargin(false);
+		exportLayout.setMargin(false);
+		mainLayout.setSizeFull();
+		latexInputs.setSizeUndefined();
+		finalVLayout.setSizeFull();
+		draftVLayout.setSizeFull();
 		mainLayout.setComponentAlignment(latexInputs, Alignment.TOP_RIGHT );	
+		draftBar.setComponentAlignment(draftTestBox, Alignment.MIDDLE_CENTER );	
+		draftBar.setComponentAlignment(draftExamBox, Alignment.MIDDLE_CENTER );	
+		finalBar.setComponentAlignment(finalTestBox, Alignment.MIDDLE_CENTER );	
+		finalBar.setComponentAlignment(finalExamBox, Alignment.MIDDLE_CENTER );	
 		delete.setEnabled(false);
 		edit.setEnabled(false);
 		view.setEnabled(false);
@@ -177,7 +173,6 @@ public class TestView extends VerticalLayout implements View {
 		exportDraft.setEnabled(false);
 		exportFinal.setEnabled(false);
 		addComponent(mainLayout);
-		wrap.setSizeFull();
 		draftTestBox.setValue(true);
 		draftExamBox.setValue(true);
 		finalTestBox.setValue(true);
@@ -190,7 +185,6 @@ public class TestView extends VerticalLayout implements View {
 		draftGrid.setHeightMode(HeightMode.ROW);
 		finalGrid.setBodyRowHeight(60);
 		finalGrid.setHeightMode(HeightMode.ROW);
-
 		// updates grids if boxes are ticked, exam, test or both
 		draftTestBox.addValueChangeListener(eent ->{
 			draftTestFlag=draftTestBox.getValue();
@@ -336,7 +330,7 @@ public class TestView extends VerticalLayout implements View {
 			yearOfStudyString = yearOfStudy.getValue();
 			if((specialString).equals("")) {
 				specialString="None";
-				}
+			}
 
 			DBConnection dbc = new DBConnection();
 			latexTemplate tex = new latexTemplate ();
@@ -365,44 +359,44 @@ public class TestView extends VerticalLayout implements View {
 					fw.write("\n");
 					fw.write("\n");
 					if (!memoFlag) {
-					for (int i=0;i<ids.length;i++)
-					{
-						if (qTestObj.get(i).getType()==QuestionType.MCQ) {
-							String Options =dbc.readOptions("SELECT options FROM MCQ WHERE questionID= '"+qTestObj.get(i).getId()+"'");
-							qTestObj.get(i).setOptions(Options);
-							fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
-							fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
-							fw.write("\n");
-							fw.write("\\begin{enumerate}");
-							fw.write("\n");
-							String [] temp = Options.split(",");
-							for (int j =0; j<temp.length;j++) {
-								fw.write("\\item " +temp[j]);
+						for (int i=0;i<ids.length;i++)
+						{
+							if (qTestObj.get(i).getType()==QuestionType.MCQ) {
+								String Options =dbc.readOptions("SELECT options FROM MCQ WHERE questionID= '"+qTestObj.get(i).getId()+"'");
+								qTestObj.get(i).setOptions(Options);
+								fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
+								fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
 								fw.write("\n");
+								fw.write("\\begin{enumerate}");
+								fw.write("\n");
+								String [] temp = Options.split(",");
+								for (int j =0; j<temp.length;j++) {
+									fw.write("\\item " +temp[j]);
+									fw.write("\n");
+								}
+								fw.write("\\end{enumerate}");
+								fw.write("\n");
+								fw.write("\n");	
+
 							}
-							fw.write("\\end{enumerate}");
-							fw.write("\n");
-							fw.write("\n");	
-							
+							else {
+								String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
+								qTestObj.get(i).setLines(Integer.parseInt(line));
+								fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
+								fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
+								fw.write("\n");
+								//fw.write("\\item "+line);
+								for (int j =0; j<qTestObj.get(i).getLines();j++) {
+									fw.write("\\ansline");
+								}						
+								fw.write("\n");
+								fw.write("\n");	
+							}
 						}
-						else {
-						String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
-						qTestObj.get(i).setLines(Integer.parseInt(line));
-						fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
-						fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
+						fw.write("\\end{enumerate}");
 						fw.write("\n");
-						//fw.write("\\item "+line);
-						for (int j =0; j<qTestObj.get(i).getLines();j++) {
-							fw.write("\\ansline");
-						}						
-						fw.write("\n");
-						fw.write("\n");	
-					}
-					}
-					fw.write("\\end{enumerate}");
-					fw.write("\n");
-					fw.write("\\end{document}");
-					fw.close();
+						fw.write("\\end{document}");
+						fw.close();
 					}else {
 
 						for (int i=0;i<ids.length;i++)
@@ -425,26 +419,26 @@ public class TestView extends VerticalLayout implements View {
 								fw.write("\\textbf{"+qTestObj.get(i).getQuestionAnswer().toString()+"}");
 								fw.write("\n");
 								fw.write("\n");	
-								
+
 							}
 							else {
-							String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
-							qTestObj.get(i).setLines(Integer.parseInt(line));
-							fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
-							fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
-							fw.write("\\linebreak");
-							fw.write("\n");
-							//fw.write("\\item "+line);
-							fw.write("\\textbf{"+qTestObj.get(i).getQuestionAnswer().toString()+"}");						
-							fw.write("\n");
-							fw.write("\n");	
-						}
+								String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
+								qTestObj.get(i).setLines(Integer.parseInt(line));
+								fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
+								fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
+								fw.write("\\linebreak");
+								fw.write("\n");
+								//fw.write("\\item "+line);
+								fw.write("\\textbf{"+qTestObj.get(i).getQuestionAnswer().toString()+"}");						
+								fw.write("\n");
+								fw.write("\n");	
+							}
 						}
 						fw.write("\\end{enumerate}");
 						fw.write("\n");
 						fw.write("\\end{document}");
 						fw.close();
-						
+
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -487,7 +481,7 @@ public class TestView extends VerticalLayout implements View {
 			yearOfStudyString = yearOfStudy.getValue();
 			if((specialString).equals("")) {
 				specialString="None";
-				}
+			}
 			DBConnection dbc = new DBConnection();
 			latexTemplate tex = new latexTemplate ();
 			String[] ids;
@@ -515,44 +509,44 @@ public class TestView extends VerticalLayout implements View {
 					fw.write("\n");
 					fw.write("\n");
 					if (!memoFlag) {
-					for (int i=0;i<ids.length;i++)
-					{
-						if (qTestObj.get(i).getType()==QuestionType.MCQ) {
-							String Options =dbc.readOptions("SELECT options FROM MCQ WHERE questionID= '"+qTestObj.get(i).getId()+"'");
-							qTestObj.get(i).setOptions(Options);
-							fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
-							fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
-							fw.write("\n");
-							fw.write("\\begin{enumerate}");
-							fw.write("\n");
-							String [] temp = Options.split(",");
-							for (int j =0; j<temp.length;j++) {
-								fw.write("\\item " +temp[j]);
+						for (int i=0;i<ids.length;i++)
+						{
+							if (qTestObj.get(i).getType()==QuestionType.MCQ) {
+								String Options =dbc.readOptions("SELECT options FROM MCQ WHERE questionID= '"+qTestObj.get(i).getId()+"'");
+								qTestObj.get(i).setOptions(Options);
+								fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
+								fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
 								fw.write("\n");
+								fw.write("\\begin{enumerate}");
+								fw.write("\n");
+								String [] temp = Options.split(",");
+								for (int j =0; j<temp.length;j++) {
+									fw.write("\\item " +temp[j]);
+									fw.write("\n");
+								}
+								fw.write("\\end{enumerate}");
+								fw.write("\n");
+								fw.write("\n");	
+
 							}
-							fw.write("\\end{enumerate}");
-							fw.write("\n");
-							fw.write("\n");	
-							
+							else {
+								String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
+								qTestObj.get(i).setLines(Integer.parseInt(line));
+								fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
+								fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
+								fw.write("\n");
+								//fw.write("\\item "+line);
+								for (int j =0; j<qTestObj.get(i).getLines();j++) {
+									fw.write("\\ansline");
+								}						
+								fw.write("\n");
+								fw.write("\n");	
+							}
 						}
-						else {
-						String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
-						qTestObj.get(i).setLines(Integer.parseInt(line));
-						fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
-						fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
+						fw.write("\\end{enumerate}");
 						fw.write("\n");
-						//fw.write("\\item "+line);
-						for (int j =0; j<qTestObj.get(i).getLines();j++) {
-							fw.write("\\ansline");
-						}						
-						fw.write("\n");
-						fw.write("\n");	
-					}
-					}
-					fw.write("\\end{enumerate}");
-					fw.write("\n");
-					fw.write("\\end{document}");
-					fw.close();
+						fw.write("\\end{document}");
+						fw.close();
 					}else {
 
 						for (int i=0;i<ids.length;i++)
@@ -575,26 +569,26 @@ public class TestView extends VerticalLayout implements View {
 								fw.write("\\textbf{"+qTestObj.get(i).getQuestionAnswer().toString()+"}");
 								fw.write("\n");
 								fw.write("\n");	
-								
+
 							}
 							else {
-							String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
-							qTestObj.get(i).setLines(Integer.parseInt(line));
-							fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
-							fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
-							fw.write("\\linebreak");
-							fw.write("\n");
-							//fw.write("\\item "+line);
-							fw.write("\\textbf{"+qTestObj.get(i).getQuestionAnswer().toString()+"}");						
-							fw.write("\n");
-							fw.write("\n");	
-						}
+								String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
+								qTestObj.get(i).setLines(Integer.parseInt(line));
+								fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
+								fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
+								fw.write("\\linebreak");
+								fw.write("\n");
+								//fw.write("\\item "+line);
+								fw.write("\\textbf{"+qTestObj.get(i).getQuestionAnswer().toString()+"}");						
+								fw.write("\n");
+								fw.write("\n");	
+							}
 						}
 						fw.write("\\end{enumerate}");
 						fw.write("\n");
 						fw.write("\\end{document}");
 						fw.close();
-						
+
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -603,7 +597,7 @@ public class TestView extends VerticalLayout implements View {
 			String[] command =
 				{
 						//"cmd",
-					"zsh",
+						"zsh",
 				};
 			Process p;
 			try {
@@ -670,7 +664,7 @@ public class TestView extends VerticalLayout implements View {
 		{
 			updateFinalGrid("SELECT * FROM Quiz WHERE 1 = 0");
 		}
-
+		flag=true;
 	}
 	public void updateLastUsed()
 	{
@@ -687,6 +681,7 @@ public class TestView extends VerticalLayout implements View {
 		} catch (ClassNotFoundException | JSchException | SQLException e1) {
 		}
 	}
+
 	public void changeQuestions(String id) {
 		try {
 			DBConnection dbcQuestionChange = new DBConnection();

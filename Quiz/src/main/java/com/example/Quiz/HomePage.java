@@ -1,6 +1,10 @@
 package com.example.Quiz;
 
+import java.awt.Dialog;
 import java.sql.SQLException;
+
+import org.vaadin.dialogs.ConfirmDialog;
+
 import com.jcraft.jsch.JSchException;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.PushStateNavigation;
@@ -8,6 +12,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.grid.HeightMode;
+import com.vaadin.shared.ui.window.WindowMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
@@ -15,6 +20,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
@@ -26,8 +32,10 @@ public class HomePage extends VerticalLayout implements View {
 	VerticalLayout topBar = new VerticalLayout();
 	HorizontalLayout botBar = new HorizontalLayout();
 	HorizontalLayout topTop = new HorizontalLayout();
+	VerticalLayout popup = new VerticalLayout();
 	Label label = new Label();
 	Label labelInfo = new Label();
+	Label confirm = new Label("Are you sure you want to delete this course? This will delete all its associated questions and quizzes.");
 	TextField addCourseCode = new TextField("Please Enter Course Code");
 	TextField addCourseName = new TextField("Please Enter Course Name");
 	Button selectCourse = new Button("Select Course");
@@ -38,6 +46,9 @@ public class HomePage extends VerticalLayout implements View {
 	public static String CurrentCourse="";
 	static String CurrentCourseName="";
 	Boolean sameCourse = false;
+	Window window = new Window("Confirm Deletion");
+
+
 	//reads all the courses that link to the user that is currently logged in
 
 	public void updateGrid() {
@@ -73,9 +84,6 @@ public class HomePage extends VerticalLayout implements View {
 		editCourse.setEnabled(false);
 		deleteCourse.setEnabled(false);
 		createCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY);
-		selectCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY);
-		deleteCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY);
-		editCourse.setStyleName(ValoTheme.BUTTON_FRIENDLY); 
 		Page.getCurrent().setTitle("Home Page");
 		topTop.addComponents(addCourseCode,addCourseName,createCourse, editCourse, deleteCourse,selectCourse);
 		topTop.setComponentAlignment(addCourseCode, Alignment.BOTTOM_CENTER);
@@ -97,17 +105,12 @@ public class HomePage extends VerticalLayout implements View {
 		mainLayout.setSizeFull();
 		mainLayout.setMargin(false);
 		mainLayout.setComponentAlignment(topBar,Alignment.TOP_CENTER );			
-		addComponent(mainLayout);  
+		addComponents(mainLayout);  
 		grid.setBodyRowHeight(50);
 		grid.setHeightMode(HeightMode.ROW);
-		//		addCourseCode.setValue("");
-		//		addCourseName.setValue("");
-		//grid.getEditor().setEnabled(true);
-
 
 		grid.addItemClickListener(e ->
 		{
-			//Notification.show("Value: " + e.getItem().getcourseCode());
 			CurrentCourse=e.getItem().getcourseCode();
 			CurrentCourseName=e.getItem().getCourseName();
 			System.out.println("Home "+ CurrentCourse );
@@ -194,22 +197,27 @@ public class HomePage extends VerticalLayout implements View {
 
 		deleteCourse.addClickListener(e->
 		{
-			System.out.println("hey");
-			try {
-				DBConnection delete = new DBConnection(); 
-				delete.postDB("DELETE FROM Course\n"
-						+ "WHERE courseCode = '"+ CurrentCourse +"'"
-						+ "AND username = '"+ LoginView.loggedInUser +"'");
-				updateGrid();
-			} catch (ClassNotFoundException | JSchException | SQLException e1) {
-			}
-			label.setValue("Course Deleted"); 
+			ConfirmDialog.show(UI.getCurrent(), "Are you really sure you want to delete this course?", "All corresponding questions and quizzes will also be deleted.",
+					"I am", "No way take me back", new ConfirmDialog.Listener() {
+
+				public void onClose(ConfirmDialog dialog) {
+					if (dialog.isConfirmed()) {
+						try {
+							DBConnection delete = new DBConnection(); 
+							delete.postDB("DELETE FROM Course\n"
+									+ "WHERE courseCode = '"+ CurrentCourse +"'"
+									+ "AND username = '"+ LoginView.loggedInUser +"'");
+							updateGrid();
+						} catch (ClassNotFoundException | JSchException | SQLException e1) {
+						}
+						label.setValue("Course Deleted"); 
+
+					} 
+				}
+			});
+
 		});
-		updateGrid();
-
-
-		createCourse.setClickShortcut(KeyCode.ENTER);
-
+				updateGrid();
 	}	
 }
 
