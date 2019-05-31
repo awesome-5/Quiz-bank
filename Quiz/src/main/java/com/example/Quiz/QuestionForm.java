@@ -79,7 +79,7 @@ public class QuestionForm extends FormLayout {
 
 
 		difficulty.setItems(QuestionDifficulty.values());
-		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		save.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 		save.setClickShortcut(KeyCode.ENTER);
 
 		binder.bindInstanceFields(this);
@@ -133,9 +133,11 @@ public class QuestionForm extends FormLayout {
 		if (question.getType()==QuestionType.MCQ) {
 		question.setOptions(dbc.readOptions("SELECT options FROM MCQ WHERE questionID= '"+question.getId()+"'"));
 		}
-//		else if(question.getType()==QuestionType.StandardQuestion) {
-//			question.setLines(Integer.parseInt(dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+question.getId()+"'")));
-//		}
+		else if(question.getType()==QuestionType.StandardQuestion) {
+			question.setLines(Integer.parseInt(dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+question.getId()+"'")));
+			line.setValue(""+question.getLines());
+		}
+		
 		binder.setBean(question); 
 		setVisible(true);
 		questionText.selectAll();

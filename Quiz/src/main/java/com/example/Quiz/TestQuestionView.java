@@ -32,7 +32,7 @@ public class TestQuestionView extends VerticalLayout implements View {
 	VerticalLayout mainLayout =new VerticalLayout();
 	Grid<Question> Grid = new Grid<>(Question.class);
 	Button back = new Button("Back");
-	static String[] ids;
+	String[] ids;
 	ArrayList<Question> qTestObj=new ArrayList<Question>();
 	
 	public static String getIDS(String s) {
@@ -58,8 +58,9 @@ public class TestQuestionView extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		qTestObj.clear();
 		ids=getIDS("SELECT questionIDS FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='"+TestView.currentDraftQuiz+"'").split(",");
-
+		
 		for (int i=0;i<ids.length;i++)
 		{
 			System.out.print("id is " +ids[i]);

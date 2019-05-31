@@ -60,7 +60,7 @@ public class QuestionGridView extends VerticalLayout implements View {
 
 		// toolbar (above the grid)    
 		toolbar.addComponents(filtering, addQuestionBtn,newTest,view,back);		
-		addQuestionBtn.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		addQuestionBtn.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 
 		addQuestionBtn.addClickListener(e -> {
 			grid.asSingleSelect().clear();

@@ -196,11 +196,44 @@ public class EditDragView extends VerticalLayout implements View {
 
 
 		saveTest.addClickListener(e -> {
-			//postToDB();
-			System.out.println("Changes Saved");
-			Page.getCurrent().reload();			
-			MyUI.navigator.navigateTo(MyUI.TESTVIEW);
-		});
+			DBConnection dbc = new DBConnection();
+			try {
+				if (dbc.readTestOrExam("SELECT testOrExam FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='"+TestView.currentDraftQuiz+"'")==0)
+				{
+				    postEditToDB(false);
+				}
+				else
+				{
+				    postEditToDB(true);
+				}
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JSchException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+            System.out.println("Changes Saved");
+            Page.getCurrent().reload();            
+            MyUI.navigator.navigateTo(MyUI.TESTVIEW);
+        });
+
+    }
+    public void postEditToDB(Boolean TestOrExam) {
+        String QuestionIDPost = "";
+        for (int i = 0 ; i<questionObj.size() ; i++) {
+            QuestionIDPost+=""+questionObj.get(i).getId()+",";
+        }
+        QuestionIDPost=QuestionIDPost.substring(0, QuestionIDPost.length()-1);
+        try {
+            DBConnection dbca = new DBConnection();
+            dbca.postDB("UPDATE Quiz SET questionIDS='"+QuestionIDPost+"' WHERE quizName='"+ TestView.currentDraftQuiz+"'");
+        } catch (ClassNotFoundException | JSchException | SQLException e1) {
+        }
+
 
 	}	
 }

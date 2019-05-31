@@ -59,7 +59,7 @@ public class TestView extends VerticalLayout implements View {
 	static Boolean finalExamFlag = true;
 	Boolean memoFlag = false;
 
-	TextField date = new TextField("Date of Quiz(DD/MM/YYYY)");
+	TextField date = new TextField("Date of Quiz(DD/Month/YYYY)");
 	static String dateString="";
 	TextField internalExaminers = new TextField("Internal Examiner");
 	static String internalExaminersString="";
@@ -88,11 +88,13 @@ public class TestView extends VerticalLayout implements View {
 	Button backBtn = new Button("Back");
 
 	Label space = new Label(" ");
+	Label space1 = new Label(" ");
+
 	ArrayList<Question> qTestObj=new ArrayList<Question>();
 
 	static String currentDraftQuiz="";
 	static String currentFinalQuiz="";
-	static Boolean flag=false;
+
 
 	public static String getIDS(String s) {
 		String ret="";
@@ -140,9 +142,9 @@ public class TestView extends VerticalLayout implements View {
 		draftBar.addComponents(draftTestBox,draftExamBox);
 		finalBar.addComponents(finalTestBox,finalExamBox);
 		exportLayout.addComponents(exportDraft,exportFinal);
-		latexInputs.addComponents(space,date,venue,yearOfStudy,internalExaminers,externalExaminers,special,time,instructions,exportLayout);
+		latexInputs.addComponents(space,space1,date,venue,yearOfStudy,internalExaminers,externalExaminers,special,time,instructions,exportLayout,memoBox);
 		draftVLayout.addComponents(draftBar,draftGrid,bottomDraftBar);
-		finalVLayout.addComponents(finalBar,finalGrid,bottomFinalBar,memoBox);
+		finalVLayout.addComponents(finalBar,finalGrid,bottomFinalBar);
 		bottomDraftBar.addComponents(view,edit,delete,moveFinal);
 		bottomFinalBar.addComponents(viewFinal,moveDraft,backBtn);
 		mainLayout.addComponents(draftVLayout,finalVLayout,latexInputs);
@@ -151,6 +153,8 @@ public class TestView extends VerticalLayout implements View {
 		latexInputs.setMargin(false);
 		draftVLayout.setMargin(false);
 		finalVLayout.setMargin(false);
+		mainLayout.setExpandRatio(draftVLayout,1);
+		mainLayout.setExpandRatio(finalVLayout,1);
 		bottomDraftBar.setMargin(false);
 		bottomFinalBar.setMargin(false);
 		mainLayout.setMargin(false);
@@ -185,6 +189,9 @@ public class TestView extends VerticalLayout implements View {
 		draftGrid.setHeightMode(HeightMode.ROW);
 		finalGrid.setBodyRowHeight(60);
 		finalGrid.setHeightMode(HeightMode.ROW);
+		exportDraft.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		exportFinal.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+
 		// updates grids if boxes are ticked, exam, test or both
 		draftTestBox.addValueChangeListener(eent ->{
 			draftTestFlag=draftTestBox.getValue();
@@ -443,29 +450,29 @@ public class TestView extends VerticalLayout implements View {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-			}
-			String[] command =
-				{
-						//"cmd",
-						"zsh",
-				};
-			Process p;
-			try {
-				p = Runtime.getRuntime().exec(command);
-				new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
-				new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
-				PrintWriter stdin = new PrintWriter(p.getOutputStream());
-				//stdin.println("export PATH = ~/bin");
-				stdin.println("cd "+chooser.getCurrentDirectory());
-				stdin.println("pdflatex --file-line-error --synctex=1 --shell-escape --interaction=nonstopmode");
-				stdin.println(chooser.getSelectedFile().getName());
-				stdin.close();
-				p.waitFor();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
 
+				String[] command =
+					{
+							//"cmd",
+							"zsh",
+					};
+				Process p;
+				try {
+					p = Runtime.getRuntime().exec(command);
+					new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
+					new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
+					PrintWriter stdin = new PrintWriter(p.getOutputStream());
+					//stdin.println("export PATH = ~/bin");
+					stdin.println("cd "+chooser.getCurrentDirectory());
+					stdin.println("pdflatex --file-line-error --synctex=1 --shell-escape --interaction=nonstopmode");
+					stdin.println(chooser.getSelectedFile().getName());
+					stdin.close();
+					p.waitFor();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 
+			}
 
 		});
 
@@ -532,6 +539,7 @@ public class TestView extends VerticalLayout implements View {
 							else {
 								String line =dbc.readLines("SELECT line FROM Standard WHERE questionID= '"+qTestObj.get(i).getId()+"'");
 								qTestObj.get(i).setLines(Integer.parseInt(line));
+
 								fw.write("\\item "+qTestObj.get(i).getQuestionText().toString());
 								fw.write("\\mk{"+qTestObj.get(i).getMarks()+"}");
 								fw.write("\n");
@@ -593,28 +601,28 @@ public class TestView extends VerticalLayout implements View {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-			}
-			String[] command =
-				{
-						//"cmd",
-						"zsh",
-				};
-			Process p;
-			try {
-				p = Runtime.getRuntime().exec(command);
-				new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
-				new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
-				PrintWriter stdin = new PrintWriter(p.getOutputStream());
-				stdin.println("cd "+chooser.getCurrentDirectory());
-				stdin.println("pdflatex --file-line-error --synctex=1 --shell-escape --interaction=nonstopmode");
-				stdin.println(chooser.getSelectedFile().getName());
-				stdin.close();
-				p.waitFor();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
 
+				String[] command =
+					{
+							//"cmd",
+							"zsh",
+					};
+				Process p;
+				try {
+					p = Runtime.getRuntime().exec(command);
+					new Thread(new SyncPipe(p.getErrorStream(), System.err)).start();
+					new Thread(new SyncPipe(p.getInputStream(), System.out)).start();
+					PrintWriter stdin = new PrintWriter(p.getOutputStream());
+					stdin.println("cd "+chooser.getCurrentDirectory());
+					stdin.println("pdflatex --file-line-error --synctex=1 --shell-escape --interaction=nonstopmode");
+					stdin.println(chooser.getSelectedFile().getName());
+					stdin.close();
+					p.waitFor();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 
+			}
 
 		});
 		backBtn.addClickListener(e -> {	
@@ -664,7 +672,7 @@ public class TestView extends VerticalLayout implements View {
 		{
 			updateFinalGrid("SELECT * FROM Quiz WHERE 1 = 0");
 		}
-		flag=true;
+
 	}
 	public void updateLastUsed()
 	{
@@ -681,7 +689,6 @@ public class TestView extends VerticalLayout implements View {
 		} catch (ClassNotFoundException | JSchException | SQLException e1) {
 		}
 	}
-
 	public void changeQuestions(String id) {
 		try {
 			DBConnection dbcQuestionChange = new DBConnection();

@@ -4,10 +4,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-
-import com.github.mvysny.kaributesting.v10.MockVaadin;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;

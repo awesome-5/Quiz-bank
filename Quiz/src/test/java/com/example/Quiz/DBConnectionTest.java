@@ -29,7 +29,7 @@ public class DBConnectionTest {
 	Question STDQ=new Question();
 	@Before
 	public void before() {
-		db = new DBConnection(); 
+		db = new DBConnection();
 		LoginView.loggedInUser="nikola";
 		HomePage.CurrentCourse="COMS3003";
 		STDQ.setQuestionText("Test");
@@ -108,7 +108,7 @@ public class DBConnectionTest {
 		System.out.println("Success");
 
 	}
-	
+
 	@Test
 	public void sendToDBQuestionTestDiff2() throws ClassNotFoundException, JSchException, SQLException {
 		STDQ.setDifficulty(QuestionDifficulty.Medium);
@@ -137,7 +137,7 @@ public class DBConnectionTest {
 	}
 
 	@Test
-	public void deleteQuestionFromDBTest() throws ClassNotFoundException, JSchException, SQLException 
+	public void deleteQuestionFromDBTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		db.sendToDBQuestion(STDQ,false);
 		db.deleteQuestionFromDB(STDQ);
@@ -169,7 +169,7 @@ public class DBConnectionTest {
 		assertEquals(true,DBConnection.result);
 		System.out.println("Success");
 	}
-	
+
 	@Test
 	public void moveFinalTest() throws ClassNotFoundException, JSchException, SQLException
 	{
@@ -178,8 +178,8 @@ public class DBConnectionTest {
 		assertEquals(true,DBConnection.result);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void moveDraftTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "1,2,3" + "'," + 1 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
@@ -187,8 +187,8 @@ public class DBConnectionTest {
 		assertEquals(true,DBConnection.result);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void getIDSTest() throws ClassNotFoundException, SQLException, JSchException
 	{
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "7" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
@@ -196,8 +196,8 @@ public class DBConnectionTest {
 		assertEquals("7",id);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void readQuestionsTestTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "7" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
@@ -214,17 +214,17 @@ public class DBConnectionTest {
 		assertEquals("TEST",name);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void readResetTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		Timestamp t=db.readReset("SELECT timestamp from Reset WHERE email='natp4444@yahoo.com' AND ID='123'");
 		assertEquals(null,t);
 		System.out.println("Success");
 	}
-	
-	
-	@Test	
+
+
+	@Test
 	public void deleteIDTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		db.addID("INSERT INTO Reset VALUES('natp4444@yahoo.com', NULL,'1234')");
@@ -232,16 +232,16 @@ public class DBConnectionTest {
 		assertEquals(true,DBConnection.result);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void addIDTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		db.addID("INSERT INTO Reset VALUES('natp4444@yahoo.com', NULL,'1234')");
 		assertEquals(true,DBConnection.result);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void setLastUsedTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		db.sendToDBQuestion(STDQ,true);
@@ -249,8 +249,8 @@ public class DBConnectionTest {
 		assertEquals(true,DBConnection.result);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void setQuizLastUsedTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "7" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
@@ -258,24 +258,24 @@ public class DBConnectionTest {
 		assertEquals(true,DBConnection.result);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void readLinesTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		String res=db.readLines("SELECT line FROM Standard WHERE questionID= '230'" );
 		assertEquals(null,res);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void readOptionsTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		String s=db.readOptions("SELECT options FROM MCQ WHERE questionID= '232'");
 		assertEquals("1926,1929,1936",s);
 		System.out.println("Success");
 	}
-	
-	@Test	
+
+	@Test
 	public void readTestOrExamTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		int res=db.readTestOrExam("SELECT testOrExam FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='Quiz2A'");
