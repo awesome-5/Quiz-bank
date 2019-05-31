@@ -84,7 +84,7 @@ public class QuestionTest {
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		q.setLastUsed(simpleDateFormat.parse("2018-09-09"));
-		assertEquals("Should return 2018-09-09 for lastUsed","Sun Sep 09 00:00:00 SAST 2018",q.getLastUsed().toString());
+		assertEquals("Should return 2018-09-09 for lastUsed","Sun Sep 09 00:00:00 UTC 2018",q.getLastUsed().toString());
 		System.out.println("Success");
 	}	
 	
