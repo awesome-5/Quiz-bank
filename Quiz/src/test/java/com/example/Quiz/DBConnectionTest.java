@@ -263,7 +263,7 @@ public class DBConnectionTest {
 	public void readLinesTest() throws ClassNotFoundException, JSchException, SQLException
 	{
 		String res=db.readLines("SELECT line FROM Standard WHERE questionID= '230'" );
-		assertEquals("1",res);
+		assertEquals(null,res);
 		System.out.println("Success");
 	}
 	
