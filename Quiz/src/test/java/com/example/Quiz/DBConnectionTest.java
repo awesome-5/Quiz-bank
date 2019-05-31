@@ -193,7 +193,7 @@ public class DBConnectionTest {
 	{
 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "7" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
 		String id=db.getIDS("SELECT questionIDS FROM Quiz WHERE username ='"+ LoginView.loggedInUser + "' AND courseCode='"+HomePage.CurrentCourse+"' AND quizName='TEST'");
-		assertEquals(null,id);
+		assertEquals("7",id);
 		System.out.println("Success");
 	}
 
