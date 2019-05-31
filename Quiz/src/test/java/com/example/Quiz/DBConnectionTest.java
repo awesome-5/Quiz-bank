@@ -161,14 +161,14 @@ public class DBConnectionTest {
 		assertEquals(true,DBConnection.result);
 		System.out.println("Success");
 	}
-	@Test
-	public void deleteQuizTest() throws ClassNotFoundException, JSchException, SQLException
-	{
-		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "1,2,3" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
-		db.deleteQuiz("TEST");
-		assertEquals(true,DBConnection.result);
-		System.out.println("Success");
-	}
+// 	@Test
+// 	public void deleteQuizTest() throws ClassNotFoundException, JSchException, SQLException
+// 	{
+// 		db.postDB("INSERT INTO Quiz VALUES('"+ HomePage.CurrentCourse + "','" + LoginView.loggedInUser + "'," + "NULL" + ",'" + "1,2,3" + "'," + 0 + ","+"NULL"+","+ "0" +",'"+ "TEST" +"')" );
+// 		db.deleteQuiz("TEST");
+// 		assertEquals(true,DBConnection.result);
+// 		System.out.println("Success");
+// 	}
 
 	@Test
 	public void moveFinalTest() throws ClassNotFoundException, JSchException, SQLException
